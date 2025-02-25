@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+//my parts
 const Schema = mongoose.Schema;
 
 const RenterSchema = new Schema({
