@@ -23,7 +23,7 @@ const getAllPayment = async (req, res, next) => {
     return res.status(200).json({ payments });
 };
 
-//data insert (payment)
+//add payment details (payment)
 const addPayments = async (req, res, next) => {
     const { RenterName, CardName, CardNo, ExpiryDate, CVV, Amount, Remark } = req.body;
 
@@ -37,7 +37,7 @@ const addPayments = async (req, res, next) => {
         return res.status(500).json({ message: "Error adding payment" });
     }
 
-    // If payment wasn't added
+    // If payment not added
     if (!payment) {
         return res.status(400).json({ message: "Unable to add payment" });
     }
@@ -45,7 +45,31 @@ const addPayments = async (req, res, next) => {
     return res.status(200).json({ payment });
 };
 
+//Get by ID
+const getById = async (req,res,next)=>{
+
+    const id=req.params.id;
+
+    let payment;
+
+    try{
+        payment= await Payment.findById(id);
+
+    }catch(err){
+        console.log(err);
+    }
+
+    //  not available payment
+    if (!payment) {
+        return res.status(400).json({ message: "payment not found" });
+    }
+
+    return res.status(200).json({ payment });
+
+
+}
+
 
 // Export properly
-module.exports = { getAllPayment ,addPayments};
+module.exports = { getAllPayment ,addPayments,getById};
 
