@@ -2,13 +2,16 @@
 
 const express = require("express");
 const mongoose = require("mongoose");
-const router = require("./Routes/SecurityRoutes");
+
+const securityRouter = require("./Routes/SecurityRoutes");
+const paymentRouter = require("./Routes/PaymentRoutes");
 
 const app = express(); 
 
 //Middleware
 app.use(express.json());
-app.use("/security", router);
+app.use("/security", securityRouter);
+app.use("/payments", paymentRouter);
 
   
 mongoose.connect("mongodb+srv://admin:dUNFYHZskXiXqAPf@cluster0.jgrs0.mongodb.net/")
