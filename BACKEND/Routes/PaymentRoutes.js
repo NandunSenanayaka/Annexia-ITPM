@@ -12,6 +12,7 @@ router.get("/", PaymentControllers.getAllPayment);   // Fix: Call the correct fu
 router.post("/", PaymentControllers.addPayments); 
 router.get("/:id", PaymentControllers.getById); 
 router.put("/:id", PaymentControllers.UpdatePayment); 
+router.delete("/:id", PaymentControllers.deletePayment); 
 
 // Export the router
 module.exports = router;
