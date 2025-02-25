@@ -11,6 +11,7 @@ const PaymentControllers = require("../Controllers/PaymentControllers");
 router.get("/", PaymentControllers.getAllPayment);   // Fix: Call the correct function
 router.post("/", PaymentControllers.addPayments); 
 router.get("/:id", PaymentControllers.getById); 
+router.put("/:id", PaymentControllers.UpdatePayment); 
 
 // Export the router
 module.exports = router;

@@ -69,7 +69,33 @@ const getById = async (req,res,next)=>{
 
 }
 
+//update payment
+
+const UpdatePayment = async (req, res, next) => {
+    const id = req.params.id;
+    const { RenterName, CardName, CardNo, ExpiryDate, CVV, Amount, Remark } = req.body;
+
+    let payment;
+
+    try {
+        payment = await Payment.findByIdAndUpdate(
+            id,
+            { RenterName, CardName, CardNo, ExpiryDate, CVV, Amount, Remark },
+            { new: true } // This ensures the updated document is returned
+        );
+
+        if (!payment) {
+            return res.status(404).json({ message: "Payment not found" });
+        }
+
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Error updating payment" });
+    }
+
+    return res.status(200).json({ payment });
+};
 
 // Export properly
-module.exports = { getAllPayment ,addPayments,getById};
+module.exports = { getAllPayment ,addPayments,getById,UpdatePayment};
 
