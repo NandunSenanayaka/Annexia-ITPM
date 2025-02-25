@@ -7,7 +7,9 @@ const router = require("./Routes/SecurityRoutes");
 const app = express(); 
 
 //Middleware
+app.use(express.json());
 app.use("/security", router);
+
   
 mongoose.connect("mongodb+srv://admin:dUNFYHZskXiXqAPf@cluster0.jgrs0.mongodb.net/")
 .then(()=> console.log("Connected to mongoDB"))

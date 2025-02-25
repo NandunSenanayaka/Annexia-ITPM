@@ -8,6 +8,8 @@ const user = require("../Model/SecurityModel");
 const SecurityController = require("../Controllers/SecurityConrollers");
 
 router.get("/",SecurityController.getAllSecurity);
+router.post("/",SecurityController.addSecurity);
+
 
 //export
 module.exports = router;
