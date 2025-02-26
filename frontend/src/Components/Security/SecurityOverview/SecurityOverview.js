@@ -12,7 +12,7 @@ import "./SecurityOverview.css";
 import { Link } from "react-router-dom";
 
 function SecurityOverview() {
-  return (
+  return (                                                         
     <div className="container">
       <aside className="sidebar">
         <h2 className="logo">ANNEXIA</h2>
