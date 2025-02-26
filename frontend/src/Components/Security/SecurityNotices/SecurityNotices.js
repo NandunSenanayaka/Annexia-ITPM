@@ -14,7 +14,7 @@ function SecurityNotices() {
     <div>
       <h1>
         Security notices
-      </h1>
+      </h1></div>
 
     </div>
   );

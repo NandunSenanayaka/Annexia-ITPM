@@ -50,7 +50,7 @@ table {
   width: 100%;
   border-collapse: collapse;
 }
-
+}
 
 table th, table td {
 
@@ -60,7 +60,7 @@ table th, table td {
   border: 1px solid #ddd;
   text-align: left;
 }
-
+}
 
 /* Edit and remove button styles */
 .edit {
@@ -103,7 +103,7 @@ table th, table td {
 .remove:hover {
   background-color: #c0392b;
 }
-
+}
 
 /* Print report button styles */
 .print-report {
