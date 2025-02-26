@@ -7,8 +7,9 @@ const securityRouter = require("./Routes/SecurityRoutes");
 const paymentRouter = require("./Routes/PaymentRoutes");
 
 const app = express(); 
-
+const cors = require("cors");
 //Middleware
+app.use(cors());
 app.use(express.json());
 app.use("/security", securityRouter);
 app.use("/payments", paymentRouter);
