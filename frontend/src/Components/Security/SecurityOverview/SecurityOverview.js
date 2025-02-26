@@ -5,7 +5,38 @@ import axios from 'axios';
 import SecurityOverviews from './SecurityOverview';  // Correct import
 import AddSecurity from '../SecurityDetails/SecurityDetails';  // Correct import
 
+
+function SecurityOverview() {
+  return (                                                         
+    <div className="container">
+      <aside className="sidebar">
+        <h2 className="logo">ANNEXIA</h2>
+        <nav>
+          <ul>
+            <Link to="/addsecurity"style={{ textDecoration: "none", color: "inherit" }}>
+              <li><FaHome /> Overview</li>
+            </Link>
+
+            <Link
+              to="/addnotice"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <li>
+                <FaPlus /> Add Notice
+              </li>
+            </Link>
+
+            <Link
+              to="/securitynotices"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <li>
+                <FaFileAlt /> Security Notices
+              </li>
+            </Link>
+
 const URL = 'http://localhost:5000/security';
+
 
 const fetchHandler = async () => {
   return await axios.get(URL).then((res) => res.data);
