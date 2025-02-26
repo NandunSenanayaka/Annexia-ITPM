@@ -17,9 +17,11 @@ function App() {
       <React.Fragment>
         <Routes>
 
-          <Route path="/" element={<SecurityDashboard />} />
-
           <Route path="/" element={<HomePage />} />
+
+          {/* <Route path="/SecurityDashboard" element={<SecurityDashboard />} /> */}
+
+          
 
           <Route path="/addsecurity" element={<AddSecurity />} />
           <Route path="/securityoverview" element={<SecurityOverview />} />
