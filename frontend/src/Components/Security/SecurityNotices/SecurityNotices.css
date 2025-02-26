@@ -1,8 +1,8 @@
-.securitydashboard-container {
+.security-notices-container {
     display: flex;
   }
   
-  .securitydashboard-content {
+  .security-notices-content {
     flex: 1;
     padding: 20px;
     background-color: #fff;
