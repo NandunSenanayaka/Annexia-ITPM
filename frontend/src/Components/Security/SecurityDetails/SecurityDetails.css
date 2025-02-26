@@ -1,6 +1,6 @@
-<<<<<<< HEAD
+
 .details-table {
-=======
+
 
 .add-security-container {
     display: flex;
@@ -50,32 +50,36 @@ table {
 
 .details-table {
 
->>>>>>> e2c7cfd754ccaaa8ed340e6d42737c4a7374fc54
+
   width: 100%;
   border-collapse: collapse;
 }
 
-<<<<<<< HEAD
+
+
 .details-table th, .details-table td {
-=======
+
+}
+
 
 table th, table td {
 
 .details-table th, .details-table td {
 
->>>>>>> e2c7cfd754ccaaa8ed340e6d42737c4a7374fc54
+
   padding: 12px;
   border: 1px solid #ddd;
   text-align: left;
 }
 
-<<<<<<< HEAD
-=======
+
+}
+
 
 /* Edit and remove button styles */
 .edit {
 
->>>>>>> e2c7cfd754ccaaa8ed340e6d42737c4a7374fc54
+
 .details-table thead {
   background-color: #f4f4f4;
 }
@@ -85,10 +89,9 @@ table th, table td {
 }
 
 .edit, .remove {
-<<<<<<< HEAD
-=======
 
->>>>>>> e2c7cfd754ccaaa8ed340e6d42737c4a7374fc54
+
+
   background-color: #3498db;
   color: white;
   border: none;
@@ -104,8 +107,7 @@ table th, table td {
 
 .remove {
   background-color: #e74c3c;
-<<<<<<< HEAD
-=======
+
 
   color: white;
   border: none;
@@ -114,14 +116,16 @@ table th, table td {
   border-radius: 5px;
   transition: background 0.3s ease;
 
->>>>>>> e2c7cfd754ccaaa8ed340e6d42737c4a7374fc54
+
 }
 
 .remove:hover {
   background-color: #c0392b;
 }
-<<<<<<< HEAD
-=======
+
+
+
+}
 
 
 /* Print report button styles */
@@ -153,4 +157,4 @@ table th, table td {
 
 
 
->>>>>>> e2c7cfd754ccaaa8ed340e6d42737c4a7374fc54
+
