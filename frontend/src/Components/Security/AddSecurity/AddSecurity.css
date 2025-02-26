@@ -1,13 +1,19 @@
-.securitydashboard-container {
+.add-security-container {
     display: flex;
   }
   
-  .securitydashboard-content {
+  .add-security-content {
     flex: 1;
     padding: 20px;
     background-color: #fff;
     margin: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .add-security-content h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
   }
   

@@ -1,15 +1,10 @@
-import React from "react";
-import {
-  FaBroom,
-  FaHome,
-  FaPlus,
-  FaFileAlt,
-  FaEnvelope,
-  FaSignOutAlt,
-  FaUserCircle,
-} from "react-icons/fa";
-import "./SecurityOverview.css";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import './SecurityOverview.css';
+import SecurityDashboard from '../SecurityDashboard/SecurityDashboard';
+import axios from 'axios';
+import SecurityOverviews from './SecurityOverview';  // Correct import
+import AddSecurity from '../SecurityDetails/SecurityDetails';  // Correct import
+
 
 function SecurityOverview() {
   return (                                                         
@@ -40,74 +35,40 @@ function SecurityOverview() {
               </li>
             </Link>
 
-            <Link
-              to="/cleaneroverview"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <li>
-                <FaBroom /> Cleaner Overview
-              </li>
-            </Link>
+const URL = 'http://localhost:5000/security';
 
-            <Link
-              to="/contact"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <li>
-                <FaEnvelope /> Contact
-              </li>
-            </Link>
-          </ul>
-        </nav>
 
-        <button className="logout">
-          <FaSignOutAlt /> Logout
-        </button>
-      </aside>
+const fetchHandler = async () => {
+  return await axios.get(URL).then((res) => res.data);
+};
 
-      <main className="content">
-        <header>
-          <h1>Overview</h1>
-          <div className="profile">
-            <FaUserCircle className="profile-icon" />
-            <span>Sahan</span>
-          </div>
-        </header>
+const SecurityOverview = () => {
+  const [security, setSecurity] = useState([]);  // State to hold security data
 
-        <section className="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Notice ID</th>
-                <th>Title</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Status</th>
-                <th>Description</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>CN0001</td>
-                <td>Powercut</td>
-                <td>15 July 2024</td>
-                <td>2.26 PM</td>
-                <td>Urgent</td>
-                <td>Powercut today 8.00-9.00 PM</td>
-                <td>
-                  <button className="edit">Edit</button>
-                  <button className="remove">Remove</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
+  useEffect(() => {
+    fetchHandler().then((data) => {
+      console.log('Fetched data:', data);  // Log the fetched data
+      setSecurity(data.security);  // Update state with security data
+    });
+  }, []);
 
-        <button className="print-report">Print Report</button>
-      </main>
+  return (
+    <div className="securitydashboard-container">
+      <SecurityDashboard />
+
+      <div className="securitydashboard-content">
+        <h1>Overview</h1>
+        <div>
+          {security && security.map((securityItem, i) => (
+            <div key={i}>
+              {/* Passing securityItem to AddSecurity */}
+              <AddSecurity {...securityItem} />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
-}
+};
 
 export default SecurityOverview;

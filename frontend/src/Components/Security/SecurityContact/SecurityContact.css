@@ -1,8 +1,8 @@
-.securitydashboard-container {
+.security-contact-container {
     display: flex;
   }
   
-  .securitydashboard-content {
+  .security-contact-content {
     flex: 1;
     padding: 20px;
     background-color: #fff;

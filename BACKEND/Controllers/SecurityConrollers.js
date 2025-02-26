@@ -8,10 +8,11 @@ const getAllSecurity = async (req, res ,next) =>{
         security = await Security.find();
     }catch(err){
         console.log(err);
+        return res.status(500).json({ message: "Failed to fetch security data" });
     }
     //not found
     if(!security){
-        return res.status(404).json({message:"Security"});
+        return res.status(404).json({message:"No security data found" });
     }
 
     //Display all security
