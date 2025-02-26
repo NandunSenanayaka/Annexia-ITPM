@@ -1,3 +1,4 @@
+
 .add-security-container {
     display: flex;
   }
@@ -43,18 +44,37 @@ header {
 
 /* Table styles */
 table {
+
+.details-table {
+
   width: 100%;
   border-collapse: collapse;
 }
 
+
 table th, table td {
+
+.details-table th, .details-table td {
+
   padding: 12px;
   border: 1px solid #ddd;
   text-align: left;
 }
 
+
 /* Edit and remove button styles */
 .edit {
+
+.details-table thead {
+  background-color: #f4f4f4;
+}
+
+.details-table th {
+  background-color: #e0e0e0;
+}
+
+.edit, .remove {
+
   background-color: #3498db;
   color: white;
   border: none;
@@ -70,17 +90,20 @@ table th, table td {
 
 .remove {
   background-color: #e74c3c;
+
   color: white;
   border: none;
   padding: 6px 12px;
   cursor: pointer;
   border-radius: 5px;
   transition: background 0.3s ease;
+
 }
 
 .remove:hover {
   background-color: #c0392b;
 }
+
 
 /* Print report button styles */
 .print-report {
@@ -108,5 +131,6 @@ table th, table td {
 #notice-id, #title, #date, #time, #status, #description, #actions {
   text-align: left;
 } 
+
 
 

@@ -1,3 +1,4 @@
+
 // import React from 'react';
 // import './SecurityDetails.css';  // Assuming CSS will be in the same file.
 
@@ -42,6 +43,7 @@
 // }
 
 // export default SecurityDetails;
+
 import React from 'react';
 import './SecurityDetails.css';
 
