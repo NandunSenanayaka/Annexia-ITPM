@@ -96,6 +96,25 @@ const UpdatePayment = async (req, res, next) => {
     return res.status(200).json({ payment });
 };
 
+
+//delete payment
+const deletePayment = async(req,res,next)=>{
+    const id= req.params.id;
+
+    let payment;
+
+    try{
+        payment = await Payment.findByIdAndDelete(id)
+    }catch (err){
+        console.log(err);
+    }
+    if (!payment) {
+        return res.status(400).json({ message: "unable to delete" });
+    }
+
+    return res.status(200).json({ payment });
+}
+
 // Export properly
-module.exports = { getAllPayment ,addPayments,getById,UpdatePayment};
+module.exports = { getAllPayment ,addPayments,getById,UpdatePayment,deletePayment};
 
