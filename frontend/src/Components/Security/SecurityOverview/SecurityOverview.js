@@ -4,7 +4,11 @@ import SecurityDashboard from '../SecurityDashboard/SecurityDashboard';
 import axios from 'axios';
 import { Link } from 'react-router-dom';  // Ensure Link is imported
 import { FaHome, FaPlus, FaFileAlt } from 'react-icons/fa';  // Assuming these are imported
+
 import AddSecurity from '../SecurityDetails/SecurityDetails';
+
+  // Adjust the path according to your folder structure
+
 
 
 function SecurityOverview() {
