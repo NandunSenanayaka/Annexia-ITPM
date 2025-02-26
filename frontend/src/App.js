@@ -8,6 +8,10 @@ import SecurityOverview from "./Components/Security/SecurityOverview/SecurityOve
 import SecurityNotices from "./Components/Security/SecurityNotices/SecurityNotices";
 import SecurityContact from "./Components/Security/SecurityContact/SecurityContact";
 
+import RenterAdd from './Components/Owner/RenterAdd';
+import OwnerDashboard from './Components/Owner/OwnerDashboard/OwnerDashboard'
+
+
 
 import HomePage from './Components/Pages/HomePage/HomePage';
 
@@ -27,6 +31,10 @@ function App() {
           <Route path="/securityoverview" element={<SecurityOverview />} />
           <Route path="/securitynotices" element={<SecurityNotices />} />
           <Route path="/securitycontact" element={<SecurityContact />} />
+
+          <Route path="/renteradd" element={<RenterAdd />} />
+          <Route path="/ownerdashboard" element={<OwnerDashboard />} />
+
   
 
         </Routes>
