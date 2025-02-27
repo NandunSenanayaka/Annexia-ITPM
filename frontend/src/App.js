@@ -11,7 +11,7 @@ import SecurityContact from "./Components/Security/SecurityContact/SecurityConta
 import RenterAdd from './Components/Owner/RenterAdd';
 import OwnerDashboard from './Components/Owner/OwnerDashboard/OwnerDashboard'
 
-
+import PaymentDetails from './Components/Payment/PaymentDetails/PaymentDetails';
 
 import HomePage from './Components/Pages/HomePage/HomePage';
 
@@ -34,6 +34,8 @@ function App() {
 
           <Route path="/renteradd" element={<RenterAdd />} />
           <Route path="/ownerdashboard" element={<OwnerDashboard />} />
+
+          <Route path="/paymentdetails" element={<PaymentDetails />} />
 
   
 
