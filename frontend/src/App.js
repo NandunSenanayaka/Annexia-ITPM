@@ -1,12 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Import Router and Route here
 import './App.css';
-import SecurityDashboard from "./Components/Security/SecurityDashboard/SecurityDashboard";
-import AddSecurity from "./Components/Security/AddSecurity/AddSecurity";
 
+// import SecurityDashboard from "./Components/Security/SecurityDashboard/SecurityDashboard";
+import AddSecurity from "./Components/Security/AddSecurity/AddSecurity";
 import SecurityOverview from "./Components/Security/SecurityOverview/SecurityOverview";
 import SecurityNotices from "./Components/Security/SecurityNotices/SecurityNotices";
 import SecurityContact from "./Components/Security/SecurityContact/SecurityContact";
+import UpdateSecurity from "./Components/Security/UpdateSecurity/UpdateSecurity";
 
 import RenterAdd from './Components/Owner/RenterAdd';
 import OwnerDashboard from './Components/Owner/OwnerDashboard/OwnerDashboard'
@@ -25,14 +26,14 @@ function App() {
 
           <Route path="/" element={<HomePage />} />
 
-          {/* <Route path="/SecurityDashboard" element={<SecurityDashboard />} /> */}
-
-          
+    
 
           <Route path="/addsecurity" element={<AddSecurity />} />
           <Route path="/securityoverview" element={<SecurityOverview />} />
+          <Route path="/securityoverview/:id" element={<UpdateSecurity />} />
           <Route path="/securitynotices" element={<SecurityNotices />} />
           <Route path="/securitycontact" element={<SecurityContact />} />
+          <Route path="/updatesecurity" element={<UpdateSecurity />} />
 
           <Route path="/renteradd" element={<RenterAdd />} />
           <Route path="/ownerdashboard" element={<OwnerDashboard />} />
