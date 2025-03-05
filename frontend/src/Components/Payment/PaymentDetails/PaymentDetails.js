@@ -1,55 +1,8 @@
 
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-
-// const URL = "http://localhost:5000/payments";
-
-// const fetchHandler = async () => {
-//     return await axios.get(URL).then((res) => res.data);
-// };
-
-// function PaymentDetails() {
-//     const [payments, setPayments] = useState([]);
-
-//     useEffect(() => {
-//         fetchHandler().then((data) => {
-//             console.log('Fetched payments:', data); // Debugging log
-//             setPayments(data.payments);
-//         });
-//     }, []);
-
-//     return (
-//         <div>
-//             <h1>Display Payments</h1>
-//             <div>
-//                 {payments.length > 0 ? (
-//                     payments.map((payment, i) => (
-//                         <div key={i}>
-//                             <h2>ID: {payment._id}</h2>
-//                             <h3>Renter Name: {payment.RenterName}</h3>
-//                             <h3>Card Name: {payment.CardName}</h3>
-//                             <h3>Card No: {payment.CardNo}</h3>
-//                             <h3>Expiry Date: {payment.ExpiryDate}</h3>
-//                             <h3>CVV: {payment.CVV}</h3>
-//                             <h3>Amount: {payment.Amount}</h3>
-//                             <h3>Remark: {payment.Remark}</h3>
-//                             <button>Update</button>
-//                             <button>Delete</button>
-//                         </div>
-//                     ))
-//                 ) : (
-//                     <p>Loading or no payments available...</p>
-//                 )}
-//             </div>
-//         </div>
-//     );
-// }
-
-// export default PaymentDetails;
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './PaymentDetails.css';  // Assuming you have a CSS file for styling
+import { Link } from 'react-router-dom';
 
 const URL = "http://localhost:5000/payments";
 
@@ -80,7 +33,8 @@ const PaymentDetails = () => {
               <p><strong>Amount:</strong> ${payment.Amount}</p>
               <p><strong>Remark:</strong> {payment.Remark}</p>
               <div className="payment-actions">
-                <button className="update-btn">Update</button>
+                
+                <Link to={`/updatepayment/${payment._id}`}>Update</Link>
                 <button className="delete-btn">Delete</button>
               </div>
             </div>

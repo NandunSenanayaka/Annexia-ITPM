@@ -15,6 +15,7 @@ import PaymentDetails from './Components/Payment/PaymentDetails/PaymentDetails';
 import AddPayment from './Components/Payment/AddPayment/AddPayment';
 
 import HomePage from './Components/Pages/HomePage/HomePage';
+import UpdatePayment from './Components/Payment/UpdatePayment/UpdatePayment';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
 
           <Route path="/paymentdetails" element={<PaymentDetails />} />
           <Route path="/addpayment" element={<AddPayment />} />
+          <Route path="/updatepayment/:id" element={<UpdatePayment />} />
 
   
 
