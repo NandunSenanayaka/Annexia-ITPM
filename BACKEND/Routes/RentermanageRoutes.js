@@ -15,7 +15,7 @@ const OwnerControllers = require('../Controllers/OwnerControllers'); // Adjust t
 
 // Use the correct controller function
 router.get("/", OwnerControllers.getAllRenter);   // Fix: Call the correct function
-router.post("/", OwnerControllers.addRenters); 
+router.post("/", OwnerControllers.addRenters);
 router.get("/:id", OwnerControllers.getById); 
 router.put("/:id", OwnerControllers.UpdateRenter); 
 router.delete("/:id", OwnerControllers.deleteRenter); 

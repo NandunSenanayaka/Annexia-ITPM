@@ -11,6 +11,7 @@ import SecurityContact from "./Components/Security/SecurityContact/SecurityConta
 import RenterAdd from './Components/Owner/RenterAdd';
 import OwnerDashboard from './Components/Owner/OwnerDashboard/OwnerDashboard'
 import RenterManager from './Components/Owner/RenterManager';
+import RenterUpdate from './Components/Owner/RenterUpdate';
 
 import PaymentDetails from './Components/Payment/PaymentDetails/PaymentDetails';
 import AddPayment from './Components/Payment/AddPayment/AddPayment';
@@ -37,6 +38,7 @@ function App() {
           <Route path="/renteradd" element={<RenterAdd />} />
           <Route path="/ownerdashboard" element={<OwnerDashboard />} />
           <Route path="/RenterManager" element={<RenterManager />} />
+          <Route path="/RenterUpdate/:id" element={<RenterUpdate />} />
 
           <Route path="/paymentdetails" element={<PaymentDetails />} />
           <Route path="/addpayment" element={<AddPayment />} />

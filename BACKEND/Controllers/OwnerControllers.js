@@ -24,16 +24,18 @@ const getAllRenter = async (req, res, next) => {
 
 //add renter details (renter)
 const addRenters = async (req, res, next) => {
-    const { RenterName, NicNumber, Age, Date, Time, description, Address,ContactNumber } = req.body;
+    const { RenterName, NicNumber, Age, Date, Mail, description, Address, ContactNumber } = req.body;
 
-    let renter; // Use singular because it's just one renter
+    console.log("Received data:", { RenterName, NicNumber, Age, Date, Mail, description, Address, ContactNumber });
+
+    let renter;
 
     try {
-        renter = new Renter({ RenterName, NicNumber, Age, Date, Time, description, Address,ContactNumber });
+        renter = new Renter({ RenterName, NicNumber, Age, Date, Mail, description, Address, ContactNumber });
         await renter.save();
     } catch (err) {
-        console.log(err);
-        return res.status(500).json({ message: "Error adding renter" });
+        console.log("Error adding renter:", err);
+        return res.status(500).json({ message: "Error adding renter", error: err.message });
     }
 
     // If renter not added
@@ -72,14 +74,14 @@ const getById = async (req,res,next)=>{
 
 const UpdateRenter = async (req, res, next) => {
     const id = req.params.id;
-    const { RenterName, NicNumber, Age, Date, Time, description, Address,ContactNumber } = req.body;
+    const { RenterName, NicNumber, Age, Date, Mail, description, Address,ContactNumber } = req.body;
 
     let renter;
 
     try {
         renter = await Renter.findByIdAndUpdate(
             id,
-            { RenterName, NicNumber, Age, Date, Time, description, Address,ContactNumber },
+            { RenterName, NicNumber, Age, Date, Mail, description, Address,ContactNumber },
             { new: true } // This ensures the updated document is returned
         );
 

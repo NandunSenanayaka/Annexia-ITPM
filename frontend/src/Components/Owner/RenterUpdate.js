@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import OwnerDashboard from "../Owner/OwnerDashboard/OwnerDashboard";
 
-const RenterAdd = () => {
+const RenterUpdate = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   const [renterName, setRenterName] = useState("");
   const [nicNumber, setNicNumber] = useState("");
   const [age, setAge] = useState("");
@@ -13,7 +16,26 @@ const RenterAdd = () => {
   const [address, setAddress] = useState("");
   const [contactNumber, setContactNumber] = useState("");
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchRenter = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/renter/${id}`);
+        const renter = response.data.renter;
+        setRenterName(renter.RenterName);
+        setNicNumber(renter.NicNumber);
+        setAge(renter.Age);
+        setDate(renter.Date);
+        setMail(renter.Mail);
+        setDescription(renter.description);
+        setAddress(renter.Address);
+        setContactNumber(renter.ContactNumber);
+      } catch (error) {
+        console.error("Error fetching renter:", error);
+      }
+    };
+
+    fetchRenter();
+  }, [id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,16 +52,16 @@ const RenterAdd = () => {
     };
 
     try {
-      const response = await axios.post("http://localhost:5000/renter", renterData);
+      const response = await axios.put(`http://localhost:5000/renter/${id}`, renterData);
       if (response.status === 200) {
-        alert("Renter added successfully");
-        navigate("/RenterManager"); // Navigate to RenterManager
+        alert("Renter updated successfully");
+        navigate("/RenterManager");
       } else {
-        alert("Failed to add renter. Please try again.");
+        alert("Failed to update renter. Please try again.");
       }
     } catch (error) {
-      console.error("Error adding renter:", error.response ? error.response.data : error.message);
-      alert("Failed to add renter. Please try again.");
+      console.error("Error updating renter:", error.response ? error.response.data : error.message);
+      alert("Failed to update renter. Please try again.");
     }
   };
 
@@ -49,7 +71,7 @@ const RenterAdd = () => {
         <OwnerDashboard />
         <div className="owner-content">
           <form onSubmit={handleSubmit}>
-            <h2 style={styles.heading}>Add Renter</h2>
+            <h2 style={styles.heading}>Update Renter</h2>
 
             <label style={styles.label}>Renter Name:</label>
             <input type="text" value={renterName} onChange={(e) => setRenterName(e.target.value)} style={styles.input} />
@@ -75,7 +97,7 @@ const RenterAdd = () => {
             <label style={styles.label}>Contact Number:</label>
             <input type="text" value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} style={styles.input} />
 
-            <button type="submit" style={styles.button}>Add Renter</button>
+            <button type="submit" style={styles.button}>Update Renter</button>
           </form>
         </div>
       </div>
@@ -113,4 +135,4 @@ const styles = {
   },
 };
 
-export default RenterAdd;
+export default RenterUpdate;

@@ -19,8 +19,8 @@ const RenterSchema = new Schema({
         type : Date,
         required : true
     },
-    Time : {
-        type : Number,
+    Mail : {
+        type : String,
         required : true
     },
     description:{
