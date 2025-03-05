@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './PaymentDetails.css';  // Assuming you have a CSS file for styling
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; 
 
 const URL = "http://localhost:5000/payments";
 
@@ -16,6 +17,16 @@ const PaymentDetails = () => {
   useEffect(() => {
     fetchHandler().then((data) => setPayments(data.payments));
   }, []);
+
+  const history = useNavigate();
+
+  const deleteHandler = async (id) => {
+    await axios.delete(`http://localhost:5000/payments/${id}`)
+    .then(() => {
+        setPayments(payments.filter(payment => payment._id !== id)); // Update state to remove deleted item
+    });
+};
+
 
   return (
     <div className="payment-dashboard-container">
@@ -35,7 +46,8 @@ const PaymentDetails = () => {
               <div className="payment-actions">
                 
                 <Link to={`/updatepayment/${payment._id}`}>Update</Link>
-                <button className="delete-btn">Delete</button>
+                <button className="delete-btn" onClick={() => deleteHandler(payment._id)}>Delete</button>
+
               </div>
             </div>
           ))}
