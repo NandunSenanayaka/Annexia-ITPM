@@ -15,6 +15,14 @@ const RenterSchema = new Schema({
         type: Number,
         required : true
     },
+    Date : {
+        type : Date,
+        required : true
+    },
+    Time : {
+        type : Number,
+        required : true
+    },
     description:{
         type:String,
         required:true
@@ -29,7 +37,12 @@ const RenterSchema = new Schema({
     }
 
 
-})
+});
 
-const Renter = mongoose.model("Renter",RenterSchema);
-module.exports = Renter; 
+module.exports = mongoose.model(
+    "RenterModel",
+    RenterSchema
+);
+
+//const Renter = mongoose.model("Renter",RenterSchema);
+//module.exports = Renter; 

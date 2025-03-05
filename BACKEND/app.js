@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 
 const securityRouter = require("./Routes/SecurityRoutes");
 const paymentRouter = require("./Routes/PaymentRoutes");
+const RentermangeRouter = require("./Routes/RentermanageRoutes");
+const RoomRouter = require("./Routes/RoomRoutes");
 
 const app = express(); 
 const cors = require("cors");
@@ -13,7 +15,8 @@ app.use(cors());
 app.use(express.json());
 app.use("/security", securityRouter);
 app.use("/payments", paymentRouter);
-
+app.use("/renter", RentermangeRouter);
+app.use("/room", RoomRouter);
   
 mongoose.connect("mongodb+srv://admin:dUNFYHZskXiXqAPf@cluster0.jgrs0.mongodb.net/")
 .then(()=> console.log("Connected to mongoDB"))
