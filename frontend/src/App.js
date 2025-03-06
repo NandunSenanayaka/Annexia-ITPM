@@ -12,6 +12,7 @@ import RenterAdd from './Components/Owner/RenterAdd';
 import OwnerDashboard from './Components/Owner/OwnerDashboard/OwnerDashboard'
 import RenterManager from './Components/Owner/RenterManager';
 import RenterUpdate from './Components/Owner/RenterUpdate';
+import RoomAvailable from './Components/Owner/RoomAvailable';
 
 import PaymentDetails from './Components/Payment/PaymentDetails/PaymentDetails';
 import AddPayment from './Components/Payment/AddPayment/AddPayment';
@@ -39,6 +40,7 @@ function App() {
           <Route path="/ownerdashboard" element={<OwnerDashboard />} />
           <Route path="/RenterManager" element={<RenterManager />} />
           <Route path="/RenterUpdate/:id" element={<RenterUpdate />} />
+          <Route path="/RoomAvilable" element={<RoomAvailable />} />
 
           <Route path="/paymentdetails" element={<PaymentDetails />} />
           <Route path="/addpayment" element={<AddPayment />} />

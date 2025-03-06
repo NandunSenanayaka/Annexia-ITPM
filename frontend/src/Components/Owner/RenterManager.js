@@ -98,6 +98,10 @@ const RenterManager = () => {
         // Save the PDF
         doc.save('Renter_Details.pdf');
     };
+    // Navigate to RoomAvailable page
+    const handleManageRooms = () => {
+        navigate('/RoomAvilable', { state: { renters } });
+    };
 
     return (
         <div style={styles.container}>
@@ -109,6 +113,9 @@ const RenterManager = () => {
                 </button>
                 <button onClick={generatePDF} style={styles.pdfButton}>
                     Generate PDF
+                </button>
+                <button onClick={handleManageRooms} style={styles.manageRoomsButton}>
+                    Manage Rooms
                 </button>
             </div>
 
@@ -196,6 +203,20 @@ const styles = {
         cursor: 'pointer',
         transition: 'background-color 0.3s ease, transform 0.2s ease',
         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    },
+    manageRoomsButton: {
+        padding: '10px 20px',
+        backgroundColor: '#6c757d',
+        color: 'white',
+        border: 'none',
+        borderRadius: '8px',
+        fontSize: '16px',
+        cursor: 'pointer',
+        transition: 'background-color 0.3s ease, transform 0.2s ease',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    },
+    searchContainer: {
+        marginBottom: '20px',
     },
     searchContainer: {
         marginBottom: '20px',
