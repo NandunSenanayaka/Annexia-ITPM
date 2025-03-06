@@ -1,6 +1,7 @@
 import React from 'react';
 import './HomePage.css';
 import coverImage from "../../../Assets/coverimage.jpg";
+import Chatbox from '../Chatbox/Chatbox';
 
 const HomePage = () => {
   return (
@@ -57,6 +58,7 @@ const HomePage = () => {
           <p>Email: Annexia@.com | Contact: (+62) 21 2002-2012</p>
         </div>
       </footer>
+      <Chatbox />
     </div>
   );
 };

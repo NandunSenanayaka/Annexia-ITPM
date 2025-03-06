@@ -1,62 +1,39 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import './SecurityDetails.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function SecurityDetails(props) {
-  console.log("Props received:", props); 
+const SecurityDetails = forwardRef(({ _id, noticeid, title, date, time, status, description }, ref) => {
+  const navigate = useNavigate();
 
-  const { _id, noticeid, title, date, time, status, description } = props || {};
-
-//delete function
-  const history = useNavigate();
   const deleteHandler = async () => {
     try {
       await axios.delete(`http://localhost:5000/security/${_id}`);
-      history("/securityoverview");
-      window.location.reload(); 
+      alert("Security notice deleted successfully!");
+      window.location.reload();
+      navigate("/securityoverview");
     } catch (error) {
       console.error("Error deleting security notice:", error);
+      alert("Error deleting security notice. Please try again.");
     }
-  }; 
-//end delete function
+  };
 
   return (
-    <div className="security-details-container">
-      <div className="security-details-content">
-        <table className="details-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Notice ID</th>
-              <th>Title</th>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Status</th>
-              <th>Description</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{_id || 'N/A'}</td>
-              <td>{noticeid || 'N/A'}</td>
-              <td>{title || 'N/A'}</td>
-              <td>{date || 'N/A'}</td>
-              <td>{time || 'N/A'}</td>
-              <td>{status || 'N/A'}</td>
-              <td>{description || 'N/A'}</td>
-              <td>
-                <Link to={`/securityoverview/${_id}`}> Update</Link>
-                <button onClick={deleteHandler}>Remove</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <tr ref={ref}>
+      <td>{_id || 'N/A'}</td>
+      <td>{noticeid || 'N/A'}</td>
+      <td>{title || 'N/A'}</td>
+      <td>{date || 'N/A'}</td>
+      <td>{time || 'N/A'}</td>
+      <td>{status || 'N/A'}</td>
+      <td>{description || 'N/A'}</td>
+      <td>
+        <Link to={`/securityoverview/${_id}`} className="update-link">Update</Link>
+        <button className="delete-button" onClick={deleteHandler}>Remove</button>
+      </td>
+    </tr>
   );
-}
+});
 
 export default SecurityDetails;
