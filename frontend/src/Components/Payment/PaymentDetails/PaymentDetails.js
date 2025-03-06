@@ -146,10 +146,38 @@ const PaymentDetails = () => {
     doc.save('Payment_Details.pdf');
   };
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [noResults,setNoResults] = useState(false);
+
+  const handleSearch =()=>{
+    fetchHandler().then((data) => {
+      const filteredPayments = data.payments.filter(payment => 
+        Object.values(payment).some((field) =>
+          field.toString().toLowerCase().includes(searchQuery.toLowerCase())
+        ))
+        setPayments(filteredPayments);
+        setNoResults(filteredPayments.length === 0);
+      
+    });
+  }
+
+
+
   return (
     <div className="payment-dashboard-container">
       <div className="payment-dashboard-content">
         <h1>Payment Details</h1>
+
+        <div className="search-container">
+          <input onChange={(e) => setSearchQuery(e.target.value)} type="text" placeholder="Search..." />
+          <button onClick={handleSearch}>Search</button>
+        </div>
+
+        {noResults ? (
+          <div>
+            <p>No results found</p>
+          </div>
+        ) : (
 
         <div className="payment-list">
           {payments.length > 0 ? (
@@ -173,7 +201,7 @@ const PaymentDetails = () => {
             <p>No Payments Available</p>
           )}
         </div>
-
+      )}
         {/* ✅ PDF Download Button */}
         <button className="download-btn" onClick={generatePDF}>Download PDF</button>
       </div>
