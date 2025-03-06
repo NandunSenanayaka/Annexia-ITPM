@@ -10,7 +10,7 @@ import AddSecurity from '../SecurityDetails/SecurityDetails'; // Adjust the path
 
 
 function SecurityOverview() {
-  const [security, setSecurity] = useState([]);  // State to hold security data
+  const [security, setSecurity] = useState([]);  
 
   const URL = 'http://localhost:5000/security';
 
@@ -20,8 +20,8 @@ function SecurityOverview() {
 
   useEffect(() => {
     fetchHandler().then((data) => {
-      console.log('Fetched data:', data);  // Log the fetched data
-      setSecurity(data.security);  // Update state with security data
+      console.log('Fetched data:', data);  
+      setSecurity(data.security);  
     });
   }, []);
 
