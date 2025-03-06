@@ -24,25 +24,23 @@ const getAllRoom = async (req, res, next) => {
 
 //add room details (payment)
 const addRooms = async (req, res, next) => {
-    const { RoomName, PersonName, Description, Price, EmailAddress  } = req.body;
-
-    let room; // Use singular because it's just one room
-
+    const { RoomName, PersonName, Description, Price, EmailAddress } = req.body;
+  
     try {
-        room = new Room({ RoomName, PersonName, Description, Price, EmailAddress  });
-        await room.save();
+      // Create a new room
+      const room = new Room({ RoomName, PersonName, Description, Price, EmailAddress });
+      await room.save();
+  
+      // Fetch the updated list of rooms
+      const rooms = await Room.find();
+  
+      // Return the updated list of rooms
+      return res.status(200).json(rooms);
     } catch (err) {
-        console.log(err);
-        return res.status(500).json({ message: "Error adding room" });
+      console.log(err);
+      return res.status(500).json({ message: "Error adding room" });
     }
-
-    // If room not added
-    if (!room) {
-        return res.status(400).json({ message: "Unable to add room" });
-    }
-
-    return res.status(200).json({ room });
-};
+  };
 
 //Get by ID
 const getById = async (req,res,next)=>{

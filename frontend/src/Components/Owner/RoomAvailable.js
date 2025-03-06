@@ -9,28 +9,23 @@ const RoomAvailable = () => {
   // State to hold the room statuses
   const [roomStatuses, setRoomStatuses] = useState([]);
 
-  // Function to get the initial statuses from localStorage or set as empty
+  // Function to get initial room statuses from localStorage
   const getInitialStatuses = () => {
-    const savedStatuses = localStorage.getItem('roomStatuses');
-    if (savedStatuses) {
-      return JSON.parse(savedStatuses); // If data is in localStorage, return it
-    } else {
-      return []; // Initialize as empty (no default value)
-    }
+    const savedStatuses = JSON.parse(localStorage.getItem('roomStatuses')) || [];
+    return renters.map((_, index) => savedStatuses[index] || 'Available');
   };
 
-  // Initialize room statuses from localStorage or default to an empty array
+  // Initialize room statuses
   useEffect(() => {
-    // Set the initial room statuses on component mount
     setRoomStatuses(getInitialStatuses());
   }, [renters]);
 
-  // Sync room statuses to localStorage every time they change
+  // Sync room statuses to localStorage
   useEffect(() => {
     if (roomStatuses.length > 0) {
       localStorage.setItem('roomStatuses', JSON.stringify(roomStatuses));
     }
-  }, [roomStatuses]); // Dependency on roomStatuses
+  }, [roomStatuses]);
 
   // Function to update room status
   const handleStatusChange = (index, newStatus) => {
@@ -39,31 +34,26 @@ const RoomAvailable = () => {
     setRoomStatuses(updatedStatuses);
   };
 
-  // Function to get the row color based on room status
+  // Function to get row color based on status
   const getRowColor = (status) => {
     switch (status) {
       case 'Available':
-        return '#d4edda'; // Green background for Available
+        return '#d4edda'; // Green
       case 'Occupied':
-        return '#f8d7da'; // Red background for Occupied
+        return '#f8d7da'; // Red
       case 'Maintenance':
-        return '#fff3cd'; // Yellow background for Maintenance
+        return '#fff3cd'; // Yellow
       default:
-        return 'transparent'; // Default background
+        return 'transparent';
     }
   };
 
-  // Function to remove a room
-  const handleRemoveRoom = (index) => {
-    const updatedRenters = renters.filter((_, i) => i !== index);
-    const updatedStatuses = roomStatuses.filter((_, i) => i !== index);
-
-    // Update state and localStorage
-    setRoomStatuses(updatedStatuses);
-    localStorage.setItem('roomStatuses', JSON.stringify(updatedStatuses));
+  // Function to navigate to RoomAdd page with selected renter details
+  const handleAddRoom = (renter) => {
+    navigate('/RoomAdd', { state: { renter } });
   };
 
-  // Count the rooms by status
+  // Count room statuses
   const availableCount = roomStatuses.filter(status => status === 'Available').length;
   const occupiedCount = roomStatuses.filter(status => status === 'Occupied').length;
   const maintenanceCount = roomStatuses.filter(status => status === 'Maintenance').length;
@@ -86,7 +76,7 @@ const RoomAvailable = () => {
         </div>
       </div>
 
-      {/* Rooms table with status dropdowns */}
+      {/* Rooms table */}
       <div style={styles.tableFrame}>
         <table style={styles.table}>
           <thead>
@@ -95,20 +85,18 @@ const RoomAvailable = () => {
               <th style={styles.tableHeader}>Mail</th>
               <th style={styles.tableHeader}>Contact Number</th>
               <th style={styles.tableHeader}>Status</th>
+              <th style={styles.tableHeader}>Actions</th>
             </tr>
           </thead>
           <tbody>
             {renters.map((renter, index) => (
-              <tr
-                key={index}
-                style={{ backgroundColor: getRowColor(roomStatuses[index]) }} // Apply dynamic background color
-              >
+              <tr key={index} style={{ backgroundColor: getRowColor(roomStatuses[index]) }}>
                 <td style={styles.tableCell}>{renter.RenterName}</td>
                 <td style={styles.tableCell}>{renter.Mail}</td>
                 <td style={styles.tableCell}>{renter.ContactNumber}</td>
                 <td style={styles.tableCell}>
                   <select
-                    value={roomStatuses[index] || 'Available'} // If no value is set, use 'Available'
+                    value={roomStatuses[index] || 'Available'}
                     onChange={(e) => handleStatusChange(index, e.target.value)}
                     style={styles.select}
                   >
@@ -118,12 +106,11 @@ const RoomAvailable = () => {
                   </select>
                 </td>
                 <td style={styles.tableCell}>
-                  <button
-                    onClick={() => handleRemoveRoom(index)}
-                    style={styles.assignbuttion}
-                  >
-                    Assign Room
-                  </button>
+                  {roomStatuses[index] === 'Available' && (
+                    <button onClick={() => handleAddRoom(renter)} style={styles.assignButton}>
+                      ADD Room
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
@@ -134,6 +121,7 @@ const RoomAvailable = () => {
   );
 };
 
+// Styles
 const styles = {
   container: {
     display: 'flex',
@@ -173,36 +161,28 @@ const styles = {
   table: {
     width: '100%',
     borderCollapse: 'collapse',
-    borderRadius: '10px',
-    overflow: 'hidden',
   },
   tableHeader: {
     backgroundColor: '#007bff',
     color: '#fff',
     padding: '12px',
     textAlign: 'left',
-    borderBottom: '2px solid #ddd',
   },
   tableCell: {
     padding: '10px',
     borderBottom: '1px solid #ddd',
-    textAlign: 'left',
   },
   select: {
     padding: '5px',
     fontSize: '14px',
     borderRadius: '4px',
-    border: '1px solid #ccc',
   },
-  assignbuttion: {
-    padding: '5px 10px',
-    marginLeft: '5px',
-    backgroundColor: '#dc3545',
+  assignButton: {
+    backgroundColor: '#28a745',
     color: '#fff',
-    border: 'none',
+    padding: '5px 10px',
     borderRadius: '5px',
     cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
   },
 };
 
