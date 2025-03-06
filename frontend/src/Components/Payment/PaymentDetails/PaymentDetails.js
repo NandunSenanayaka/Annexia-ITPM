@@ -4,6 +4,8 @@ import axios from 'axios';
 import './PaymentDetails.css';  // Assuming you have a CSS file for styling
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom'; 
+import { useRef } from 'react';
+import { useReactToPrint } from 'react-to-print';
 
 const URL = "http://localhost:5000/payments";
 
@@ -25,14 +27,24 @@ const PaymentDetails = () => {
     .then(() => {
         setPayments(payments.filter(payment => payment._id !== id)); // Update state to remove deleted item
     });
-};
+  };
+
+  // Reference for printing
+  const componentsRef = useRef();
+
+  const handlePrint = useReactToPrint({
+    content: () => componentsRef.current,
+    documentTitle: "Payment Details Report",
+    onAfterPrint: () => alert("Payment Bill Downloaded Successfully!"),
+  });
+
 
 
   return (
     <div className="payment-dashboard-container">
-      <div className="payment-dashboard-content">
+      <div ref={componentsRef} className="payment-dashboard-content">
         <h1>Payment Details</h1>
-        <div className="payment-list">
+        <div  className="payment-list">
           {payments && payments.map((payment, i) => (
             <div key={i} className="payment-card">
               <h2>ID: {payment._id}</h2>
@@ -49,9 +61,12 @@ const PaymentDetails = () => {
                 <button className="delete-btn" onClick={() => deleteHandler(payment._id)}>Delete</button>
 
               </div>
+              
             </div>
+            
           ))}
         </div>
+        <button  onClick={handlePrint}>Download Report</button>
       </div>
     </div>
   );
