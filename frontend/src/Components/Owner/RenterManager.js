@@ -161,7 +161,117 @@ const RenterManager = () => {
 
 // Styles (same as before)
 const styles = {
-    // Your existing styles here
+    container: {
+        padding: '20px',
+        backgroundColor: '#f9f9f9',
+        maxWidth: '1200px',
+        margin: 'auto',
+        borderRadius: '12px',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+        fontFamily: 'Arial, sans-serif',
+    },
+    buttonContainer: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        marginBottom: '20px',
+    },
+    addButton: {
+        padding: '10px 20px',
+        backgroundColor: '#007bff',
+        color: 'white',
+        border: 'none',
+        borderRadius: '8px',
+        fontSize: '16px',
+        cursor: 'pointer',
+        transition: 'background-color 0.3s ease, transform 0.2s ease',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    },
+    pdfButton: {
+        padding: '10px 20px',
+        backgroundColor: '#28a745',
+        color: 'white',
+        border: 'none',
+        borderRadius: '8px',
+        fontSize: '16px',
+        cursor: 'pointer',
+        transition: 'background-color 0.3s ease, transform 0.2s ease',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    },
+    searchContainer: {
+        marginBottom: '20px',
+    },
+    searchInput: {
+        padding: '12px',
+        width: '100%',
+        border: '1px solid #ccc',
+        borderRadius: '8px',
+        fontSize: '16px',
+        outline: 'none',
+        transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    },
+    searchInputFocus: {
+        borderColor: '#007bff',
+        boxShadow: '0 0 8px rgba(0, 123, 255, 0.3)',
+    },
+    tableFrame: {
+        border: '2px solid #007bff',
+        borderRadius: '12px',
+        padding: '10px',
+        backgroundColor: '#fff',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+    },
+    table: {
+        width: '100%',
+        borderCollapse: 'collapse',
+        marginTop: '20px',
+    },
+    tableHeader: {
+        backgroundColor: '#007bff',
+        color: '#fff',
+        padding: '12px',
+        textAlign: 'left',
+        border: '1px solid #ddd',
+        fontSize: '16px',
+        fontWeight: 'bold',
+    },
+    tableCell: {
+        padding: '12px',
+        border: '1px solid #ddd',
+        fontSize: '14px',
+    },
+    editButton: {
+        padding: '8px 16px',
+        backgroundColor: '#ffc107',
+        color: '#000',
+        border: 'none',
+        borderRadius: '6px',
+        marginRight: '5px',
+        cursor: 'pointer',
+        transition: 'background-color 0.3s ease, transform 0.2s ease',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    },
+    deleteButton: {
+        padding: '8px 16px',
+        backgroundColor: '#dc3545',
+        color: '#fff',
+        border: 'none',
+        borderRadius: '6px',
+        cursor: 'pointer',
+        transition: 'background-color 0.3s ease, transform 0.2s ease',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    },
+    errorMessage: {
+        color: 'red',
+        marginBottom: '20px',
+        textAlign: 'center',
+        fontSize: '16px',
+        fontWeight: 'bold',
+    },
+    hoverEffect: {
+        transform: 'translateY(-2px)',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+    },
 };
 
 export default RenterManager;
