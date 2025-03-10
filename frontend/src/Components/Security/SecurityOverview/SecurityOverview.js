@@ -79,15 +79,15 @@ function SecurityOverview() {
 
   return (
     <div className="container">
-      <div className="securitydashboard-container">
+      <div className="securityoverview-container">
         <SecurityDashboard />
-        <div className="securitydashboard-content">
+        <div className="securityoverview-content">
           <h1>Security Overview</h1>
           <div>
             <table className="details-table">
               <thead>
                 <tr>
-                  <th>ID</th>
+                  {/* <th>ID</th> */}
                   <th>Notice ID</th>
                   <th>Title</th>
                   <th>Date</th>
@@ -109,7 +109,7 @@ function SecurityOverview() {
               </tbody>
             </table>
           </div><br />
-          <button onClick={generatePDF}>Download Report</button>
+          <button className="download-button1" onClick={generatePDF}>Download Report</button>
         </div>
       </div>
     </div>

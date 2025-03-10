@@ -21,7 +21,7 @@ const SecurityDetails = forwardRef(({ _id, noticeid, title, date, time, status, 
 
   return (
     <tr ref={ref}>
-      <td>{_id || 'N/A'}</td>
+      {/* <td>{_id || 'N/A'}</td> */}
       <td>{noticeid || 'N/A'}</td>
       <td>{title || 'N/A'}</td>
       <td>{date || 'N/A'}</td>
@@ -30,7 +30,7 @@ const SecurityDetails = forwardRef(({ _id, noticeid, title, date, time, status, 
       <td>{description || 'N/A'}</td>
       <td>
         <Link to={`/securityoverview/${_id}`} className="update-link">Update</Link>
-        <button className="delete-button" onClick={deleteHandler}>Remove</button>
+        <button className="delete-button1" onClick={deleteHandler}>Remove</button>
       </td>
     </tr>
   );
