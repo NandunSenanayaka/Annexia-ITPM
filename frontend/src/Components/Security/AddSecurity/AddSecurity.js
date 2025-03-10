@@ -1,46 +1,72 @@
 import React, { useState } from 'react';
-import SecurityOverview from "../SecurityDashboard/SecurityDashboard";  // Assuming you have a SecurityOverview component
-import './AddSecurity.css';  // Assuming you have a CSS file for styling
+import SecurityOverview from "../SecurityDashboard/SecurityDashboard";
+import './AddSecurity.css';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
+import { AiOutlineSound } from 'react-icons/ai'; // Importing the mic icon from react-icons
+
+// To check if the browser supports SpeechRecognition
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = SpeechRecognition ? new SpeechRecognition() : null;
 
 const AddSecurity = () => {
     const history = useNavigate();
-    const [inputs,setInputs] = useState({
-      noticeid:"",
-      title:"",
-      date:"",
-      time:"",
-      status:"",
-      description:""
-
+    const [inputs, setInputs] = useState({
+      noticeid: "",
+      title: "",
+      date: "",
+      time: "",
+      status: "",
+      description: "",
     });
 
-    const handleChange =(e)=>{
-      setInputs((prevState)=>({
+    const handleChange = (e) => {
+      setInputs((prevState) => ({
         ...prevState,
         [e.target.name]: e.target.value,
       }));
     };
 
-    //click submit
-    const handleSubmit =(e)=>{
+    const handleSubmit = (e) => {
       e.preventDefault();
       console.log(inputs);
-      sendRequest().then(()=>history('../securityoverview'))
-    }
+      sendRequest().then(() => history('../securityoverview'));
+    };
 
-    const sendRequest = async()=>{
-      await axios.post("http://localhost:5000/security",{
-        noticeid:String(inputs.noticeid),
-        title:String(inputs.title),
-        date:String(inputs.date),
-        time:String(inputs.time),
-        status:String(inputs.status),
-        description:String(inputs.description)
-      }).then(res => res.data);
-    }
+    const sendRequest = async () => {
+      await axios
+        .post("http://localhost:5000/security", {
+          noticeid: String(inputs.noticeid),
+          title: String(inputs.title),
+          date: String(inputs.date),
+          time: String(inputs.time),
+          status: String(inputs.status),
+          description: String(inputs.description),
+        })
+        .then((res) => res.data);
+    };
 
+    // Function to start speech recognition
+    const startRecognition = () => {
+      if (!recognition) {
+        console.error("Speech Recognition API is not supported in this browser.");
+        return;
+      }
+
+      recognition.start();
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setInputs((prevState) => ({
+          ...prevState,
+          description: transcript,
+        }));
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Error occurred in speech recognition: ", event.error);
+      };
+    };
 
   return (
     <div className="add-security-container">
@@ -51,34 +77,106 @@ const AddSecurity = () => {
 
         <form onSubmit={handleSubmit}>
           <label>Notice ID</label>
-          <input type="text" name="noticeid" onChange={handleChange} value={inputs.noticeid} required />
+          <input
+            type="text"
+            name="noticeid"
+            onChange={handleChange}
+            value={inputs.noticeid}
+            required
+          />
 
           <label>Title</label>
-          <input type="text" name="title" onChange={handleChange} value={inputs.title} required />
+          <input
+            type="text"
+            name="title"
+            onChange={handleChange}
+            value={inputs.title}
+            required
+          />
 
           <label>Date</label>
-          <input type="text" name="date" onChange={handleChange} value={inputs.date} required />
+          <input
+            type="text"
+            name="date"
+            onChange={handleChange}
+            value={inputs.date}
+            required
+          />
 
           <label>Time</label>
-          <input type="text" name="time" onChange={handleChange} value={inputs.time} required />
+          <input
+            type="text"
+            name="time"
+            onChange={handleChange}
+            value={inputs.time}
+            required
+          />
 
           <label>Status</label>
-          <input type="text" name="status" onChange={handleChange} value={inputs.status} required />
+          <input
+            type="text"
+            name="status"
+            onChange={handleChange}
+            value={inputs.status}
+            required
+          />
 
           <label>Description</label>
-          <input type="text" name="description" onChange={handleChange} value={inputs.description} required />
+          <div className="description-input-container">
+            <input
+              type="text"
+              name="description"
+              onChange={handleChange}
+              value={inputs.description}
+              required
+            />
+            <button
+              type="button"
+              onClick={startRecognition}
+              className="mic-button"
+            >
+              <AiOutlineSound size={24} /> {/* React icon for the microphone */}
+            </button>
+          </div>
 
           <button type="submit">Submit</button>
         </form>
-
-
-
       </div>
     </div>
   );
 };
 
 export default AddSecurity;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

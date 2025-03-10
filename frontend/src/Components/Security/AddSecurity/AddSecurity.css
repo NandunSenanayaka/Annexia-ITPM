@@ -104,3 +104,19 @@ button[type="submit"]:hover {
     border-color: #007bff;
     outline: none;
 }
+
+
+/* Add in AddSecurity.css */
+.description-input-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .mic-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    color: #007bff;
+  }
+  
