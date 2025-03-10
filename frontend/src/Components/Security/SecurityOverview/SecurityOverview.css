@@ -124,3 +124,79 @@ button:active {
       padding: 10px;
   }
 }
+
+
+
+
+
+/* Add this CSS to enable scrolling for the table body */
+.table-container {
+  max-height: 400px;  /* Adjust height as needed */
+  overflow-y: auto;
+  display: block; /* Make it a block-level element so it scrolls */
+  width: 100%;
+}
+
+/* Keep the table header fixed */
+.details-table thead {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(145deg, #28a745, #218838); /* Gradient background for the header */
+  z-index: 1; /* Ensures header stays above the body */
+}
+
+/* Table styling and other styles for the table, button, etc. */
+.details-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Roboto', sans-serif;
+  margin-top: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden; /* For rounded corners */
+}
+
+/* Styling for table header and body */
+.details-table th, .details-table td {
+  padding: 14px;
+  text-align: left;
+}
+
+.details-table thead {
+  background: linear-gradient(145deg, #28a745, #218838);
+  color: #fff;
+}
+
+.details-table tbody tr:nth-child(even) {
+  background-color: #f7fdf7;
+}
+
+.details-table tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.details-table tbody tr:hover {
+  background-color: #e1f7e1;
+}
+
+.details-table td {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Button styling */
+.download-button1 {
+  background: linear-gradient(145deg, #28a745, #218838);
+  color: white;
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.download-button1:hover {
+  background: linear-gradient(145deg, #218838, #28a745);
+}
+
