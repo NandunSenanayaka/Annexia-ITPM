@@ -83,6 +83,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom'; 
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import PaymentDashboard from "../PaymentDashboard/PaymentDashboard";
 
 const URL = "http://localhost:5000/payments";
 
@@ -165,6 +166,7 @@ const PaymentDetails = () => {
 
   return (
     <div className="payment-dashboard-container">
+    <PaymentDashboard/>
       <div className="payment-dashboard-content">
         <h1>Payment Details</h1>
 
