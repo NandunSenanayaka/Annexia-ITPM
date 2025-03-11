@@ -176,3 +176,8 @@ button {
 .footer a:hover {
   text-decoration: underline;
 }
+
+
+::-webkit-scrollbar {
+  display: none; /* Hides the scrollbar */
+}
