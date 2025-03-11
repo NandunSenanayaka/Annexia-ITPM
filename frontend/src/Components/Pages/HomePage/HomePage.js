@@ -436,6 +436,7 @@
 import React from 'react';
 import Navbar from './Navbar';
 import './HomePage.css';
+import Chatbox from '../Chatbox/Chatbox';
 
 // Import images (replace with your actual image paths)
 import peradeniyaImage from '../../../Assets/peradeniyaImage.png';
@@ -504,6 +505,7 @@ const HomePage = () => {
         </div>
         
       </section>
+      <Chatbox />
     </div>
   );
 };
