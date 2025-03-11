@@ -12,8 +12,9 @@ const Navbar = () => {
         <li><a href="/about">About</a></li>
         <li><a href="/contact">Contact Us</a></li>
       </ul>
-      <div className="navbar-login">
-        <a href="/login">Log In</a>
+      <div>
+      <button><a href="/login"> Log In</a></button>
+
       </div>
     </nav>
   );
