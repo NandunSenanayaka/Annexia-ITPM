@@ -9,15 +9,17 @@
     margin: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: -200px;
+
+
   }
   
   
 
 
 
-/* Container styling */
-.securityoverview-container {
-  display: flex;
+.securityoverview-content h1{
+  margin-top: -15px;
 }
 
 .securityoverview-content {
@@ -39,7 +41,9 @@
   width: 100%;
   border-collapse: collapse;
   font-family: 'Roboto', sans-serif;
-  margin-top: 20px;
+  margin-top: -19px;
+  margin-left: -19px;
+  margin-bottom: -19px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow: hidden; /* For rounded corners */
@@ -146,15 +150,7 @@ button:active {
 }
 
 /* Table styling and other styles for the table, button, etc. */
-.details-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: 'Roboto', sans-serif;
-  margin-top: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  overflow: hidden; /* For rounded corners */
-}
+
 
 /* Styling for table header and body */
 .details-table th, .details-table td {

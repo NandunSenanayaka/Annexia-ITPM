@@ -78,11 +78,13 @@ function SecurityOverview() {
   };
 
   return (
-    <div className="container">
+    <div className="securityoverview-container">
       {/* <div className="securityoverview-container"> */}
         <SecurityDashboard />
+
         <div className="securityoverview-content">
           <h1>Security Overview</h1>
+          
           <div className="table-container">
             <table className="details-table">
               <thead>
@@ -93,7 +95,7 @@ function SecurityOverview() {
                   <th>Time</th>
                   <th>Status</th>
                   <th>Description</th>
-                  <th>Actions</th> {/* Action buttons column */}
+                  <th>Actions</th> 
                 </tr>
               </thead>
               <tbody>
