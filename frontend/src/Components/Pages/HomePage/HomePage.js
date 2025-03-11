@@ -433,7 +433,9 @@
 
 // export default HomePage;
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 import Navbar from './Navbar';
 import './HomePage.css';
 import Chatbox from '../Chatbox/Chatbox';
@@ -445,45 +447,50 @@ import mataraImage from '../../../Assets/mataraImage.png';
 import ellaImage from '../../../Assets/ellaImage.png';
 
 const HomePage = () => {
+  const { ref: servicesRef, inView: servicesInView } = useInView({ triggerOnce: true, threshold: 0.2 });
+
   return (
     <div className="home-page">
       <Navbar />
-      <header className="App-header">
-        <h1>ANNEXIA</h1>
-        <p>Start Your Jouney Toward <br></br>
-          Homeownership Today!</p>
-        <button>Get Started</button>
-      </header>
+      <motion.header 
+        className="App-header"
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+      >
+        <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.5 }}>ANNEXIA</motion.h1>
+        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5 }}>Start Your Journey Toward <br /> Homeownership Today!</motion.p>
+        <motion.button initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>Get Started</motion.button>
+      </motion.header>
 
-            {/* Our Services Section */}
-            <section className="our-services">
+      {/* Our Services Section */}
+      <motion.section 
+        className="our-services"
+        ref={servicesRef}
+        initial={{ opacity: 0, y: 50 }}
+        animate={servicesInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 1 }}
+      >
         <h2>OUR SERVICES</h2>
         <div className="services-list">
-          <div className="service-item">
-            <img src={peradeniyaImage} alt="Luxury House in Peradeniya" />
-            <h3>Luxury House for Sale in Peradeniya</h3>
-            <p>Southern Provinces</p>
-          </div>
-          <div className="service-item">
-            <img src={dangedaraimage} alt="3 Story House in Dangedara" />
-            <h3>3 Story House for Sale in Dangedara 10</h3>
-            <p>Southern Provinces</p>
-          </div>
-          <div className="service-item">
-            <img src={mataraImage} alt="Luxury House in Matara" />
-            <h3>Luxury Brand New 2 Story Houses in Matara</h3>
-            <p>Southern Provinces</p>
-          </div>
-          <div className="service-item">
-            <img src={ellaImage} alt="Brand New House in Ella" />
-            <h3>Brand New 3 Storied House for Sale in Ella</h3>
-            <p>Southern Provinces</p>
-          </div>
+          {[peradeniyaImage, dangedaraimage, mataraImage, ellaImage].map((image, index) => (
+            <motion.div 
+              key={index} 
+              className="service-item"
+              initial={{ opacity: 0, y: 50 }}
+              animate={servicesInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: index * 0.2 }}
+            >
+              <img src={image} alt="Service" />
+              <h3>Service Title</h3>
+              <p>Southern Provinces</p>
+            </motion.div>
+          ))}
         </div>
-      </section>
+      </motion.section>
 
-       {/* Why Choose Us Section */}
-       <section className="why-choose-us">
+      {/* Why Choose Us Section */}
+      <section className="why-choose-us">
         <h2>Why Choose Us?</h2>
         <div className="why-choose-us-content">
           <div className="why-choose-us-item">
@@ -497,15 +504,23 @@ const HomePage = () => {
             <h3>24/7 Support</h3>
             <p>Our current UEFA mandate issued one week to help you.</p>
           </div>
-          <div className="why-choose-us-item">
-            <h3>24/7 Support</h3>
-            <p>Our current UEFA mandate issued one week to help you.</p>
-          </div>
-
         </div>
-        
       </section>
+      
       <Chatbox />
+      
+      {/* Footer Section */}
+      <footer className="footer">
+        <div className="footer-content">
+          <p>&copy; 2025 ANNEXIA. All Rights Reserved.</p>
+          <p>Contact us: support@annexia.com</p>
+          <p>Follow us on:
+            <a href="#"> Facebook</a> | 
+            <a href="#"> Twitter</a> | 
+            <a href="#"> Instagram</a>
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };

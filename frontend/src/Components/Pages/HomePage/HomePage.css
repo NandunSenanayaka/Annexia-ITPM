@@ -158,3 +158,21 @@ button {
   font-size: 1rem;
   color: #666;
 }
+
+.footer {
+  background-color: #106861;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 40px;
+}
+
+.footer a {
+  color: #4CAF50;
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
