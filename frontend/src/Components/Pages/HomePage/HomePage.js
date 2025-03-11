@@ -504,6 +504,10 @@ const HomePage = () => {
             <h3>24/7 Support</h3>
             <p>Our current UEFA mandate issued one week to help you.</p>
           </div>
+          <div className="why-choose-us-item">
+            <h3>24/7 Support</h3>
+            <p>Our current UEFA mandate issued one week to help you.</p>
+          </div>
         </div>
       </section>
       
