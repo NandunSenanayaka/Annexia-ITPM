@@ -1,76 +1,8 @@
-// import React from 'react';
-// import './HomePage.css';
-// import coverImage from "../../../Assets/coverimage.jpg";
-// import Chatbox from '../Chatbox/Chatbox';
-
-// const HomePage = () => {
-//   return (
-//     <div>
-//       {/* Navigation Bar */}
-//       <nav className="navbar">
-//         <div className="logo">ANNEXIA</div>
-//         <ul className="nav-links">
-//           <li className='no'><a href="#home">Home</a></li>
-//           <li><a href="#about">About</a></li>
-//           <li><a href="#contact">Contact</a></li>
-//         </ul>
-//         <button className="login-btn">Log In</button>
-//       </nav>
-
-//       {/* Cover Section */}
-//       <section className="cover-section" style={{ backgroundImage: `url(${coverImage})` }}>
-//         <div className="overlay">
-//           <h2>Transforming The Future Of Home Living</h2>
-//           <h1>ANNEXIA</h1>
-//           <button className="cta-btn">Get Started</button>
-//         </div>
-//       </section>
-
-//       {/* Our House Section */}
-//       <section className="our-house">
-//         <h2>OUR HOUSE</h2>
-//         <p>BEST PROPERTIES</p>
-//         <div className="house-list">
-//           {/* Example House Card */}
-//           <div className="house-card">
-//           <img src={coverImage} alt="" />
-//             <p>Luxury House for Sale in Peradeniya</p>
-//           </div>
-//           <div className="house-card">
-//           <img src={coverImage} alt="" />
-//             <p>3 Story House for Sale in Dangedara 10</p>
-//           </div>
-//           <div className="house-card">
-//           <img src={coverImage} alt="" />
-//             <p>Luxury Brand New 2 Story Houses in Matara</p>
-//           </div>
-//           <div className="house-card">
-//           <img src={coverImage} alt="" />
-//             <p>Brand New 3 Storied House for Sale in Ella</p>
-//           </div>
-//         </div>
-//       </section>
-
-//       {/* Footer Section */}
-//       <footer className="footer">
-//         <div className="footer-content">
-//           <p>&copy; 2025 ANNEXIA. All rights reserved.</p>
-//           <p>Email: Annexia@.com | Contact: (+62) 21 2002-2012</p>
-//         </div>
-//       </footer>
-//       <Chatbox />
-//     </div>
-//   );
-// };
-
-// export default HomePage;
-
-
-
 
 import React from 'react';
 import coverImage from "../../../Assets/coverimage.jpg";
 import Chatbox from '../Chatbox/Chatbox';
+import './HomePage.css';
 
 const HomePage = () => {
   // Define all styles as JavaScript objects
@@ -83,12 +15,13 @@ const HomePage = () => {
       boxSizing: 'border-box',
     },
     container: {
-      maxWidth: '1200px',
+      maxWidth: '2200px',
       margin: '0 auto',
       padding: '0 20px',
     },
+
     header: {
-      backgroundColor: 'white',
+      backgroundColor: '#106861',
       boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
       borderRadius: '16px',
       margin: '20px auto',
@@ -96,11 +29,14 @@ const HomePage = () => {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
+      position: 'relative',
+      zIndex: 10,
     },
+   
     logo: {
       fontWeight: 700,
       fontSize: '1.5rem',
-      color: '#2E7D32',
+      color: 'white',
     },
     nav: {
       display: 'flex',
@@ -112,52 +48,60 @@ const HomePage = () => {
     },
     navLink: {
       textDecoration: 'none',
-      color: '#212121',
+      color: 'white',
       fontWeight: 500,
       transition: 'color 0.3s',
     },
+    
+
+
+
+
     ctaButtons: {
       display: 'flex',
       gap: '15px',
     },
     btn: {
-      padding: '10px 20px',
+      padding: '12px 24px',
       borderRadius: '50px',
       fontWeight: 500,
       cursor: 'pointer',
       transition: 'all 0.3s',
       border: 'none',
+      fontSize: '1rem',
     },
     btnOutline: {
-      border: '1px solid #2E7D32',
+      border: '1px solid white',
       background: 'transparent',
-      color: '#2E7D32',
-    },
-    btnPrimary: {
-      background: '#2E7D32',
       color: 'white',
     },
+
+    btnPrimary: {
+      background: '#AEEA00',
+      color: 'black',
+    },
+   
+
     hero: {
-      // background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${coverImage})`,
-      background: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80")',
+      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${coverImage})`,
       backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      height: '500px',
-      borderRadius: '20px',
-      margin: '30px auto',
+      backgroundPosition: 'cover',
+      height: '100vh',
       display: 'flex',
       alignItems: 'center',
-      position: 'relative',
-      overflow: 'hidden',
-    },
-    heroContent: {
+      justifyContent: 'center',
       color: 'white',
-      padding: '0 50px',
-      maxWidth: '600px',
+      textAlign: 'center',
+      position: 'relative',
+      top: 0,
+      left: 0,
+      width: '100%',
+      zIndex: -1,
     },
-    heroSubtitle: {
-      fontSize: '1rem',
-      marginBottom: '10px',
+   
+    heroContent: {
+      maxWidth: '800px',
+      padding: '20px',
     },
     heroTitle: {
       fontSize: '3.5rem',
@@ -165,15 +109,21 @@ const HomePage = () => {
       marginBottom: '20px',
       lineHeight: 1.1,
     },
+    heroSubtitle: {
+      fontSize: '1rem',
+      marginBottom: '10px',
+    },
+
     heroTitleSpan: {
       color: '#81C784',
     },
     heroDescription: {
       marginBottom: '30px',
-      fontSize: '1.1rem',
+      fontSize: '1.2rem',
     },
     heroButtons: {
       display: 'flex',
+      justifyContent: 'center',
       gap: '15px',
     },
     sectionTitle: {
@@ -340,7 +290,7 @@ const HomePage = () => {
               TRANSFORMING<span style={styles.heroTitleSpan}>THE FUTURE OF</span> HOME LIVING
             </h1>
             <p style={styles.heroDescription}>
-              Start Your Jouney Toward Homeownership Today!
+            Transforming The Future Of Home Living
             </p>
             <div style={styles.heroButtons}>
               <button style={{...styles.btn, ...styles.btnPrimary}}>Get Started</button>
