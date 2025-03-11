@@ -71,12 +71,14 @@
   margin-top: 20px;
   font-family: 'Arial', sans-serif;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
 }
 
 .payment-table th, .payment-table td {
   padding: 12px 20px;
   text-align: left;
   border-bottom: 1px solid #ececec;
+  
 }
 
 .payment-table th {
@@ -84,6 +86,7 @@
   font-weight: 600;
   font-size: 16px;
   color: #333;
+  
 }
 
 .payment-table td {

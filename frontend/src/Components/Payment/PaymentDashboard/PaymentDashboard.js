@@ -17,12 +17,12 @@ const PaymentDashboard = () => {
         <h2 className="payment-logo">ANNEXIA</h2>
         <nav>
           <ul>
-            <Link to="/paymentoverview" style={{ textDecoration: "none", color: "inherit" }}>
+            <Link to="/PaymentDetails" style={{ textDecoration: "none", color: "inherit" }}>
               <li><FaHome /> Overview</li>
             </Link>
 
-            <Link to="/transactions" style={{ textDecoration: "none", color: "inherit" }}>
-              <li><FaMoneyCheckAlt /> Transactions</li>
+            <Link to="/AddPayment" style={{ textDecoration: "none", color: "inherit" }}>
+              <li><FaMoneyCheckAlt /> Add Payment</li>
             </Link>
 
             <Link to="/invoices" style={{ textDecoration: "none", color: "inherit" }}>
