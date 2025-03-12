@@ -20,6 +20,7 @@ import HomePage from './Components/Pages/HomePage/HomePage';
 import UpdatePayment from './Components/Payment/UpdatePayment/UpdatePayment';
 
 import Register from './Components/Register/Register';
+import Login from './Components/Login/Login'
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
           {/* <Route path="/paymentdashboard" element={<PaymentDashboard />} /> */}
 
           <Route path="/register" element={<Register/>} />
+          <Route path="/login" element={<Login/>} />
 
 
   

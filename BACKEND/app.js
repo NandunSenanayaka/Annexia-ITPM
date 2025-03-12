@@ -26,7 +26,7 @@ mongoose.connect("mongodb+srv://admin:dUNFYHZskXiXqAPf@cluster0.jgrs0.mongodb.ne
 require("./Model/Register");
 const formData = mongoose.model("Register");
 app.post("/register",async(req,res) => {
-    const {name,email,nic,dateTime,password,description} =req.body;
+    const {name,email,nic,dateTime,password,description,role} =req.body;
     try{
         await formData.create({
             name,
@@ -34,7 +34,8 @@ app.post("/register",async(req,res) => {
             nic,
             dateTime,
             password,
-            description
+            description,
+            role // Ensure role is saved in the database
 
 
         })
@@ -42,4 +43,50 @@ app.post("/register",async(req,res) => {
     }catch(err){
         res.send({status:"err"});
     }    
-}) 
+});
+
+//login
+// app.post("/login", async (req, res) => {
+//     const { email, password } = req.body;
+//     try {
+//         const user = await formData.findOne({ email });
+        
+//         if (!user) {
+//             return res.json({ err: "User Not Found" });
+//         }
+
+//         if (user.password === password) {
+//             return res.json({ status: "ok" });
+//         } else {
+//             return res.json({ err: "Incorrect Password" });
+//         }
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({ err: "Server Error" });
+//     }
+// });
+
+app.post("/login", async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const user = await formData.findOne({ email });
+        
+        if (!user) {
+            return res.json({ err: "User Not Found" });
+        }
+
+        if (user.password === password) {
+            return res.json({ status: "ok", role: user.role });  // Include role here
+        } else {
+            return res.json({ err: "Incorrect Password" });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ err: "Server Error" });
+    }
+});
+
+
+ 
+
+
