@@ -19,6 +19,8 @@ import PaymentDashboard from './Components/Payment/PaymentDashboard/PaymentDashb
 import HomePage from './Components/Pages/HomePage/HomePage';
 import UpdatePayment from './Components/Payment/UpdatePayment/UpdatePayment';
 
+import Register from './Components/Register/Register';
+
 function App() {
   return (
     <div >
@@ -42,6 +44,8 @@ function App() {
           <Route path="/addpayment" element={<AddPayment />} />
           <Route path="/updatepayment/:id" element={<UpdatePayment />} />
           {/* <Route path="/paymentdashboard" element={<PaymentDashboard />} /> */}
+
+          <Route path="/register" element={<Register/>} />
 
 
   
