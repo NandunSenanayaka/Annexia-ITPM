@@ -107,47 +107,7 @@ const getCleanerBookings = async (req, res) => {
 };
 */
 
-// ?-------------------------------------------Get single booking
-/*
-exports.getBooking = async (req, res) => {
-  try {
-    const booking = await Booking.findById(req.params.id)
-      .populate("renter", "name email phone")
-      .populate("cleaner", "name email phone");
 
-    if (!booking) {
-      return res.status(404).json({
-        success: false,
-        error: "Booking not found",
-      });
-    }
-
-    // Check if user is authorized to view this booking
-    if (
-      req.user.role !== "admin" &&
-      req.user.id !== booking.renter._id.toString() &&
-      booking.cleaner &&
-      req.user.id !== booking.cleaner._id.toString()
-    ) {
-      return res.status(403).json({
-        success: false,
-        error: "Not authorized to view this booking",
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      data: booking,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      error: "Server Error",
-    });
-  }
-};
-*/
 
 // Assign cleaner to booking
 const assignCleaner = async (req, res) => {
@@ -193,7 +153,35 @@ const assignCleaner = async (req, res) => {
   }
 };
 
-// ?---------------------------------------------------------Update booking status
+const getBookingById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const booking = await Booking.findById(id)
+     
+      .populate("cleaner", "name email phone");
+
+    if (!booking) {
+      return res.status(404).json({
+        success: false,
+        error: "Booking not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: booking,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      error: "Server Error",
+    });
+  }
+};
+// ?---------------------------------------------------------Update booking status 
+//!gotta modify when auth session is done
 /*
 const updateBookingStatus = async (req, res) => {
   try {
@@ -308,4 +296,5 @@ module.exports = {
   getAllBookings,
   //getCleanerBookings,
   assignCleaner,
-}
+  getBookingById,
+};
