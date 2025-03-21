@@ -70,16 +70,28 @@ const AddSecurity = () => {
     };
 
     const sendRequest = async () => {
-        await axios.post("http://localhost:5000/security", {
-            noticeid: String(inputs.noticeid),
-            title: String(inputs.title),
-            date: String(inputs.date),
-            time: String(inputs.time),
-            status: String(inputs.status),
-            description: String(inputs.description)
-        }).then(res => res.data);
+        try {
+            const response = await axios.post("http://localhost:5000/security", {
+                noticeid: String(inputs.noticeid),
+                title: String(inputs.title),
+                date: String(inputs.date),
+                time: String(inputs.time),
+                status: String(inputs.status),
+                description: String(inputs.description)
+            });
+    
+            if (response.status === 200) {
+                alert("Security Notice Added Successfully");
+            } else {
+                alert("Add Security Notice Error");
+            }
+        } catch (error) {
+            console.error("Error occurred while adding security notice:", error);
+            alert("Add Security Notice Error");
+        }
     };
 
+    
     // Function to start speech recognition
     const startRecognition = () => {
         if (!recognition) {
@@ -117,6 +129,7 @@ const AddSecurity = () => {
                         onChange={handleChange} 
                         value={inputs.noticeid} 
                         required 
+                         
                     />
 
                     <label>Title</label>
@@ -179,3 +192,6 @@ const AddSecurity = () => {
 };
 
 export default AddSecurity;
+
+
+

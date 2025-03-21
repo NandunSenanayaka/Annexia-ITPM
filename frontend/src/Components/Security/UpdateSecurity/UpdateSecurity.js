@@ -212,18 +212,27 @@ const UpdateSecurity = () => {
 
   const sendRequest = async () => {
     try {
-      await axios.put(`http://localhost:5000/security/${id}`, {
-        noticeid: String(inputs.noticeid),
-        title: String(inputs.title),
-        date: String(inputs.date),
-        time: String(inputs.time),
-        status: String(inputs.status),
-        description: String(inputs.description),
-      });
+        const response = await axios.put(`http://localhost:5000/security/${id}`, {
+            noticeid: String(inputs.noticeid),
+            title: String(inputs.title),
+            date: String(inputs.date),
+            time: String(inputs.time),
+            status: String(inputs.status),
+            description: String(inputs.description),
+        });
+
+        // Check if the update was successful
+        if (response.status === 200) {
+            alert("Update Successfully");
+        } else {
+            alert("Update Error");
+        }
     } catch (error) {
-      console.error("Error updating security notice:", error);
+        console.error("Error updating security notice:", error);
+        alert("Update Error");
     }
-  };
+};
+
 
   const startRecognition = () => {
     if (!recognition) {
