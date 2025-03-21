@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const RoomAdd = () => {
   const location = useLocation();
-  const renter = location.state?.renter || {};
+  const renter = location.state?.renter || {};    
 
+  // State for room data and error handling
   const [roomData, setRoomData] = useState({
     RoomName: '',
     PersonName: renter.RenterName || '',
@@ -14,47 +15,43 @@ const RoomAdd = () => {
     EmailAddress: renter.Mail || ''
   });
 
-  const [rooms, setRooms] = useState([]);
-  const [filteredRooms, setFilteredRooms] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [rooms, setRooms] = useState(() => {
+    // Load saved rooms from localStorage initially
+    const savedRooms = localStorage.getItem('rooms');
+    return savedRooms ? JSON.parse(savedRooms) : [];
+  });
+  const [error, setError] = useState(null);
 
-  // Fetch all rooms on component mount
-  useEffect(() => {
-    fetchRooms();
-  }, []);
-
-  const fetchRooms = async () => {
+  // Fetch rooms from backend
+  const fetchRooms = useCallback(async () => {
     try {
-      setLoading(true);
       const response = await axios.get('http://localhost:5000/room');
       if (Array.isArray(response.data)) {
-        setRooms(response.data);
-        setFilteredRooms(response.data); // Initialize filtered rooms
+        const filteredRooms = response.data.filter(room => 
+          room.EmailAddress === renter.Mail
+        );
+        setRooms(filteredRooms);
+
+        // Save rooms to localStorage for persistence
+        localStorage.setItem('rooms', JSON.stringify(filteredRooms));
       } else {
         setRooms([]);
-        setFilteredRooms([]);
+        localStorage.removeItem('rooms'); // Clear localStorage if no data
       }
+      setError(null);
     } catch (error) {
       console.error('Error fetching rooms:', error);
+      setError('Failed to fetch rooms. Please try again later.');
       setRooms([]);
-      setFilteredRooms([]);
-    } finally {
-      setLoading(false);
     }
-  };
+  }, [renter.Mail]);
 
-  // Handle search input change
-  const handleSearch = (e) => {
-    const term = e.target.value;
-    setSearchTerm(term);
+  // Fetch rooms when the component mounts
+  useEffect(() => {
+    fetchRooms();
+  }, [fetchRooms]);
 
-    const filtered = rooms.filter(room =>
-      room.RoomName.toLowerCase().includes(term.toLowerCase())
-    );
-    setFilteredRooms(filtered);
-  };
-
+  // Handle input changes for the form
   const handleInputChange = (e) => {
     setRoomData({
       ...roomData,
@@ -62,48 +59,56 @@ const RoomAdd = () => {
     });
   };
 
+  // Handle form submission to add a room
   const handleAddRoom = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    if (!roomData.RoomName || !roomData.Description || !roomData.Price) {
+      alert('Please fill out all required fields.');
+      return;
+    }
     try {
       const addResponse = await axios.post('http://localhost:5000/room', roomData);
       if (addResponse.data) {
-        setRooms([...rooms, addResponse.data]); // Update rooms state
-        setFilteredRooms([...rooms, addResponse.data]); // Update filtered rooms
+        const updatedRooms = [...rooms, addResponse.data];
+        setRooms(updatedRooms);
+
+        // Update localStorage after adding a room
+        localStorage.setItem('rooms', JSON.stringify(updatedRooms));
+        alert('Room added successfully!');
+        setRoomData({
+          RoomName: '',
+          PersonName: renter.RenterName || '',
+          Description: '',
+          Price: '',
+          EmailAddress: renter.Mail || ''
+        });
       }
-      setRoomData({
-        RoomName: '',
-        PersonName: renter.RenterName || '',
-        Description: '',
-        Price: '',
-        EmailAddress: renter.Mail || ''
-      });
     } catch (error) {
       console.error('Error adding room:', error);
-      alert('Error adding room.');
-    } finally {
-      setLoading(false);
+      setError('Error adding room. Please try again later.');
     }
   };
 
+  // Handle room deletion
   const handleRemoveRoom = async (id) => {
     try {
-      setLoading(true);
       await axios.delete(`http://localhost:5000/room/${id}`);
       const updatedRooms = rooms.filter(room => room._id !== id);
-      setRooms(updatedRooms); // Update rooms state
-      setFilteredRooms(updatedRooms); // Update filtered rooms
+      setRooms(updatedRooms);
+
+      // Update localStorage after deleting a room
+      localStorage.setItem('rooms', JSON.stringify(updatedRooms));
       alert('Room deleted successfully!');
     } catch (error) {
       console.error('Error deleting room:', error);
-      alert('Error deleting room.');
-    } finally {
-      setLoading(false);
+      setError('Error deleting room. Please try again later.');
     }
   };
 
   return (
     <div style={styles.container}>
+      {error && <div style={styles.errorMessage}>{error}</div>}
+
       {/* Add Room Form */}
       <div style={styles.formContainer}>
         <h2 style={styles.heading}>Add Room</h2>
@@ -158,8 +163,11 @@ const RoomAdd = () => {
             style={styles.inputField}
           />
 
-          <button type="submit" disabled={loading} style={styles.addButton}>
-            {loading ? 'Adding...' : 'Add Room'}
+          <button
+            type="submit"
+            style={styles.addButton}
+          >
+            Add Room
           </button>
         </form>
       </div>
@@ -167,19 +175,8 @@ const RoomAdd = () => {
       {/* Room Details Table */}
       <div style={styles.tableContainer}>
         <h2 style={styles.heading}>Room Details</h2>
-        <div style={styles.searchContainer}>
-          <input
-            type="text"
-            placeholder="Search by Room Name"
-            value={searchTerm}
-            onChange={handleSearch}
-            style={styles.searchInput}
-          />
-        </div>
-        {loading ? (
-          <p>Loading...</p>
-        ) : filteredRooms.length === 0 ? (
-          <p>No rooms added yet.</p>
+        {rooms.length === 0 ? (
+          <p>No rooms found.</p>
         ) : (
           <table style={styles.table}>
             <thead>
@@ -193,7 +190,7 @@ const RoomAdd = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredRooms.map((room) => (
+              {rooms.map((room) => (
                 <tr key={room._id} style={styles.tableRow}>
                   <td style={styles.tableCell}>{room.RoomName}</td>
                   <td style={styles.tableCell}>{room.PersonName}</td>
@@ -203,7 +200,6 @@ const RoomAdd = () => {
                   <td style={styles.tableCell}>
                     <button
                       onClick={() => handleRemoveRoom(room._id)}
-                      disabled={loading}
                       style={styles.removeButton}
                     >
                       Remove
@@ -219,7 +215,7 @@ const RoomAdd = () => {
   );
 };
 
-// Creative CSS Styles
+// Styles
 const styles = {
   container: {
     display: 'flex',
@@ -270,7 +266,6 @@ const styles = {
     border: '2px solid #ccc',
     borderRadius: '5px',
     fontSize: '14px',
-    transition: 'border-color 0.3s ease-in-out',
   },
   textArea: {
     padding: '10px',
@@ -279,7 +274,6 @@ const styles = {
     fontSize: '14px',
     minHeight: '80px',
     resize: 'vertical',
-    transition: 'border-color 0.3s ease-in-out',
   },
   addButton: {
     backgroundColor: '#007bff',
@@ -290,23 +284,6 @@ const styles = {
     cursor: 'pointer',
     fontSize: '16px',
     fontWeight: 'bold',
-    transition: 'background-color 0.3s ease',
-  },
-  addButtonHover: {
-    backgroundColor: '#0056b3',
-  },
-  searchContainer: {
-    marginBottom: '20px',
-  },
-  searchInput: {
-    padding: '12px',
-    width: '100%',
-    border: '1px solid #ccc',
-    borderRadius: '8px',
-    fontSize: '16px',
-    outline: 'none',
-    transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
   },
   table: {
     width: '100%',
@@ -324,10 +301,6 @@ const styles = {
   },
   tableRow: {
     borderBottom: '1px solid #ddd',
-    transition: 'background-color 0.3s ease',
-  },
-  tableRowHover: {
-    backgroundColor: '#f1f1f1',
   },
   tableCell: {
     padding: '12px',
@@ -342,10 +315,13 @@ const styles = {
     cursor: 'pointer',
     fontSize: '14px',
     fontWeight: 'bold',
-    transition: 'background-color 0.3s ease',
   },
-  removeButtonHover: {
-    backgroundColor: '#c82333',
+  errorMessage: {
+    color: 'red',
+    marginBottom: '20px',
+    textAlign: 'center',
+    fontSize: '16px',
+    fontWeight: 'bold',
   },
 };
 
