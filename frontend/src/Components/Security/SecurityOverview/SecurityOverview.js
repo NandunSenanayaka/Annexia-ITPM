@@ -89,7 +89,7 @@ function SecurityOverview() {
             <table className="details-table">
               <thead>
                 <tr>
-                  <th>Notice ID</th>
+                  <th>Notice No</th>
                   <th>Title</th>
                   <th>Date</th>
                   <th>Time</th>
