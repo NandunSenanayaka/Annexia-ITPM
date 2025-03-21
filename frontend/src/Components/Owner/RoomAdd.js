@@ -1,106 +1,114 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const RoomAdd = () => {
   const location = useLocation();
-  const renter = location.state?.renter || {};    
+  const renter = location.state?.renter || {};
 
-  // State for room data and error handling
   const [roomData, setRoomData] = useState({
     RoomName: '',
     PersonName: renter.RenterName || '',
     Description: '',
     Price: '',
-    EmailAddress: renter.Mail || ''
+    EmailAddress: renter.Mail || '',
   });
 
-  const [rooms, setRooms] = useState(() => {
-    // Load saved rooms from localStorage initially
-    const savedRooms = localStorage.getItem('rooms');
-    return savedRooms ? JSON.parse(savedRooms) : [];
-  });
+  const [rooms, setRooms] = useState([]);
   const [error, setError] = useState(null);
+  const [errors, setErrors] = useState({});
 
-  // Fetch rooms from backend
-  const fetchRooms = useCallback(async () => {
+  const validateField = (name, value) => {
+    let errorMsg = '';
+
+    switch (name) {
+      case 'RoomName':
+        if (!/^[a-zA-Z0-9 ]+$/.test(value))
+          errorMsg = `Invalid Room Name: "${value}". Only letters and numbers allowed.`;
+        break;
+
+      case 'Description':
+        if (!/^[a-zA-Z0-9,. ]+$/.test(value))
+          errorMsg = `Invalid Description: "${value}". Only letters, numbers, commas, and periods allowed.`;
+        break;
+
+      case 'Price':
+        if (!/^\d+(\.\d{1,2})?$/.test(value))
+          errorMsg = `Invalid Price: "${value}". Enter a valid numeric value.`;
+        break;
+
+      default:
+        break;
+    }
+
+    setErrors((prev) => ({ ...prev, [name]: errorMsg }));
+  };
+
+  const fetchRooms = async () => {
     try {
       const response = await axios.get('http://localhost:5000/room');
       if (Array.isArray(response.data)) {
-        const filteredRooms = response.data.filter(room => 
-          room.EmailAddress === renter.Mail
-        );
-        setRooms(filteredRooms);
-
-        // Save rooms to localStorage for persistence
-        localStorage.setItem('rooms', JSON.stringify(filteredRooms));
+        setRooms(response.data);
       } else {
         setRooms([]);
-        localStorage.removeItem('rooms'); // Clear localStorage if no data
       }
       setError(null);
     } catch (error) {
-      console.error('Error fetching rooms:', error);
       setError('Failed to fetch rooms. Please try again later.');
       setRooms([]);
     }
-  }, [renter.Mail]);
-
-  // Fetch rooms when the component mounts
-  useEffect(() => {
-    fetchRooms();
-  }, [fetchRooms]);
-
-  // Handle input changes for the form
-  const handleInputChange = (e) => {
-    setRoomData({
-      ...roomData,
-      [e.target.name]: e.target.value
-    });
   };
 
-  // Handle form submission to add a room
+  useEffect(() => {
+    fetchRooms();
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setRoomData((prev) => ({ ...prev, [name]: value }));
+    validateField(name, value);
+  };
+
   const handleAddRoom = async (e) => {
     e.preventDefault();
+
+    for (const field in errors) {
+      if (errors[field]) {
+        alert('Please fix validation errors before submitting.');
+        return;
+      }
+    }
+
     if (!roomData.RoomName || !roomData.Description || !roomData.Price) {
       alert('Please fill out all required fields.');
       return;
     }
+
     try {
       const addResponse = await axios.post('http://localhost:5000/room', roomData);
       if (addResponse.data) {
-        const updatedRooms = [...rooms, addResponse.data];
-        setRooms(updatedRooms);
-
-        // Update localStorage after adding a room
-        localStorage.setItem('rooms', JSON.stringify(updatedRooms));
         alert('Room added successfully!');
         setRoomData({
           RoomName: '',
           PersonName: renter.RenterName || '',
           Description: '',
           Price: '',
-          EmailAddress: renter.Mail || ''
+          EmailAddress: renter.Mail || '',
         });
+        setErrors({});
+        fetchRooms(); // Refresh data from backend
       }
     } catch (error) {
-      console.error('Error adding room:', error);
       setError('Error adding room. Please try again later.');
     }
   };
 
-  // Handle room deletion
   const handleRemoveRoom = async (id) => {
     try {
       await axios.delete(`http://localhost:5000/room/${id}`);
-      const updatedRooms = rooms.filter(room => room._id !== id);
-      setRooms(updatedRooms);
-
-      // Update localStorage after deleting a room
-      localStorage.setItem('rooms', JSON.stringify(updatedRooms));
       alert('Room deleted successfully!');
+      fetchRooms(); // Refresh after deletion
     } catch (error) {
-      console.error('Error deleting room:', error);
       setError('Error deleting room. Please try again later.');
     }
   };
@@ -109,7 +117,6 @@ const RoomAdd = () => {
     <div style={styles.container}>
       {error && <div style={styles.errorMessage}>{error}</div>}
 
-      {/* Add Room Form */}
       <div style={styles.formContainer}>
         <h2 style={styles.heading}>Add Room</h2>
         <form onSubmit={handleAddRoom} style={styles.formBox}>
@@ -119,10 +126,11 @@ const RoomAdd = () => {
             name="RoomName"
             value={roomData.RoomName}
             onChange={handleInputChange}
-            required
             placeholder="Room Name"
+            required
             style={styles.inputField}
           />
+          {errors.RoomName && <span style={styles.error}>{errors.RoomName}</span>}
 
           <label style={styles.label}>Person Name:</label>
           <input
@@ -147,10 +155,11 @@ const RoomAdd = () => {
             name="Description"
             value={roomData.Description}
             onChange={handleInputChange}
-            required
             placeholder="Description"
+            required
             style={styles.textArea}
           />
+          {errors.Description && <span style={styles.error}>{errors.Description}</span>}
 
           <label style={styles.label}>Price:</label>
           <input
@@ -158,21 +167,18 @@ const RoomAdd = () => {
             name="Price"
             value={roomData.Price}
             onChange={handleInputChange}
-            required
             placeholder="Price"
+            required
             style={styles.inputField}
           />
+          {errors.Price && <span style={styles.error}>{errors.Price}</span>}
 
-          <button
-            type="submit"
-            style={styles.addButton}
-          >
+          <button type="submit" style={styles.addButton}>
             Add Room
           </button>
         </form>
       </div>
 
-      {/* Room Details Table */}
       <div style={styles.tableContainer}>
         <h2 style={styles.heading}>Room Details</h2>
         {rooms.length === 0 ? (
@@ -215,7 +221,6 @@ const RoomAdd = () => {
   );
 };
 
-// Styles
 const styles = {
   container: {
     display: 'flex',
@@ -315,6 +320,12 @@ const styles = {
     cursor: 'pointer',
     fontSize: '14px',
     fontWeight: 'bold',
+  },
+  error: {
+    color: 'red',
+    fontSize: '14px',
+    marginTop: '-10px',
+    marginBottom: '10px',
   },
   errorMessage: {
     color: 'red',
