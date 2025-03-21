@@ -34,7 +34,7 @@ const PaymentSchema = new Schema({
 
     Remark:{
         type: String, //data type
-        required: true, //validate
+        required: false, //validate
     }
 
 
