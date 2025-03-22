@@ -1,14 +1,198 @@
-.securitydashboard-container {
+.securityoverview-container {
     display: flex;
   }
   
-  .securitydashboard-content {
+  .securityoverview-content {
     flex: 1;
     padding: 20px;
     background-color: #fff;
     margin: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: -200px;
+
+
   }
   
   
+
+
+
+.securityoverview-content h1{
+  margin-top: -15px;
+}
+
+.securityoverview-content {
+  flex: 1;
+  padding: 30px;
+  background-color: #fff;
+  margin: 20px;
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1); /* Soft shadow for modern feel */
+  transition: all 0.3s ease;
+}
+
+.securityoverview-content:hover {
+  transform: translateY(-5px); /* Subtle hover effect for the container */
+}
+
+/* Table Styling */
+.details-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Roboto', sans-serif;
+  margin-top: -19px;
+  margin-left: -19px;
+  margin-bottom: -19px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden; /* For rounded corners */
+}
+
+/* Table Header Styling */
+.details-table thead {
+  background: linear-gradient(145deg, #28a745, #218838); /* Gradient green background */
+  color: #fff;
+}
+
+.details-table th {
+  padding: 14px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+/* Table Row Styling */
+.details-table tbody tr {
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Even and Odd Rows Styling */
+.details-table tbody tr:nth-child(even) {
+  background-color: #f7fdf7; /* Very light green for even rows */
+}
+
+.details-table tbody tr:nth-child(odd) {
+  background-color: #ffffff; /* White for odd rows */
+}
+
+/* Hover Effects for Table Rows */
+.details-table tbody tr:hover {
+  background-color: #e1f7e1; /* Soft green hover effect */
+  transform: translateY(-2px); /* Slight lift effect */
+}
+
+.details-table td {
+  padding: 12px;
+  text-align: left;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Button Styling */
+.download-button1 {
+  background: linear-gradient(145deg, #28a745, #218838); /* Green gradient */
+  color: white;
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for the button */
+}
+
+button:hover {
+  background: linear-gradient(145deg, #218838, #28a745); /* Inverted gradient on hover */
+  transform: translateY(-2px); /* Lift effect on hover */
+}
+
+button:focus {
+  outline: none;
+}
+
+button:active {
+  transform: translateY(2px); /* Button presses down on click */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .securityoverview-content {
+      padding: 15px;
+  }
+
+  .details-table th, .details-table td {
+      font-size: 12px;
+      padding: 10px;
+  }
+}
+
+
+
+
+
+/* Add this CSS to enable scrolling for the table body */
+.table-container {
+  max-height: 400px;  /* Adjust height as needed */
+  overflow-y: auto;
+  display: block; /* Make it a block-level element so it scrolls */
+  width: 100%;
+}
+
+/* Keep the table header fixed */
+.details-table thead {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(145deg, #28a745, #218838); /* Gradient background for the header */
+  z-index: 1; /* Ensures header stays above the body */
+}
+
+/* Table styling and other styles for the table, button, etc. */
+
+
+/* Styling for table header and body */
+.details-table th, .details-table td {
+  padding: 14px;
+  text-align: left;
+}
+
+.details-table thead {
+  background: linear-gradient(145deg, #28a745, #218838);
+  color: #fff;
+}
+
+.details-table tbody tr:nth-child(even) {
+  background-color: #f7fdf7;
+}
+
+.details-table tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.details-table tbody tr:hover {
+  background-color: #e1f7e1;
+}
+
+.details-table td {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Button styling */
+.download-button1 {
+  background: linear-gradient(145deg, #28a745, #218838);
+  color: white;
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.download-button1:hover {
+  background: linear-gradient(145deg, #218838, #28a745);
+}
+

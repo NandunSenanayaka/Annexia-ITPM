@@ -14,9 +14,9 @@ import { Link } from "react-router-dom";
 
 function SecurityOverview() {
   return (
-    <div className="container">
+    <div className="container2">
       <aside className="sidebar">
-        <h2 className="logo">ANNEXIA</h2>
+        <h2 className="logo1">ANNEXIA</h2>
         <nav>
           <ul>
             <Link to="/securityoverview"style={{ textDecoration: "none", color: "inherit" }}>

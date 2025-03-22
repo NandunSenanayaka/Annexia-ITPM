@@ -4,16 +4,119 @@
   
   .add-security-content {
     flex: 1;
-    padding: 20px;
+    padding: 50px;
     background-color: #fff;
     margin: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
   }
   
-  .add-security-content h1 {
+  /* .add-security-content h1 {
     font-size: 24px;
     font-weight: 600;
+    margin-bottom: -20px;
+
+  }
+   */
+
+
+
+
+.add-security-content h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 0px;
+    color: #333;
+    text-align: center;
+    margin-top: -40px;
+
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: -40px;
+    margin-top: -11px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
     margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+
+
+
+.react-datepicker-wrapper,
+.react-time-picker {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.react-datepicker__input-container input,
+.react-time-picker__inputGroup {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+.react-datepicker__input-container input:focus,
+.react-time-picker__inputGroup:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+
+/* Add in AddSecurity.css */
+.description-input-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .mic-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    color: #007bff;
   }
   

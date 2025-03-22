@@ -2,65 +2,120 @@ import React, { useEffect, useState } from 'react';
 import './SecurityOverview.css';
 import SecurityDashboard from '../SecurityDashboard/SecurityDashboard';
 import axios from 'axios';
-import { Link } from 'react-router-dom';  // Ensure Link is imported
-import { FaHome, FaPlus, FaFileAlt } from 'react-icons/fa';  // Assuming these are imported
-
-import AddSecurity from '../SecurityDetails/SecurityDetails'; // Adjust the path according to your folder structure
-
-
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { useNavigate } from 'react-router-dom';
+import SecurityDetails from '../SecurityDetails/SecurityDetails'; // Correct import
 
 function SecurityOverview() {
-  const [security, setSecurity] = useState([]);  // State to hold security data
-
+  const [security, setSecurity] = useState([]);
   const URL = 'http://localhost:5000/security';
 
   const fetchHandler = async () => {
-    return await axios.get(URL).then((res) => res.data);
+    try {
+      const res = await axios.get(URL);
+      setSecurity(res.data.security || []);
+    } catch (error) {
+      console.error("Error fetching security data:", error);
+    }
   };
 
   useEffect(() => {
-    fetchHandler().then((data) => {
-      console.log('Fetched data:', data);  // Log the fetched data
-      setSecurity(data.security);  // Update state with security data
-    });
+    fetchHandler();
   }, []);
 
+  // Format the current date and time
+  const getFormattedDateTime = () => {
+    const now = new Date();
+    const date = now.toLocaleDateString(); 
+    const time = now.toLocaleTimeString();
+    return `${date} ${time}`;
+  };
+
+  // Generate PDF
+  const generatePDF = () => {
+    const doc = new jsPDF();
+
+    // Add title
+    doc.setFontSize(18);
+    doc.text('Security Overview', 10, 10);
+
+    // Add current date and time in the header
+    doc.setFontSize(10);
+    doc.text('Generated on: ' + getFormattedDateTime(), 10, 20);
+
+    // Define columns for the table
+    const columns = [
+      { header: 'ID', dataKey: 'id' },
+      { header: 'Notice ID', dataKey: 'noticeId' },
+      { header: 'Title', dataKey: 'title' },
+      { header: 'Date', dataKey: 'date' },
+      { header: 'Time', dataKey: 'time' },
+      { header: 'Status', dataKey: 'status' },
+      { header: 'Description', dataKey: 'description' },
+    ];
+
+    // Map security data to rows
+    const rows = security.map(item => ({
+      id: item.id,
+      noticeId: item.noticeId,
+      title: item.title,
+      date: item.date,
+      time: item.time,
+      status: item.status,
+      description: item.description,
+    }));
+
+    // Add table to PDF
+    autoTable(doc, {
+      head: [columns.map(col => col.header)],
+      body: rows.map(row => columns.map(col => row[col.dataKey])),
+      startY: 30, // Start the table below the header
+    });
+
+    // Save the PDF
+    doc.save('Security_Overview.pdf');
+  };
+
   return (
-    <div className="container">
-      <aside className="sidebar">
-        <h2 className="logo">ANNEXIA</h2>
-        <nav>
-          <ul>
-            <Link to="/addsecurity" style={{ textDecoration: "none", color: "inherit" }}>
-              <li><FaHome /> Overview</li>
-            </Link>
-
-            <Link to="/addnotice" style={{ textDecoration: "none", color: "inherit" }}>
-              <li><FaPlus /> Add Notice</li>
-            </Link>
-
-            <Link to="/securitynotices" style={{ textDecoration: "none", color: "inherit" }}>
-              <li><FaFileAlt /> Security Notices</li>
-            </Link>
-          </ul>
-        </nav>
-      </aside>
-
-      <div className="securitydashboard-container">
+    <div className="securityoverview-container">
+      {/* <div className="securityoverview-container"> */}
         <SecurityDashboard />
-        <div className="securitydashboard-content">
-          <h1>Overview</h1>
-          <div>
-            {security && security.map((securityItem, i) => (
-              <div key={i}>
-                {/* Passing securityItem to AddSecurity */}
-                <AddSecurity {...securityItem} />
-              </div>
-            ))}
+
+        <div className="securityoverview-content">
+          <h1>Security Overview</h1>
+          
+          <div className="table-container">
+            <table className="details-table">
+              <thead>
+                <tr>
+                  <th>Notice No</th>
+                  <th>Title</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Status</th>
+                  <th>Description</th>
+                  <th>Actions</th> 
+                </tr>
+              </thead>
+              <tbody>
+                {security.length > 0 ? (
+                  security.map((securityItem, i) => (
+                    <SecurityDetails key={i} {...securityItem} />
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="7">No security data available to print.</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
+          <br />
+          <button className="download-button1" onClick={generatePDF}>Download Report</button>
         </div>
       </div>
-    </div>
+    // </div>
   );
 }
 
