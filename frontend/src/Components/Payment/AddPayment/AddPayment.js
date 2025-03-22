@@ -224,10 +224,10 @@ function AddPayment() {
                     {errors.Amount && <span className="error">{errors.Amount}</span>}
                 </div>
 
-                <div className="input-group">
+                {/* <div className="input-group">
                     <label>Remark</label>
                     <input type="text" name="Remark" value={inputs.Remark} onChange={handleChange}  disabled />
-                </div>
+                </div> */}
 
                 <button type="submit" className="submit-btn">Add Payment</button>
             </form>
