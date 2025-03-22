@@ -60,7 +60,7 @@ const CleanerProfile = () => {
   return (
     <div className="cleaner-profile-container">
       <div className="profile-header">
-        <Link to="/cleaners" className="back-button">
+        <Link to="/cleanerlist" className="back-button">
           ← Back to Cleaners
         </Link>
         <h1>Cleaner Profile</h1>

@@ -26,6 +26,7 @@ import AddCleaner from "./Components/Cleaner/addCleaner/AddCleaner";
 import CleanerDash from "./Components/Cleaner/CleanerDashboard/dashboard";
 import CleanerList from "./Components/Cleaner/cleanerList/CleanerList";
 import CleanerProfile from "./Components/Cleaner/profile/CleanerProfile";
+import EditCleaner from './Components/Cleaner/EditCleaner/EtidCleaner';
 
 
 function App() {
@@ -33,7 +34,8 @@ function App() {
     <div>
       <React.Fragment>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          {/*<Route path="/" element={<HomePage />} >*/}
+          <Route path="/" element={<CleanerList />} />
           {/* <Route path="/" element={<PaymentDashboard />} /> */}
           <Route path="/addsecurity" element={<AddSecurity />} />
           <Route path="/securityoverview" element={<SecurityOverview />} />
@@ -53,8 +55,8 @@ function App() {
           <Route path="/cleanerDash" element={<CleanerDash />} />
           <Route path="/addCleaner" element={<AddCleaner />} />
           <Route path="/cleanerlist" element={<CleanerList />} />
-          <Route path="/cleaner/:id" element={<CleanerProfile
-          />} />
+          <Route path="/cleaners/:id" element={<CleanerProfile />} />
+          <Route path="/cleaners/edit/:id" element={<EditCleaner />} />
         </Routes>
       </React.Fragment>
     </div>

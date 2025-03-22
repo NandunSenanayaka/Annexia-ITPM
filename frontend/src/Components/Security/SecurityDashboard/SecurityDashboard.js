@@ -19,8 +19,13 @@ function SecurityOverview() {
         <h2 className="logo1">ANNEXIA</h2>
         <nav>
           <ul>
-            <Link to="/securityoverview"style={{ textDecoration: "none", color: "inherit" }}>
-              <li><FaHome /> Overview</li>
+            <Link
+              to="/securityoverview"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <li>
+                <FaHome /> Overview
+              </li>
             </Link>
 
             <Link
@@ -42,7 +47,7 @@ function SecurityOverview() {
             </Link>
 
             <Link
-              to="/cleaneroverview"
+              to="/cleanerlist"
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <li>
@@ -65,8 +70,6 @@ function SecurityOverview() {
           <FaSignOutAlt /> Logout
         </button>
       </aside>
-
-      
     </div>
   );
 }

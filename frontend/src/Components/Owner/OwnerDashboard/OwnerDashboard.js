@@ -42,7 +42,7 @@ function SecurityOverview() {
             </Link>
 
             <Link
-              to="/cleaneroverview"
+              to="/cleanerlist"
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <li>
