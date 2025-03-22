@@ -14,16 +14,15 @@ const RenterManager = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [error, setError] = useState(null);
 
-    // Fetch renters from the backend
     useEffect(() => {
         fetchRenters();
-    }, [location.state?.refresh]); // Re-fetch on state change
+    }, [location.state?.refresh]);
 
     const fetchRenters = async () => {
         try {
             const response = await axios.get(URL);
-            setRenters(response.data.renters); // Ensure correct data format
-            setFilteredRenters(response.data.renters); // Initialize filtered renters
+            setRenters(response.data.renters);
+            setFilteredRenters(response.data.renters);
             setError(null);
         } catch (error) {
             console.error('Error fetching renters:', error);
@@ -31,7 +30,6 @@ const RenterManager = () => {
         }
     };
 
-    // Handle search input change
     const handleSearch = (e) => {
         const term = e.target.value;
         setSearchTerm(term);
@@ -42,7 +40,6 @@ const RenterManager = () => {
         setFilteredRenters(filtered);
     };
 
-    // Handle delete
     const handleDelete = async (id) => {
         try {
             await axios.delete(`${URL}/${id}`);
@@ -53,20 +50,15 @@ const RenterManager = () => {
         }
     };
 
-    // Handle update
     const handleUpdate = (id) => {
         navigate(`/RenterUpdate/${id}`);
     };
 
-    // Generate PDF
     const generatePDF = () => {
         const doc = new jsPDF();
-
-        // Add title
         doc.setFontSize(18);
         doc.text('Renter Details', 10, 10);
 
-        // Define columns for the table
         const columns = [
             { header: 'Renter Name', dataKey: 'RenterName' },
             { header: 'NIC Number', dataKey: 'NicNumber' },
@@ -77,7 +69,6 @@ const RenterManager = () => {
             { header: 'Contact Number', dataKey: 'ContactNumber' },
         ];
 
-        // Map filtered renters to rows
         const rows = filteredRenters.map(renter => [
             renter.RenterName,
             renter.NicNumber,
@@ -88,17 +79,15 @@ const RenterManager = () => {
             renter.ContactNumber,
         ]);
 
-        // Add table to PDF
         autoTable(doc, {
             head: [columns.map(col => col.header)],
             body: rows,
             startY: 20,
         });
 
-        // Save the PDF
         doc.save('Renter_Details.pdf');
     };
-    // Navigate to RoomAvailable page
+
     const handleManageRooms = () => {
         navigate('/RoomAvilable', { state: { renters } });
     };
@@ -153,7 +142,7 @@ const RenterManager = () => {
                                 <td style={styles.tableCell}>{renter.Mail}</td>
                                 <td style={styles.tableCell}>{renter.description}</td>
                                 <td style={styles.tableCell}>{renter.ContactNumber}</td>
-                                <td style={styles.tableCell}>
+                                <td style={{ ...styles.tableCell, ...styles.buttonRow }}>
                                     <button onClick={() => handleUpdate(renter._id)} style={styles.editButton}>Edit</button>
                                     <button onClick={() => handleDelete(renter._id)} style={styles.deleteButton}>Delete</button>
                                 </td>
@@ -166,7 +155,6 @@ const RenterManager = () => {
     );
 };
 
-// Styles (same as before)
 const styles = {
     container: {
         padding: '20px',
@@ -218,9 +206,6 @@ const styles = {
     searchContainer: {
         marginBottom: '20px',
     },
-    searchContainer: {
-        marginBottom: '20px',
-    },
     searchInput: {
         padding: '12px',
         width: '100%',
@@ -230,10 +215,6 @@ const styles = {
         outline: 'none',
         transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-    },
-    searchInputFocus: {
-        borderColor: '#007bff',
-        boxShadow: '0 0 8px rgba(0, 123, 255, 0.3)',
     },
     tableFrame: {
         border: '2px solid #007bff',
@@ -260,6 +241,12 @@ const styles = {
         padding: '12px',
         border: '1px solid #ddd',
         fontSize: '14px',
+        verticalAlign: 'top',
+    },
+    buttonRow: {
+        display: 'flex',
+        flexDirection: 'row',
+        gap: '10px',
     },
     editButton: {
         padding: '8px 16px',
@@ -267,10 +254,8 @@ const styles = {
         color: '#000',
         border: 'none',
         borderRadius: '6px',
-        marginRight: '5px',
         cursor: 'pointer',
         transition: 'background-color 0.3s ease, transform 0.2s ease',
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     },
     deleteButton: {
         padding: '8px 16px',
@@ -280,7 +265,6 @@ const styles = {
         borderRadius: '6px',
         cursor: 'pointer',
         transition: 'background-color 0.3s ease, transform 0.2s ease',
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     },
     errorMessage: {
         color: 'red',
@@ -288,10 +272,6 @@ const styles = {
         textAlign: 'center',
         fontSize: '16px',
         fontWeight: 'bold',
-    },
-    hoverEffect: {
-        transform: 'translateY(-2px)',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
     },
 };
 
