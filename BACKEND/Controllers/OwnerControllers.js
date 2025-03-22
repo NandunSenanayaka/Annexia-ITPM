@@ -1,60 +1,121 @@
-const renter_service = require("../services/renter");
+const Renter = require("../Model/RenterModel");
 
-class OwnerController {
+//data display 
+const getAllRenter = async (req, res, next) => {
+    let renters; // Change variable name to avoid confusion
 
-    async createrenter(req, res) {
-        try {
-            const renter = await renter_service.createrenter(req.body);
-            res.status(201).json(renter);
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
+    try {
+        renters = await Renter.find(); // Use lowercase 'renter'
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Internal Server Error" });
     }
 
-    async getAllrenters(req, res) {
-        try {
-            const renters = await renter_service.getAllrenters();
-            res.status(200).json(renters);
-        } catch (error) {
-            res.status(500).json({ message: error.message });
-        }
+
+      // not found renter
+      if(!renters){
+        return res.status(404).json({message :"Renter not found"});
+
     }
 
-    async getrenterById(req, res) {
-        try {
-            const renter = await renter_service.getrenterByID(req.params.id);
-            if (!renter) {
-                return res.status(404).json({ message: "Renter Not Found" });
-            }
-            res.status(200).json(renter);
-        } catch (error) {
-            res.status(500).json({ message: error.message });
-        }
+    // Return all renter
+    return res.status(200).json({ renters });
+};
+
+//add renter details (renter)
+const addRenters = async (req, res, next) => {
+    const { RenterName, NicNumber, Age, Date, Mail, description, Address, ContactNumber } = req.body;
+
+    console.log("Received data:", { RenterName, NicNumber, Age, Date, Mail, description, Address, ContactNumber });
+
+    let renter;
+
+    try {
+        renter = new Renter({ RenterName, NicNumber, Age, Date, Mail, description, Address, ContactNumber });
+        await renter.save();
+    } catch (err) {
+        console.log("Error adding renter:", err);
+        return res.status(500).json({ message: "Error adding renter", error: err.message });
     }
 
-    async updaterenter(req, res) {
-        try {
-            const renter = await renter_service.updaterenter(req.params.id, req.body);
-            if (!renter) {
-                return res.status(404).json({ message: "Renter Not Found" });
-            }
-            res.status(200).json(renter);
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
+    // If renter not added
+    if (!renter) {
+        return res.status(400).json({ message: "Unable to add renter" });
     }
 
-    async deleterenter(req, res) {
-        try {
-            const renter = await renter_service.deleterenter(req.params.id);
-            if (!renter) {
-                return res.status(404).json({ message: "Renter Not Found" });
-            }
-            res.status(200).json({ message: "Renter deleted successfully" });
-        } catch (error) {
-            res.status(500).json({ message: error.message });
-        }
+    return res.status(200).json({ renter });
+};
+
+//Get by ID
+const getById = async (req,res,next)=>{
+
+    const id=req.params.id;
+
+    let renter;
+
+    try{
+        renter= await Renter.findById(id);
+
+    }catch(err){
+        console.log(err);
     }
+
+    //  not available renter
+    if (!renter) {
+        return res.status(400).json({ message: "Renter not found" });
+    }
+
+    return res.status(200).json({ renter });
+
+
 }
 
-module.exports = new OwnerController();
+//update renter
+
+const UpdateRenter = async (req, res, next) => {
+    const id = req.params.id;
+    const { RenterName, NicNumber, Age, Date, Mail, description, Address,ContactNumber } = req.body;
+
+    let renter;
+
+    try {
+        renter = await Renter.findByIdAndUpdate(
+            id,
+            { RenterName, NicNumber, Age, Date, Mail, description, Address,ContactNumber },
+            { new: true } // This ensures the updated document is returned
+        );
+
+        if (!renter) {
+            return res.status(404).json({ message: "Renter not found" });
+        }
+
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Error updating Renter" });
+    }
+
+    return res.status(200).json({ renter });
+};
+
+
+//delete Renter
+const deleteRenter = async(req,res,next)=>{
+    const id= req.params.id;
+
+    let renter;
+
+    try{
+        renter = await Renter.findByIdAndDelete(id)
+    }catch (err){
+        console.log(err);
+    }
+    if (!renter) {
+        return res.status(400).json({ message: "unable to delete" });
+    }
+
+    return res.status(200).json({ renter });
+}
+
+// Export properly
+module.exports = { getAllRenter ,addRenters,getById,UpdateRenter,deleteRenter};
+

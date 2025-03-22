@@ -1,60 +1,111 @@
-const room_service = require("../services/roommanager");
+const Room = require("../Model/RoomModel");
 
-class RoomController {
+//data display 
+const getAllRoom = async (req, res, next) => {
+    let rooms; // Change variable name to avoid confusion
 
-    async createroom(req, res) {
-        try {
-            const room = await room_service.createroom(req.body);
-            res.status(201).json(room);
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
+    try {
+        rooms = await Room.find(); // Use lowercase 'room'
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Internal Server Error" });
     }
 
-    async getAllrooms(req, res) {
-        try {
-            const rooms = await room_service.getAllrooms();
-            res.status(200).json(rooms);
-        } catch (error) {
-            res.status(500).json({ message: error.message });
-        }
+
+      // not found Room
+      if(!rooms){
+        return res.status(404).json({message :"Room not found"});
+
     }
 
-    async getroomById(req, res) {
-        try {
-            const room = await room_service.getroomByID(req.params.id);
-            if (!room) {
-                return res.status(404).json({ message: "room Not Found" });
-            }
-            res.status(200).json(room);
-        } catch (error) {
-            res.status(500).json({ message: error.message });
-        }
+    // Return all rooms
+    return res.status(200).json({ rooms });
+};
+
+//add room details (room)
+const addRooms = async (req, res, next) => {
+    const { RoomName, PersonName, Description, Price, EmailAddress } = req.body;
+  
+    try {
+      const room = new Room({ RoomName, PersonName, Description, Price, EmailAddress });
+      await room.save();
+      return res.status(201).json(room);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: "Error adding room" });
+    }
+};
+
+//Get by ID
+const getById = async (req,res,next)=>{
+
+    const id=req.params.id;
+
+    let room;
+
+    try{
+        room= await Room.findById(id);
+
+    }catch(err){
+        console.log(err);
     }
 
-    async updateroom(req, res) {
-        try {
-            const room = await room_service.updateroom(req.params.id, req.body);
-            if (!room) {
-                return res.status(404).json({ message: "room Not Found" });
-            }
-            res.status(200).json(room);
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
+    //  not available room
+    if (!room) {
+        return res.status(400).json({ message: "room not found" });
     }
 
-    async deleteroom(req, res) {
-        try {
-            const room = await room_service.deleteroom(req.params.id);
-            if (!room) {
-                return res.status(404).json({ message: "room Not Found" });
-            }
-            res.status(200).json({ message: "room deleted successfully" });
-        } catch (error) {
-            res.status(500).json({ message: error.message });
-        }
-    }
+    return res.status(200).json({ room });
+
+
 }
 
-module.exports = new RoomController();
+//update payment
+
+const UpdateRoom = async (req, res, next) => {
+    const id = req.params.id;
+    const {RoomName, PersonName, Description, Price, EmailAddress  } = req.body;
+
+    let room;
+
+    try {
+        room = await Room.findByIdAndUpdate(
+            id,
+            { RoomName, PersonName, Description, Price, EmailAddress  },
+            { new: true } // This ensures the updated document is returned
+        );
+
+        if (!room) {
+            return res.status(404).json({ message: "Room not found" });
+        }
+
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Error updating room" });
+    }
+
+    return res.status(200).json({ room });
+};
+
+
+//delete room
+const deleteRoom = async(req,res,next)=>{
+    const id= req.params.id;
+
+    let room;
+
+    try{
+        room = await Room.findByIdAndDelete(id)
+    }catch (err){
+        console.log(err);
+    }
+    if (!room) {
+        return res.status(400).json({ message: "unable to delete" });
+    }
+
+    return res.status(200).json({ room });
+}
+
+// Export properly
+module.exports = { getAllRoom ,addRooms,getById,UpdateRoom,deleteRoom};
+
