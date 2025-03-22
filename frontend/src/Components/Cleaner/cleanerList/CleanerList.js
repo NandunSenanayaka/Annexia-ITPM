@@ -10,7 +10,11 @@ import {
   FaEnvelope,
   FaSignOutAlt,
   FaUserCircle,
+  FaFilePdf,
+  FaDownload
 } from "react-icons/fa";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const CleanerList = () => {
   const [cleaners, setCleaners] = useState([]);
@@ -59,6 +63,54 @@ const CleanerList = () => {
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "short", day: "numeric" };
     return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+  // PDF Export function - Fixed version
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+    
+    // Add title
+    doc.setFontSize(18);
+    doc.text("Cleaners List", 14, 22);
+    doc.setFontSize(12);
+    doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
+    
+    // Define table columns
+    const tableColumn = ["Name", "Email", "Phone", "Status", "Rating", "Created On"];
+    
+    // Define table rows
+    const tableRows = filteredCleaners.map((cleaner) => [
+      cleaner.name,
+      cleaner.email,
+      cleaner.phone,
+      cleaner.isAvailable ? "Available" : "Unavailable",
+      (cleaner.rating || 0).toFixed(1),
+      formatDate(cleaner.createdAt),
+    ]);
+    
+    // Generate the PDF table using the imported autoTable function
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      startY: 40,
+      styles: {
+        fontSize: 10,
+        cellPadding: 3,
+        overflow: 'linebreak',
+        halign: 'left',
+      },
+      headStyles: {
+        fillColor: [66, 135, 245],
+        textColor: 255,
+        fontStyle: 'bold',
+      },
+      alternateRowStyles: {
+        fillColor: [240, 240, 240],
+      },
+    });
+    
+    // Save the PDF
+    doc.save(`cleaners-list-${new Date().toISOString().split('T')[0]}.pdf`);
   };
 
   // Rating display component
@@ -165,6 +217,9 @@ const CleanerList = () => {
                   className="search-input"
                 />
               </div>
+              <button onClick={downloadPDF} className="pdf-button">
+                <FaFilePdf /> Export to PDF
+              </button>
               <Link to="/addCleaner" className="add-button">
                 Add New Cleaner
               </Link>

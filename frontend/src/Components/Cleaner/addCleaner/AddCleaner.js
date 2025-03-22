@@ -19,9 +19,16 @@ const AddCleaner = () => {
     // Input validation
    
 
-    if (name === "phone" && !/^[0-9+\- ]*$/.test(value)) {
-      return; // Allow only numbers and some special characters for phone
+    // Validation for name (only letters and spaces)
+    if (name === "name" && !/^[A-Za-z ]*$/.test(value)) {
+      return;
     }
+
+    // Validation for phone number (only digits and 10 characters)
+    if (name === "phone" && !/^\d{0,10}$/.test(value)) {
+      return;
+    }
+
 
     
 
