@@ -4,7 +4,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const env = require("dotenv");
 env.config();
-const port = process.env.PORT || 3002;
+const port = process.env.PORT || ;
 
 const securityRouter = require("./Routes/SecurityRoutes");
 const paymentRouter = require("./Routes/PaymentRoutes");
