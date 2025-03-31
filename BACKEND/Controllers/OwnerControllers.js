@@ -6,7 +6,7 @@ const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: "lruchira58@gmail.com",
-      pass: "Ruchira@2002",
+      pass: "ajty wjvb ewjh umng",
     },
   });
   
@@ -19,7 +19,20 @@ const transporter = nodemailer.createTransport({
       from: "lruchira58@gmail.com",
       to: renter.Mail,
       subject: "Welcome to Room Management System",
-      text: `Hello ${renter.RenterName},\n\nWelcome! Your account has been created.\nUsername: user\nPassword: root\n\nThank you!`,
+      text: `Hello ${renter.RenterName},
+      We are delighted to welcome you to the Room Management System.
+
+Your account has been successfully created. You can now log in using the following credentials:
+
+Username: user  
+Password: root
+
+We kindly encourage you to change your password upon first login to ensure your account's security.
+
+If you have any questions or need assistance, feel free to contact our support team.
+
+Warm regards,  
+Room Management Team`
     };
   
     transporter.sendMail(mailOptions, (err, info) => {
@@ -37,7 +50,21 @@ const transporter = nodemailer.createTransport({
       from: "lruchira58@gmail.com",
       to: renter.Mail,
       subject: "Monthly Rent Payment Notification",
-      text: `Hello ${renter.RenterName},\n\nThis is a reminder that your monthly rent is LKR 40,000.\nPlease ensure timely payment.\n\nThank you!`,
+      text: `Hello ${renter.RenterName},
+      This is a gentle reminder regarding your monthly rent payment.
+
+Rent Amount: LKR 40,000  
+Due Date: [Please insert due date if applicable]
+
+We kindly request you to make the payment at your earliest convenience.  
+If you have already made the payment, please disregard this message.
+
+For any queries, feel free to get in touch with us.
+
+Thank you for being a valued renter.
+
+Best regards,  
+Room Management Team`
     };
   
     transporter.sendMail(mailOptions, (err, info) => {
