@@ -54,33 +54,51 @@ const RenterManager = () => {
         navigate(`/RenterUpdate/${id}`);
     };
 
+    const handleRegisterEmail = async (id) => {
+        try {
+            await axios.post(`${URL}/notify-register/${id}`);
+            alert("Registration email sent!");
+        } catch (error) {
+            alert("Failed to send registration email.");
+        }
+    };
+
+    const handlePaymentEmail = async (id) => {
+        try {
+            await axios.post(`${URL}/notify-payment/${id}`);
+            alert("Payment email sent!");
+        } catch (error) {
+            alert("Failed to send payment email.");
+        }
+    };
+
     const generatePDF = () => {
         const doc = new jsPDF();
         doc.setFontSize(18);
         doc.text('Renter Details', 10, 10);
 
         const columns = [
-            { header: 'Renter Name', dataKey: 'RenterName' },
-            { header: 'NIC Number', dataKey: 'NicNumber' },
-            { header: 'Age', dataKey: 'Age' },
-            { header: 'Date', dataKey: 'Date' },
-            { header: 'Mail', dataKey: 'Mail' },
-            { header: 'Description', dataKey: 'description' },
-            { header: 'Contact Number', dataKey: 'ContactNumber' },
+            'Renter Name',
+            'NIC Number',
+            'Age',
+            'Date',
+            'Mail',
+            'Description',
+            'Contact Number'
         ];
 
         const rows = filteredRenters.map(renter => [
             renter.RenterName,
             renter.NicNumber,
             renter.Age,
-            renter.Date,
+            new Date(renter.Date).toLocaleDateString('en-CA'),
             renter.Mail,
             renter.description,
             renter.ContactNumber,
         ]);
 
         autoTable(doc, {
-            head: [columns.map(col => col.header)],
+            head: [columns],
             body: rows,
             startY: 20,
         });
@@ -138,13 +156,15 @@ const RenterManager = () => {
                                 <td style={styles.tableCell}>{renter.RenterName}</td>
                                 <td style={styles.tableCell}>{renter.NicNumber}</td>
                                 <td style={styles.tableCell}>{renter.Age}</td>
-                                <td style={styles.tableCell}>{renter.Date}</td>
+                                <td style={styles.tableCell}>{new Date(renter.Date).toLocaleDateString('en-CA')}</td>
                                 <td style={styles.tableCell}>{renter.Mail}</td>
                                 <td style={styles.tableCell}>{renter.description}</td>
                                 <td style={styles.tableCell}>{renter.ContactNumber}</td>
                                 <td style={{ ...styles.tableCell, ...styles.buttonRow }}>
                                     <button onClick={() => handleUpdate(renter._id)} style={styles.editButton}>Edit</button>
                                     <button onClick={() => handleDelete(renter._id)} style={styles.deleteButton}>Delete</button>
+                                    <button onClick={() => handleRegisterEmail(renter._id)} style={styles.registerButton}>Notify Register</button>
+                                    <button onClick={() => handlePaymentEmail(renter._id)} style={styles.paymentButton}>Notify Payment</button>
                                 </td>
                             </tr>
                         ))}
@@ -178,8 +198,6 @@ const styles = {
         borderRadius: '8px',
         fontSize: '16px',
         cursor: 'pointer',
-        transition: 'background-color 0.3s ease, transform 0.2s ease',
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     },
     pdfButton: {
         padding: '10px 20px',
@@ -189,8 +207,6 @@ const styles = {
         borderRadius: '8px',
         fontSize: '16px',
         cursor: 'pointer',
-        transition: 'background-color 0.3s ease, transform 0.2s ease',
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     },
     manageRoomsButton: {
         padding: '10px 20px',
@@ -200,8 +216,6 @@ const styles = {
         borderRadius: '8px',
         fontSize: '16px',
         cursor: 'pointer',
-        transition: 'background-color 0.3s ease, transform 0.2s ease',
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     },
     searchContainer: {
         marginBottom: '20px',
@@ -212,16 +226,12 @@ const styles = {
         border: '1px solid #ccc',
         borderRadius: '8px',
         fontSize: '16px',
-        outline: 'none',
-        transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     },
     tableFrame: {
         border: '2px solid #007bff',
         borderRadius: '12px',
         padding: '10px',
         backgroundColor: '#fff',
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
     },
     table: {
         width: '100%',
@@ -245,26 +255,40 @@ const styles = {
     },
     buttonRow: {
         display: 'flex',
-        flexDirection: 'row',
-        gap: '10px',
+        flexDirection: 'column',
+        gap: '8px',
     },
     editButton: {
-        padding: '8px 16px',
+        padding: '6px 12px',
         backgroundColor: '#ffc107',
         color: '#000',
         border: 'none',
         borderRadius: '6px',
         cursor: 'pointer',
-        transition: 'background-color 0.3s ease, transform 0.2s ease',
     },
     deleteButton: {
-        padding: '8px 16px',
+        padding: '6px 12px',
         backgroundColor: '#dc3545',
         color: '#fff',
         border: 'none',
         borderRadius: '6px',
         cursor: 'pointer',
-        transition: 'background-color 0.3s ease, transform 0.2s ease',
+    },
+    registerButton: {
+        padding: '6px 12px',
+        backgroundColor: '#17a2b8',
+        color: '#fff',
+        border: 'none',
+        borderRadius: '6px',
+        cursor: 'pointer',
+    },
+    paymentButton: {
+        padding: '6px 12px',
+        backgroundColor: '#28a745',
+        color: '#fff',
+        border: 'none',
+        borderRadius: '6px',
+        cursor: 'pointer',
     },
     errorMessage: {
         color: 'red',

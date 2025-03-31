@@ -1,5 +1,50 @@
 const Renter = require("../Model/RenterModel");
+const nodemailer = require("nodemailer");
 
+// reusable email sender
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "lruchira58@gmail.com",
+      pass: "Ruchira@2002",
+    },
+  });
+  
+  // Send Welcome Email
+  const sendRegisterEmail = async (req, res) => {
+    const renter = await Renter.findById(req.params.id);
+    if (!renter) return res.status(404).json({ message: "Renter not found" });
+  
+    const mailOptions = {
+      from: "lruchira58@gmail.com",
+      to: renter.Mail,
+      subject: "Welcome to Room Management System",
+      text: `Hello ${renter.RenterName},\n\nWelcome! Your account has been created.\nUsername: user\nPassword: root\n\nThank you!`,
+    };
+  
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) return res.status(500).json({ message: "Email not sent", error: err });
+      res.status(200).json({ message: "Registration email sent", info });
+    });
+  };
+  
+  // Send Payment Email
+  const sendPaymentEmail = async (req, res) => {
+    const renter = await Renter.findById(req.params.id);
+    if (!renter) return res.status(404).json({ message: "Renter not found" });
+  
+    const mailOptions = {
+      from: "lruchira58@gmail.com",
+      to: renter.Mail,
+      subject: "Monthly Rent Payment Notification",
+      text: `Hello ${renter.RenterName},\n\nThis is a reminder that your monthly rent is LKR 40,000.\nPlease ensure timely payment.\n\nThank you!`,
+    };
+  
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) return res.status(500).json({ message: "Email not sent", error: err });
+      res.status(200).json({ message: "Payment email sent", info });
+    });
+  };
 //data display 
 const getAllRenter = async (req, res, next) => {
     let renters; // Change variable name to avoid confusion
@@ -117,5 +162,5 @@ const deleteRenter = async(req,res,next)=>{
 }
 
 // Export properly
-module.exports = { getAllRenter ,addRenters,getById,UpdateRenter,deleteRenter};
+module.exports = { getAllRenter ,addRenters,getById,UpdateRenter,deleteRenter,sendRegisterEmail,sendPaymentEmail};
 

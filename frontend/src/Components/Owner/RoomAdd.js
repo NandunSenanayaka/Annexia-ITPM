@@ -20,41 +20,33 @@ const RoomAdd = () => {
 
   const validateField = (name, value) => {
     let errorMsg = '';
-
     switch (name) {
       case 'RoomName':
-        if (!/^[a-zA-Z0-9 ]+$/.test(value))
-          errorMsg = `Invalid Room Name: "${value}". Only letters and numbers allowed.`;
+        if (!/^[a-zA-Z0-9 ]+$/.test(value)) errorMsg = 'Invalid Room Name';
         break;
-
       case 'Description':
-        if (!/^[a-zA-Z0-9,. ]+$/.test(value))
-          errorMsg = `Invalid Description: "${value}". Only letters, numbers, commas, and periods allowed.`;
+        if (!/^[a-zA-Z0-9,. ]+$/.test(value)) errorMsg = 'Invalid Description';
         break;
-
       case 'Price':
-        if (!/^\d+(\.\d{1,2})?$/.test(value))
-          errorMsg = `Invalid Price: "${value}". Enter a valid numeric value.`;
+        if (!/^\d+(\.\d{1,2})?$/.test(value)) errorMsg = 'Invalid Price';
         break;
-
       default:
         break;
     }
-
     setErrors((prev) => ({ ...prev, [name]: errorMsg }));
   };
 
   const fetchRooms = async () => {
     try {
       const response = await axios.get('http://localhost:5000/room');
-      if (Array.isArray(response.data)) {
-        setRooms(response.data);
+      if (Array.isArray(response.data.rooms)) {
+        setRooms(response.data.rooms);
       } else {
         setRooms([]);
       }
       setError(null);
     } catch (error) {
-      setError('Failed to fetch rooms. Please try again later.');
+      setError('Failed to fetch rooms.');
       setRooms([]);
     }
   };
@@ -71,16 +63,15 @@ const RoomAdd = () => {
 
   const handleAddRoom = async (e) => {
     e.preventDefault();
-
     for (const field in errors) {
       if (errors[field]) {
-        alert('Please fix validation errors before submitting.');
+        alert('Fix validation errors.');
         return;
       }
     }
 
     if (!roomData.RoomName || !roomData.Description || !roomData.Price) {
-      alert('Please fill out all required fields.');
+      alert('Please fill all required fields.');
       return;
     }
 
@@ -96,10 +87,10 @@ const RoomAdd = () => {
           EmailAddress: renter.Mail || '',
         });
         setErrors({});
-        fetchRooms(); // Refresh data from backend
+        fetchRooms();
       }
     } catch (error) {
-      setError('Error adding room. Please try again later.');
+      setError('Error adding room.');
     }
   };
 
@@ -107,9 +98,9 @@ const RoomAdd = () => {
     try {
       await axios.delete(`http://localhost:5000/room/${id}`);
       alert('Room deleted successfully!');
-      fetchRooms(); // Refresh after deletion
+      fetchRooms();
     } catch (error) {
-      setError('Error deleting room. Please try again later.');
+      setError('Error deleting room.');
     }
   };
 
@@ -202,7 +193,7 @@ const RoomAdd = () => {
                   <td style={styles.tableCell}>{room.PersonName}</td>
                   <td style={styles.tableCell}>{room.EmailAddress}</td>
                   <td style={styles.tableCell}>{room.Description}</td>
-                  <td style={styles.tableCell}>{room.Price}</td>
+                  <td style={styles.tableCell}>Rs. {room.Price}</td>
                   <td style={styles.tableCell}>
                     <button
                       onClick={() => handleRemoveRoom(room._id)}
