@@ -177,7 +177,7 @@
   }
   
   /* Additional styling */
-  .hero-section, .contact-info, .message-section, footer {
+  .hero-section, .contact-info, .message-section {
     opacity: 0; /* Initially hidden */
   }
   
