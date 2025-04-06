@@ -33,7 +33,6 @@ const RenterManager = () => {
     const handleSearch = (e) => {
         const term = e.target.value;
         setSearchTerm(term);
-
         const filtered = renters.filter(renter =>
             renter.RenterName.toLowerCase().includes(term.toLowerCase())
         );
@@ -54,37 +53,44 @@ const RenterManager = () => {
         navigate(`/RenterUpdate/${id}`);
     };
 
+    const handleRegisterEmail = async (id) => {
+        try {
+            await axios.post(`${URL}/notify-register/${id}`);
+            alert("Registration email sent!");
+        } catch (error) {
+            alert("Failed to send registration email.");
+        }
+    };
+
+    const handlePaymentEmail = async (id) => {
+        try {
+            await axios.post(`${URL}/notify-payment/${id}`);
+            alert("Payment email sent!");
+        } catch (error) {
+            alert("Failed to send payment email.");
+        }
+    };
+
     const generatePDF = () => {
         const doc = new jsPDF();
         doc.setFontSize(18);
         doc.text('Renter Details', 10, 10);
 
         const columns = [
-            { header: 'Renter Name', dataKey: 'RenterName' },
-            { header: 'NIC Number', dataKey: 'NicNumber' },
-            { header: 'Age', dataKey: 'Age' },
-            { header: 'Date', dataKey: 'Date' },
-            { header: 'Mail', dataKey: 'Mail' },
-            { header: 'Description', dataKey: 'description' },
-            { header: 'Contact Number', dataKey: 'ContactNumber' },
+            'Renter Name', 'NIC Number', 'Age', 'Date', 'Mail', 'Description', 'Contact Number'
         ];
 
         const rows = filteredRenters.map(renter => [
             renter.RenterName,
             renter.NicNumber,
             renter.Age,
-            renter.Date,
+            new Date(renter.Date).toLocaleDateString('en-CA'),
             renter.Mail,
             renter.description,
             renter.ContactNumber,
         ]);
 
-        autoTable(doc, {
-            head: [columns.map(col => col.header)],
-            body: rows,
-            startY: 20,
-        });
-
+        autoTable(doc, { head: [columns], body: rows, startY: 20 });
         doc.save('Renter_Details.pdf');
     };
 
@@ -94,62 +100,60 @@ const RenterManager = () => {
 
     return (
         <div style={styles.container}>
-            {error && <div style={styles.errorMessage}>{error}</div>}
+            <div style={styles.innerCard}>
+                {error && <div style={styles.errorMessage}>{error}</div>}
 
-            <div style={styles.buttonContainer}>
-                <button onClick={() => navigate('/RenterAdd')} style={styles.addButton}>
-                    Add Renter
-                </button>
-                <button onClick={generatePDF} style={styles.pdfButton}>
-                    Generate PDF
-                </button>
-                <button onClick={handleManageRooms} style={styles.manageRoomsButton}>
-                    Manage Rooms
-                </button>
-            </div>
+                <div style={styles.buttonContainer}>
+                    <button onClick={() => navigate('/RenterAdd')} style={styles.addButton}>Add Renter</button>
+                    <button onClick={generatePDF} style={styles.pdfButton}>Generate PDF</button>
+                    <button onClick={handleManageRooms} style={styles.manageRoomsButton}>Manage Rooms</button>
+                </div>
 
-            <div style={styles.searchContainer}>
-                <input
-                    type="text"
-                    placeholder="Search by Renter Name"
-                    value={searchTerm}
-                    onChange={handleSearch}
-                    style={styles.searchInput}
-                />
-            </div>
+                <div style={styles.searchContainer}>
+                    <input
+                        type="text"
+                        placeholder="Search by Renter Name"
+                        value={searchTerm}
+                        onChange={handleSearch}
+                        style={styles.searchInput}
+                    />
+                </div>
 
-            <div style={styles.tableFrame}>
-                <table style={styles.table}>
-                    <thead>
-                        <tr>
-                            <th style={styles.tableHeader}>Renter Name</th>
-                            <th style={styles.tableHeader}>NIC Number</th>
-                            <th style={styles.tableHeader}>Age</th>
-                            <th style={styles.tableHeader}>Date</th>
-                            <th style={styles.tableHeader}>Mail</th>
-                            <th style={styles.tableHeader}>Description</th>
-                            <th style={styles.tableHeader}>Contact Number</th>
-                            <th style={styles.tableHeader}>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredRenters.map(renter => (
-                            <tr key={renter._id}>
-                                <td style={styles.tableCell}>{renter.RenterName}</td>
-                                <td style={styles.tableCell}>{renter.NicNumber}</td>
-                                <td style={styles.tableCell}>{renter.Age}</td>
-                                <td style={styles.tableCell}>{renter.Date}</td>
-                                <td style={styles.tableCell}>{renter.Mail}</td>
-                                <td style={styles.tableCell}>{renter.description}</td>
-                                <td style={styles.tableCell}>{renter.ContactNumber}</td>
-                                <td style={{ ...styles.tableCell, ...styles.buttonRow }}>
-                                    <button onClick={() => handleUpdate(renter._id)} style={styles.editButton}>Edit</button>
-                                    <button onClick={() => handleDelete(renter._id)} style={styles.deleteButton}>Delete</button>
-                                </td>
+                <div style={styles.tableFrame}>
+                    <table style={styles.table}>
+                        <thead>
+                            <tr>
+                                <th style={styles.tableHeader}>Renter Name</th>
+                                <th style={styles.tableHeader}>NIC Number</th>
+                                <th style={styles.tableHeader}>Age</th>
+                                <th style={styles.tableHeader}>Date</th>
+                                <th style={styles.tableHeader}>Mail</th>
+                                <th style={styles.tableHeader}>Description</th>
+                                <th style={styles.tableHeader}>Contact Number</th>
+                                <th style={styles.tableHeader}>Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {filteredRenters.map(renter => (
+                                <tr key={renter._id}>
+                                    <td style={styles.tableCell}>{renter.RenterName}</td>
+                                    <td style={styles.tableCell}>{renter.NicNumber}</td>
+                                    <td style={styles.tableCell}>{renter.Age}</td>
+                                    <td style={styles.tableCell}>{new Date(renter.Date).toLocaleDateString('en-CA')}</td>
+                                    <td style={styles.tableCell}>{renter.Mail}</td>
+                                    <td style={styles.tableCell}>{renter.description}</td>
+                                    <td style={styles.tableCell}>{renter.ContactNumber}</td>
+                                    <td style={{ ...styles.tableCell, ...styles.buttonRow }}>
+                                        <button onClick={() => handleUpdate(renter._id)} style={styles.editButton}>Edit</button>
+                                        <button onClick={() => handleDelete(renter._id)} style={styles.deleteButton}>Delete</button>
+                                        <button onClick={() => handleRegisterEmail(renter._id)} style={styles.registerButton}>Notify Register</button>
+                                        <button onClick={() => handlePaymentEmail(renter._id)} style={styles.paymentButton}>Notify Payment</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );
@@ -157,18 +161,33 @@ const RenterManager = () => {
 
 const styles = {
     container: {
-        padding: '20px',
-        backgroundColor: '#f9f9f9',
-        maxWidth: '1200px',
-        margin: 'auto',
-        borderRadius: '12px',
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+        width: '100vw',
+        height: '100vh',
+        backgroundImage: 'url("/amy.jpg")',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        overflowY: 'auto',
         fontFamily: 'Arial, sans-serif',
+    },
+    innerCard: {
+        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+        borderRadius: '12px',
+        padding: '30px',
+        maxWidth: '1300px',
+        width: '100%',
+        margin: '40px',
+        boxShadow: '0 6px 20px rgba(0, 0, 0, 0.2)',
     },
     buttonContainer: {
         display: 'flex',
         justifyContent: 'space-between',
         marginBottom: '20px',
+        flexWrap: 'wrap',
+        gap: '10px',
     },
     addButton: {
         padding: '10px 20px',
@@ -178,8 +197,6 @@ const styles = {
         borderRadius: '8px',
         fontSize: '16px',
         cursor: 'pointer',
-        transition: 'background-color 0.3s ease, transform 0.2s ease',
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     },
     pdfButton: {
         padding: '10px 20px',
@@ -189,8 +206,6 @@ const styles = {
         borderRadius: '8px',
         fontSize: '16px',
         cursor: 'pointer',
-        transition: 'background-color 0.3s ease, transform 0.2s ease',
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     },
     manageRoomsButton: {
         padding: '10px 20px',
@@ -200,8 +215,6 @@ const styles = {
         borderRadius: '8px',
         fontSize: '16px',
         cursor: 'pointer',
-        transition: 'background-color 0.3s ease, transform 0.2s ease',
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     },
     searchContainer: {
         marginBottom: '20px',
@@ -212,16 +225,17 @@ const styles = {
         border: '1px solid #ccc',
         borderRadius: '8px',
         fontSize: '16px',
-        outline: 'none',
-        transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     },
     tableFrame: {
-        border: '2px solid #007bff',
+        border: '2px solidrgb(0, 217, 255)',
         borderRadius: '12px',
         padding: '10px',
-        backgroundColor: '#fff',
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+        backgroundImage: 'url("caro.jpg")', // ⚠️ Place this image in /public folder
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        backdropFilter: 'blur(4px)',
     },
     table: {
         width: '100%',
@@ -232,7 +246,7 @@ const styles = {
         backgroundColor: '#007bff',
         color: '#fff',
         padding: '12px',
-        textAlign: 'left',
+        textAlign: 'center',
         border: '1px solid #ddd',
         fontSize: '16px',
         fontWeight: 'bold',
@@ -241,30 +255,46 @@ const styles = {
         padding: '12px',
         border: '1px solid #ddd',
         fontSize: '14px',
-        verticalAlign: 'top',
+        textAlign: 'center',
     },
     buttonRow: {
         display: 'flex',
         flexDirection: 'row',
-        gap: '10px',
+        gap: '6px',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
     },
     editButton: {
-        padding: '8px 16px',
+        padding: '6px 12px',
         backgroundColor: '#ffc107',
         color: '#000',
         border: 'none',
         borderRadius: '6px',
         cursor: 'pointer',
-        transition: 'background-color 0.3s ease, transform 0.2s ease',
     },
     deleteButton: {
-        padding: '8px 16px',
+        padding: '6px 12px',
         backgroundColor: '#dc3545',
         color: '#fff',
         border: 'none',
         borderRadius: '6px',
         cursor: 'pointer',
-        transition: 'background-color 0.3s ease, transform 0.2s ease',
+    },
+    registerButton: {
+        padding: '6px 12px',
+        backgroundColor: '#17a2b8',
+        color: '#fff',
+        border: 'none',
+        borderRadius: '6px',
+        cursor: 'pointer',
+    },
+    paymentButton: {
+        padding: '6px 12px',
+        backgroundColor: '#28a745',
+        color: '#fff',
+        border: 'none',
+        borderRadius: '6px',
+        cursor: 'pointer',
     },
     errorMessage: {
         color: 'red',

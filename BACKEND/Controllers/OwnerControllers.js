@@ -1,5 +1,77 @@
 const Renter = require("../Model/RenterModel");
+const nodemailer = require("nodemailer");
 
+// reusable email sender
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "lruchira58@gmail.com",
+      pass: "ajty wjvb ewjh umng",
+    },
+  });
+  
+  // Send Welcome Email
+  const sendRegisterEmail = async (req, res) => {
+    const renter = await Renter.findById(req.params.id);
+    if (!renter) return res.status(404).json({ message: "Renter not found" });
+  
+    const mailOptions = {
+      from: "lruchira58@gmail.com",
+      to: renter.Mail,
+      subject: "Welcome to Room Management System",
+      text: `Hello ${renter.RenterName},
+      We are delighted to welcome you to the Room Management System.
+
+Your account has been successfully created. You can now log in using the following credentials:
+
+Username: user  
+Password: root
+
+We kindly encourage you to change your password upon first login to ensure your account's security.
+
+If you have any questions or need assistance, feel free to contact our support team.
+
+Warm regards,  
+Room Management Team`
+    };
+  
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) return res.status(500).json({ message: "Email not sent", error: err });
+      res.status(200).json({ message: "Registration email sent", info });
+    });
+  };
+  
+  // Send Payment Email
+  const sendPaymentEmail = async (req, res) => {
+    const renter = await Renter.findById(req.params.id);
+    if (!renter) return res.status(404).json({ message: "Renter not found" });
+  
+    const mailOptions = {
+      from: "lruchira58@gmail.com",
+      to: renter.Mail,
+      subject: "Monthly Rent Payment Notification",
+      text: `Hello ${renter.RenterName},
+      This is a gentle reminder regarding your monthly rent payment.
+
+Rent Amount: LKR 40,000  
+Due Date: [Please insert due date if applicable]
+
+We kindly request you to make the payment at your earliest convenience.  
+If you have already made the payment, please disregard this message.
+
+For any queries, feel free to get in touch with us.
+
+Thank you for being a valued renter.
+
+Best regards,  
+Room Management Team`
+    };
+  
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) return res.status(500).json({ message: "Email not sent", error: err });
+      res.status(200).json({ message: "Payment email sent", info });
+    });
+  };
 //data display 
 const getAllRenter = async (req, res, next) => {
     let renters; // Change variable name to avoid confusion
@@ -117,5 +189,5 @@ const deleteRenter = async(req,res,next)=>{
 }
 
 // Export properly
-module.exports = { getAllRenter ,addRenters,getById,UpdateRenter,deleteRenter};
+module.exports = { getAllRenter ,addRenters,getById,UpdateRenter,deleteRenter,sendRegisterEmail,sendPaymentEmail};
 

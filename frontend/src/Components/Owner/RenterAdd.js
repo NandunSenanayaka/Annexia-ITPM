@@ -241,6 +241,7 @@ const styles = {
     marginTop: "-10px",
     marginBottom: "10px",
   },
+  
 };
 
 export default RenterAdd;
