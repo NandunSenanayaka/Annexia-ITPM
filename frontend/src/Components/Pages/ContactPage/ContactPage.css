@@ -1,0 +1,188 @@
+/* ContactPage.css */
+
+.contact-page {
+    font-family: sans-serif;
+  }
+
+  
+
+  
+  .hero-image {
+    width: 100%;
+    height: 700px;
+    
+  }
+  
+  .hero-text {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    z-index: 2;
+  }
+  
+  .contact-info {
+
+    transform: translate(-0%, -10%);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background: white;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    margin: -80px auto 40px;
+    padding: 20px;
+    max-width: 1100px;
+    border-radius: 12px;
+    z-index: 3;
+  }
+  
+  .info-card {
+    flex: 1 1 300px;
+    text-align: center;
+    margin: 20px;
+  }
+  
+  .info-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+  
+  .message-section {
+    padding: 60px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .message-section h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .message-section p {
+    color: #666;
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .message-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: space-between;
+  }
+  
+  .map-container {
+    flex: 1 1 400px;
+  }
+  
+  .contact-form {
+    flex: 1 1 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .input-half {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  .input-full {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  .submit-button {
+    background-color: #C7F500;
+    padding: 12px;
+    border: none;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .submit-button:hover {
+    background-color: #b5e400;
+  }
+  
+  .footer {
+    background-color: #004d40;
+    color: white;
+    padding: 40px 20px;
+  }
+  
+  .footer-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: space-between;
+  }
+  
+  .footer-section {
+    flex: 1 1 250px;
+  }
+  
+  .footer-section h3, .footer-section h4 {
+    margin-bottom: 10px;
+  }
+  
+  .footer-section p, .footer-section li {
+    color: #ccc;
+    font-size: 14px;
+  }
+  
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .social-icons {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    font-size: 20px;
+  }
+
+  /* ContactPage.css */
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Apply the fade-in effect */
+  .fade-in {
+    animation: fadeIn 1.5s ease-in-out;
+  }
+  
+  /* Additional styling */
+  .hero-section, .contact-info, .message-section {
+    opacity: 0; /* Initially hidden */
+  }
+  
+  .hero-section.fade-in, .contact-info.fade-in, .message-section.fade-in, footer.fade-in {
+    opacity: 1; /* Make visible after animation */
+  }
+  
+  
