@@ -104,6 +104,7 @@ import React, { useEffect, useState } from 'react';
 import './ContactPage.css';
 import Navbar from '../HomePage/Navbar'; 
 import HeroImage from '../../../Assets/Hero.png'; 
+import Chatbox from '../Chatbox/Chatbox';
 
 const ContactPage = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -201,6 +202,7 @@ const ContactPage = () => {
           </div>
         </div>
       </footer>
+      <Chatbox />
     </div>
   );
 };
