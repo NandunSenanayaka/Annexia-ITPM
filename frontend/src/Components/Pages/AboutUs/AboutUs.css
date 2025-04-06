@@ -1,0 +1,212 @@
+
+  /* Contact Hero Section */
+
+  .aboutus-contact-hero-image {
+    width: 100%;
+    height: 800px;
+    
+    
+    
+    top: 0;
+    left: 0;
+    z-index: 0;
+  }
+  
+  .aboutus-contact-hero-text {
+    z-index: 1;
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  }
+  
+  /* Vision and Mission Section */
+  .aboutus-vision-hero {
+    padding: 90px 10%;
+    background-color: #cac7c79b;
+    backdrop-filter: blur(5px);
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -0%);
+    color: rgb(0, 0, 0);
+    z-index: 2;
+    border-radius: 20px;
+  }
+  
+
+ 
+  
+  .aboutus-vision-text h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .aboutus-vision-text span {
+    color: #000000;
+  }
+  
+  .aboutus-vision-mission {
+    display: flex;
+    gap: 40px;
+    margin-top: 20px;
+    
+  }
+  
+  .aboutus-vision-block,
+  .aboutus-mission-block {
+    flex: 1;
+  }
+  
+  .aboutus-vision-block h4,
+  .aboutus-mission-block h4 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .aboutus-vision-image img {
+    width: 400px;
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+/* Agents Section */
+.aboutus-agents-section {
+    text-align: center;
+    padding: 60px 10%;
+    background-color: #f4f3f3; /* Dark background */
+
+  }
+  
+  .aboutus-section-title {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: rgb(0, 0, 0); /* Title color for contrast */
+  }
+  
+  .aboutus-agents-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+  }
+  
+  .aboutus-agent-card {
+    width: 200px;
+    text-align: center;
+    background-color: #fff; /* White background for the agent box */
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Box shadow for the agent card */
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+  }
+  
+  .aboutus-agent-card:hover {
+    transform: translateY(-10px); /* Slight lift effect */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* More intense shadow on hover */
+  }
+  
+  .aboutus-agent-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px; /* Space between image and text */
+  }
+  
+  .aboutus-agent-card h4 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    color: #333; /* Dark text color for name */
+  }
+  
+  .aboutus-agent-card p {
+    font-size: 1rem;
+    color: #555; /* Lighter text color for role */
+  }
+  
+  
+  /* Testimonials Section */
+  .aboutus-testimonial-section {
+    background-color: #f5f5f5;
+    padding: 60px 10%;
+    text-align: center;
+  }
+  
+  .aboutus-subheading {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 40px;
+  }
+  
+  .aboutus-testimonials-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .aboutus-testimonial-card {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    text-align: left;
+
+    
+  }
+  
+  .aboutus-user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .aboutus-user-info img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .aboutus-user-info h4 {
+    margin: 0;
+  }
+  
+  .aboutus-user-info span {
+    color: gold;
+  }
+  
+  .aboutus-stars {
+    color: #f5c518;
+    font-size: 1.1rem;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .aboutus-agents-wrapper,
+    .aboutus-testimonials-wrapper {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .aboutus-agent-card {
+      width: 90%;
+    }
+  
+    .aboutus-testimonial-card {
+      width: 100%;
+    }
+  
+    .aboutus-vision-hero {
+      flex-direction: column;
+      padding: 30px 5%;
+    }
+  
+    .aboutus-vision-image img {
+      width: 100%;
+      margin-top: 20px;
+    }
+  }
+  
