@@ -128,6 +128,15 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     padding: '20px',
+    backgroundImage: 'url("/caro.jpg")',
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    minHeight: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    fontFamily: "Arial, sans-serif"
   },
   statusBoxes: {
     display: 'flex',

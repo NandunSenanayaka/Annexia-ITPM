@@ -19,7 +19,8 @@ router.post("/", OwnerControllers.addRenters);
 router.get("/:id", OwnerControllers.getById); 
 router.put("/:id", OwnerControllers.UpdateRenter); 
 router.delete("/:id", OwnerControllers.deleteRenter); 
-
+router.post("/notify-register/:id", OwnerControllers.sendRegisterEmail);
+router.post("/notify-payment/:id", OwnerControllers.sendPaymentEmail);
 
 module.exports = router;  
 
