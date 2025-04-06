@@ -24,12 +24,24 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/register", formData);
-      console.log("Form data submitted:", formData);
-      alert("Registration successful!"); 
-      navigate("/"); // Redirect after successful registration
+      // Register the user
+      const response = await axios.post("http://localhost:5000/register", formData);
+      
+      if (response.data.status === "ok") {
+        // Send welcome email
+        await axios.post("http://localhost:5000/send-welcome-email", {
+          name: formData.name,
+          email: formData.email,
+          username: formData.email, // Using email as username
+          password: "user123" // Default password
+        });
+        
+        alert("Registration successful! Please check your email for login credentials.");
+        navigate("/login"); // Navigate to login page
+      }
     } catch (error) {
       console.error("Error during registration:", error);
+      alert("Registration failed. Please try again.");
     }
   };
 
