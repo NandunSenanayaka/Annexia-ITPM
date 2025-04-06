@@ -25,6 +25,7 @@ import UpdatePayment from './Components/Payment/UpdatePayment/UpdatePayment';
 
 import Register from './Components/Register/Register';
 import Login from './Components/Login/Login'
+import ContactPage from './Components/Pages/ContactPage/ContactPage';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
 
           <Route path="/" element={<HomePage />} />
           {/* <Route path="/" element={<PaymentDashboard />} /> */}
+          <Route path="/contact" element={<ContactPage />} />
 
           <Route path="/addsecurity" element={<AddSecurity />} />
           <Route path="/securityoverview" element={<SecurityOverview />} />
