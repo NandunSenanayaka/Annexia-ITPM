@@ -28,6 +28,8 @@ import Login from './Components/Login/Login'
 import ContactPage from './Components/Pages/ContactPage/ContactPage';
 import AboutUs from './Components/Pages/AboutUs/AboutUs';
 
+import RenterDashboard from './Components/RenterDashBoard/RenterDashboard';
+
 function App() {
   return (
     <div >
@@ -60,6 +62,8 @@ function App() {
 
           <Route path="/register" element={<Register/>} />
           <Route path="/login" element={<Login/>} />
+
+          <Route path="/renterdashboard" element={<RenterDashboard />} />
 
 
   
