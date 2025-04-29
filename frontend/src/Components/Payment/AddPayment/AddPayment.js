@@ -1,95 +1,3 @@
-// import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import axios from 'axios';
-// import './AddPayment.css';
-
-// function AddPayment() {
-//     const navigate = useNavigate();
-//     const [inputs, setInputs] = useState({
-//         RenterName: "",
-//         CardName: "",
-//         CardNo: "",
-//         ExpiryDate: "",
-//         CVV: "",
-//         Amount: "",
-//         Remark: "",
-//     });
-
-//     const handleChange = (e) => {
-//         setInputs((prevState) => ({
-//             ...prevState,
-//             [e.target.name]: e.target.value
-//         }));
-//     };
-
-    
-
-//     const handleSubmit = async (e) => {
-//         e.preventDefault();
-//         console.log(inputs);
-//         await sendRequest();
-//         navigate('/PaymentDetails'); 
-//     };
-
-//     const sendRequest = async () => {
-//         return await axios.post('http://localhost:5000/payments', {
-//             RenterName: String(inputs.RenterName),
-//             CardName: String(inputs.CardName),
-//             CardNo: Number(inputs.CardNo),
-//             ExpiryDate: String(inputs.ExpiryDate),
-//             CVV: Number(inputs.CVV),
-//             Amount: Number(inputs.Amount),
-//             Remark: String(inputs.Remark),
-//         }).then((res) => res.data);
-//     };
-
-//     return (
-//         <div className="payment-container">
-//             <h2 className="form-title">Add Payment</h2>
-//             <form className="payment-form" onSubmit={handleSubmit}>
-//                 <div className="input-group">
-//                     <label>Renter Name</label>
-//                     <input type="text" name="RenterName" value={inputs.RenterName} onChange={handleChange} required />
-//                 </div>
-
-//                 <div className="input-group">
-//                     <label>Card Name</label>
-//                     <input type="text" name="CardName" value={inputs.CardName} onChange={handleChange} required />
-//                 </div>
-
-//                 <div className="input-group">
-//                     <label>Card Number</label>
-//                     <input type="number" name="CardNo" value={inputs.CardNo} onChange={handleChange} required />
-//                 </div>
-
-//                 <div className="input-group">
-//                     <label>Expiry Date</label>
-//                     <input type="text" name="ExpiryDate" placeholder="MM/YY" value={inputs.ExpiryDate} onChange={handleChange} required />
-//                 </div>
-
-//                 <div className="input-group">
-//                     <label>CVV</label>
-//                     <input type="number" name="CVV" value={inputs.CVV} onChange={handleChange} required />
-//                 </div>
-
-//                 <div className="input-group">
-//                     <label>Amount</label>
-//                     <input type="number" name="Amount" value={inputs.Amount} onChange={handleChange} required />
-//                 </div>
-
-//                 <div className="input-group">
-//                     <label>Remark</label>
-//                     <input type="text" name="Remark" value={inputs.Remark} onChange={handleChange} required />
-//                 </div>
-
-//                 <button type="submit" className="submit-btn">Add Payment</button>
-//             </form>
-//         </div>
-//     );
-// }
-
-// export default AddPayment;
-
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -183,51 +91,104 @@ function AddPayment() {
     };
 
     return (
-        <div >
-            <h2 className="form-title"></h2>
-            <form className="payment-form" onSubmit={handleSubmit}>
-                <h2>Add Payment</h2>
+        // <div >
+        //     <h2 className="form-title"></h2>
+        //     <form className="payment-form" onSubmit={handleSubmit}>
+        //         <h2>Add Payment</h2>
                 
-                <div className="input-group">
-                    <label>Renter Name</label>
-                    <input type="text" name="RenterName" value={inputs.RenterName} onChange={handleChange} required />
-                    {errors.RenterName && <span className="error">{errors.RenterName}</span>}
-                </div>
+        //         <div className="input-group">
+        //             <label>Renter Name</label>
+        //             <input type="text" name="RenterName" value={inputs.RenterName} onChange={handleChange} required />
+        //             {errors.RenterName && <span className="error">{errors.RenterName}</span>}
+        //         </div>
 
-                <div className="input-group">
-                    <label>Card Name</label>
-                    <input type="text" name="CardName" value={inputs.CardName} onChange={handleChange} required />
-                    {errors.CardName && <span className="error">{errors.CardName}</span>}
-                </div>
+        //         <div className="input-group">
+        //             <label>Card Name</label>
+        //             <input type="text" name="CardName" value={inputs.CardName} onChange={handleChange} required />
+        //             {errors.CardName && <span className="error">{errors.CardName}</span>}
+        //         </div>
 
-                <div className="input-group">
-                    <label>Card Number</label>
-                    <input type="text" name="CardNo" value={inputs.CardNo} onChange={handleChange} maxLength="16" required />
-                    {errors.CardNo && <span className="error">{errors.CardNo}</span>}
-                </div>
+        //         <div className="input-group">
+        //             <label>Card Number</label>
+        //             <input type="text" name="CardNo" value={inputs.CardNo} onChange={handleChange} maxLength="16" required />
+        //             {errors.CardNo && <span className="error">{errors.CardNo}</span>}
+        //         </div>
 
-                <div className="input-group">
+        //         <div className="input-group">
+        //             <label>Expiry Date</label>
+        //             <input type="month" name="ExpiryDate" value={inputs.ExpiryDate} onChange={handleChange} required />
+        //             {errors.ExpiryDate && <span className="error">{errors.ExpiryDate}</span>}
+        //         </div>
+
+        //         <div className="input-group">
+        //             <label>CVV</label>
+        //             <input type="text" name="CVV" value={inputs.CVV} onChange={handleChange} maxLength="3" required />
+        //             {errors.CVV && <span className="error">{errors.CVV}</span>}
+        //         </div>
+
+        //         <div className="input-group">
+        //             <label>Amount</label>
+        //             <input type="text" name="Amount" value={inputs.Amount} onChange={handleChange} required />
+        //             {errors.Amount && <span className="error">{errors.Amount}</span>}
+        //         </div>
+        <div className="payment-container">
+        <div className="payment-header">
+            <h2 className="payment-title">Payment</h2>
+            <p className="payment-description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna arcu
+            </p>
+            <div className="payment-icons">
+                <img src="https://img.icons8.com/color/48/visa.png" alt="Visa" />
+                <img src="https://img.icons8.com/color/48/mastercard.png" alt="MasterCard" />
+                <img src="https://img.icons8.com/color/48/amex.png" alt="Amex" />
+                <img src="https://img.icons8.com/ios-filled/50/apple-pay.png" alt="Apple Pay" />
+            </div>
+        </div>
+
+        <form onSubmit={handleSubmit} className="payment-form">
+            <div className="payment-group">
+                <label>Renter Name</label>
+                <input type="text" name="RenterName" value={inputs.RenterName} onChange={handleChange} />
+                {errors.RenterName && <span className="error">{errors.RenterName}</span>}
+            </div>
+
+            <div className="payment-group">
+                <label>Card Name</label>
+                <input type="text" name="CardName" value={inputs.CardName} onChange={handleChange} />
+                {errors.CardName && <span className="error">{errors.CardName}</span>}
+            </div>
+
+            <div className="payment-group">
+                <label>Card Number</label>
+                <input type="text" name="CardNo" value={inputs.CardNo} onChange={handleChange} maxLength="16" />
+                {errors.CardNo && <span className="error">{errors.CardNo}</span>}
+            </div>
+
+            <div className="payment-row">
+                <div className="payment-group">
                     <label>Expiry Date</label>
-                    <input type="month" name="ExpiryDate" value={inputs.ExpiryDate} onChange={handleChange} required />
+                    <input type="month" name="ExpiryDate" value={inputs.ExpiryDate} onChange={handleChange} />
                     {errors.ExpiryDate && <span className="error">{errors.ExpiryDate}</span>}
                 </div>
 
-                <div className="input-group">
+                <div className="payment-group">
                     <label>CVV</label>
-                    <input type="text" name="CVV" value={inputs.CVV} onChange={handleChange} maxLength="3" required />
+                    <input type="text" name="CVV" value={inputs.CVV} onChange={handleChange} maxLength="3" />
                     {errors.CVV && <span className="error">{errors.CVV}</span>}
                 </div>
+            </div>
 
-                <div className="input-group">
-                    <label>Amount</label>
-                    <input type="text" name="Amount" value={inputs.Amount} onChange={handleChange} required />
-                    {errors.Amount && <span className="error">{errors.Amount}</span>}
-                </div>
+            <div className="payment-group">
+                <label>Amount</label>
+                <input type="text" name="Amount" value={inputs.Amount} onChange={handleChange} />
+                {errors.Amount && <span className="error">{errors.Amount}</span>}
+            </div>
 
-                <div className="input-group">
+
+                {/* <div className="input-group">
                     <label>Remark</label>
                     <input type="text" name="Remark" value={inputs.Remark} onChange={handleChange}  disabled />
-                </div>
+                </div> */}
 
                 <button type="submit" className="submit-btn">Add Payment</button>
             </form>

@@ -513,16 +513,34 @@ const HomePage = () => {
       
       <Chatbox />
       
-      {/* Footer Section */}
-      <footer className="footer">
+      {/* Footer */}
+      <footer className={`footer`}>
         <div className="footer-content">
-          <p>&copy; 2025 ANNEXIA. All Rights Reserved.</p>
-          <p>Contact us: support@annexia.com</p>
-          <p>Follow us on:
-            <a href="#"> Facebook</a> | 
-            <a href="#"> Twitter</a> | 
-            <a href="#"> Instagram</a>
-          </p>
+          <div className="footer-section">
+            <h3>ANNEXIA</h3>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+            <div className="social-icons">
+              <i className="fab fa-facebook-f"></i>
+              <i className="fab fa-instagram"></i>
+              <i className="fab fa-pinterest-p"></i>
+            </div>
+          </div>
+          <div className="footer-section">
+            <h4>NAVIGATION</h4>
+            <ul>
+              <li>Home</li>
+              <li>About</li>
+              <li>Contact</li>
+            </ul>
+          </div>
+          <div className="footer-section">
+            <h4>SALES SUPPORT</h4>
+            <p>+(62)21 2002–2012</p>
+            <h4>EMAIL BUSINESS</h4>
+            <p>Annexia@.Com</p>
+          </div>
         </div>
       </footer>
     </div>

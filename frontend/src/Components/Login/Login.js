@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./Login.css";
+import buildingImage from '../../Assets/loginimg.png';
 
 function Login() {
     const navigate = useNavigate();
@@ -24,8 +26,8 @@ const handleSubmit = async (e) => {
         
         if (status === "ok") {
             alert("LOGIN Success");
-            if (role === "renter") navigate('/paymentdetails');
-            else if (role === "owner") navigate('/owner-dashboard');
+            if (role === "renter") navigate('/addpayment');
+            else if (role === "owner") navigate('/RenterManager');
             else if (role === "security") navigate('/securityoverview');
             else if (role === "cleaner manager") navigate('/cleaner-dashboard');
             else alert("Unknown role, please contact admin");
@@ -39,60 +41,67 @@ const handleSubmit = async (e) => {
 
 
     return (
-        <div>
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                {/* Email */}
-                <div className="form-row">
-                    <div className="input-group">
-                        <label>Email</label>
-                        <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleInputChange}
-                            required
-                        />
+      
+            <div className="login-container">
+                <div className="login-box">
+                    <div className="login-left">
+                        <div className="brand-logo">ANNEXIA</div>
+                        <h2 className="login-title">Sign in</h2>
+                        <p className="login-subtext">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna arcu tempor et tellus, lobortis interdum.
+                        </p>
+                        <form onSubmit={handleSubmit} className="login-form">
+                            <div className="form-row">
+                                <input
+                                    type="email"
+                                    name="email"
+                                    placeholder="Username"
+                                    value={formData.email}
+                                    onChange={handleInputChange}
+                                    className="login-input"
+                                    required
+                                />
+                            </div>
+        
+                            <div className="form-row">
+                                <input
+                                    type="password"
+                                    name="password"
+                                    placeholder="Password"
+                                    value={formData.password}
+                                    onChange={handleInputChange}
+                                    className="login-input"
+                                    required
+                                />
+                            </div>
+        
+                            <div className="login-options">
+                                <a href="#" className="forgot-password">Forgot Password</a>
+                                <label className="remember-me">
+                                    <input type="checkbox" /> Remember me
+                                </label>
+                            </div>
+        
+                            <button type="submit" className="login-button a">
+                                Login to Continue
+                            </button>
+        
+                            <p className="signup-link">
+                                Don’t have an account? <a href="/register">Sign up</a>
+                            </p>
+                        </form>
+                    </div>
+        
+                    <div className="login-right">
+                    <img
+                        src={buildingImage}
+                        alt="Building"
+                        className="login-image"
+                    />
                     </div>
                 </div>
-
-                {/* Password */}
-                <div className="form-row">
-                    <div className="input-group">
-                        <label>Password</label>
-                        <input
-                            type="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-                </div>
-
-                {/* Role Selection */}
-                {/* <div className="form-row">
-                    <div className="input-group">
-                        <label>Select Role</label>
-                        <select
-                            name="role"
-                            value={formData.role}
-                            onChange={handleInputChange}
-                        >
-                            <option value="renter">Renter</option>
-                            <option value="owner">Owner</option>
-                            <option value="security">Security</option>
-                            <option value="cleaner manager">Cleaner Manager</option>
-                        </select>
-                    </div>
-                </div> */}
-
-                {/* Submit Button */}
-                <button type="submit" className="register-button">
-                    Login
-                </button>
-            </form>
-        </div>
+            </div>
+       
     );
 }
 

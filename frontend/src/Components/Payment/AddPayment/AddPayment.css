@@ -1,115 +1,92 @@
-/* AddPayment.css */
-.payment-container {
-    width: 420px;
-    margin: 50px auto;
-    background: #fff;
-    padding: 80px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    font-family: 'Arial', sans-serif;
+/* .payment-container {
+    font-family: 'Poppins', sans-serif;
+    background-color: #eefafa;
+    padding: 30px;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 12px;
 }
 
-.form-title {
+.payment-header {
+    background: linear-gradient(to right, #e53935, #fb8c00);
+    padding: 30px 20px;
+    border-radius: 12px 12px 0 0;
     text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #333;
+    color: white;
+}
+
+.payment-title {
+    font-size: 28px;
+    margin: 0;
+}
+
+.payment-description {
+    font-size: 14px;
+    margin: 8px 0 20px;
+}
+
+.payment-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 .payment-form {
+    background-color: #eefafa;
+    padding: 30px 20px;
+    border-radius: 0 0 12px 12px;
+}
+
+.payment-group {
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 
-.input-group {
-    margin-bottom: 15px;
-}
-
-.input-group label {
-    font-size: 14px;
-    font-weight: bold;
+.payment-group label {
+    font-weight: 500;
+    margin-bottom: 6px;
     color: #555;
-    display: block;
-    margin-bottom: 5px;
 }
 
-.input-group input,
-.input-group select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-.input-group select {
-    appearance: none;
-    background: url('https://cdn-icons-png.flaticon.com/512/892/892689.png') no-repeat right;
-    background-size: 20px;
-    padding-right: 30px;
-}
-
-.card-number {
-    position: relative;
-}
-
-.card-icons {
-    position: absolute;
-    right: 10px;
-    top: 35px;
-    display: flex;
-    gap: 5px;
-}
-
-.card-icons img {
-    width: 35px;
-    height: auto;
-}
-
-.card-details {
-    display: flex;
-    justify-content: space-between;
-}
-
-.card-details .input-group {
-    width: 48%;
-}
-
-.input-group input:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-.submit-btn {
-    background: linear-gradient(135deg, #007bff, #0056b3);
-    color: white;
+.payment-group input {
     padding: 12px;
-    font-size: 18px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    font-size: 14px;
 }
 
-.submit-btn:hover {
-    background: linear-gradient(135deg, #0056b3, #003580);
+.payment-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
+.payment-row .payment-group {
+    flex: 1;
+}
 
-
-
-/* Error message styling */
 .error {
     color: red;
-    font-size: 14px;
+    font-size: 12px;
     margin-top: 5px;
 }
 
-/* Disable input field for Remark */
-input[disabled] {
-    background-color: #f0f0f0;
-    cursor: not-allowed;
+.payment-button {
+    width: 100%;
+    padding: 15px;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s ease;
 }
 
+.payment-button:hover {
+    background-color: #333;
+} */
