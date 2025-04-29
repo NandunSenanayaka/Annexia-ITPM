@@ -8,9 +8,8 @@ import {
   FaSignOutAlt,
   FaUserCircle,
 } from "react-icons/fa";
-import "./OwnerDashboard.css";
+import "./CleanerDashboard.css";
 import { Link } from "react-router-dom";
-
 
 function SecurityOverview() {
   return (
@@ -19,8 +18,13 @@ function SecurityOverview() {
         <h2 className="logo">ANNEXIA</h2>
         <nav>
           <ul>
-            <Link to="/securityoverview"style={{ textDecoration: "none", color: "inherit" }}>
-              <li><FaHome /> Overview</li>
+            <Link
+              to="/securityoverview"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <li>
+                <FaHome /> Overview
+              </li>
             </Link>
 
             <Link
@@ -65,8 +69,6 @@ function SecurityOverview() {
           <FaSignOutAlt /> Logout
         </button>
       </aside>
-
-      
     </div>
   );
 }

@@ -2,12 +2,23 @@
 
 const express = require("express");
 const mongoose = require("mongoose");
+
+const env = require("dotenv");
+env.config();
+const port = process.env.PORT || ;
+
+// const securityRouter = require("./Routes/SecurityRoutes");
+// const paymentRouter = require("./Routes/PaymentRoutes");
+const cleanerRouter = require("./Routes/cleaner.route");
+const bookingRouter = require("./Routes/booking.route");
+
 const nodemailer = require("nodemailer");
 
 const securityRouter = require("./Routes/SecurityRoutes");
 const paymentRouter = require("./Routes/PaymentRoutes");
 const RentermangeRouter = require("./Routes/RentermanageRoutes");
 const RoomRouter = require("./Routes/RoomRoutes");
+
 
 const app = express(); 
 const cors = require("cors");
@@ -26,13 +37,23 @@ app.use(cors());
 app.use(express.json());
 app.use("/security", securityRouter);
 app.use("/payments", paymentRouter);
+
+app.use("/cleaner", cleanerRouter);
+app.use("/booking", bookingRouter);
+
+
+
 app.use("/renter", RentermangeRouter);
 app.use("/room", RoomRouter);
+
   
 mongoose.connect("mongodb+srv://admin:dUNFYHZskXiXqAPf@cluster0.jgrs0.mongodb.net/")
 .then(()=> console.log("Connected to mongoDB"))
 .then(()=> {
-    app.listen(5000);
+    app.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
+    }
+    );
 })
 .catch((err)=> console.log((err)));
 
