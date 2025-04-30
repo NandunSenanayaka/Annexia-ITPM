@@ -14,9 +14,15 @@ import { Link } from "react-router-dom";
 
 function SecurityOverview() {
   return (
+<<<<<<< Updated upstream
     <div className="container">
       <aside className="sidebar">
         <h2 className="logo">ANNEXIA</h2>
+=======
+    <div className="container2">
+      <aside className="sidebar2">
+        <h2 className="logo1">ANNEXIA</h2>
+>>>>>>> Stashed changes
         <nav>
           <ul>
             <Link to="/securityoverview"style={{ textDecoration: "none", color: "inherit" }}>
@@ -61,7 +67,7 @@ function SecurityOverview() {
           </ul>
         </nav>
 
-        <button className="logout">
+        <button className="logout2">
           <FaSignOutAlt /> Logout
         </button>
       </aside>
