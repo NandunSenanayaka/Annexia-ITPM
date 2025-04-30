@@ -45,8 +45,8 @@ function App() {
     <div>
       <React.Fragment>
         <Routes>
-          {/*<Route path="/" element={<HomePage />} >*/}
-          <Route path="/" element={<CleanerList />} />
+          <Route path="/" element={<HomePage />} />
+          {/* <Route path="/" element={<CleanerList />} /> */}
           {/* <Route path="/" element={<PaymentDashboard />} /> */}
 
           <Route path="/contact" element={<ContactPage />} />

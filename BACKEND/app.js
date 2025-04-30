@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 
 const env = require("dotenv");
 env.config();
-const port = process.env.PORT || ;
+const port = process.env.PORT || 5000;
 
 // const securityRouter = require("./Routes/SecurityRoutes");
 // const paymentRouter = require("./Routes/PaymentRoutes");
