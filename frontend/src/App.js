@@ -68,7 +68,7 @@ function App() {
           {/* <Route path="/paymentdashboard" element={<PaymentDashboard />} /> */}
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          //-------------------------------------------------
+          
           <Route path="/cleanerDash" element={<CleanerDash />} />
           <Route path="/addCleaner" element={<AddCleaner />} />
           <Route path="/cleanerlist" element={<CleanerList />} />
@@ -92,7 +92,6 @@ function App() {
 
 
   
-
 
         </Routes>
       </React.Fragment>
