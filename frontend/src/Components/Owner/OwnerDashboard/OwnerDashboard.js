@@ -19,16 +19,16 @@ function SecurityOverview() {
         <h2 className="logo">ANNEXIA</h2>
         <nav>
           <ul>
-            <Link to="/securityoverview"style={{ textDecoration: "none", color: "inherit" }}>
+            <Link to="/RenterManager"style={{ textDecoration: "none", color: "inherit" }}>
               <li><FaHome /> Overview</li>
             </Link>
 
             <Link
-              to="/addsecurity"
+              to="/RenterAdd"
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <li>
-                <FaPlus /> Add Notice
+                <FaPlus /> Add Renter
               </li>
             </Link>
 
