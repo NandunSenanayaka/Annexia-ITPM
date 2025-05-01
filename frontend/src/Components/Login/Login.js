@@ -21,7 +21,7 @@ function Login() {
 const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        const response = await axios.post('http://localhost:5000/login', formData); // Update the backend URL
+        const response = await axios.post('http://localhost:3001/login', formData); // Update the backend URL
         const { status, role, err } = response.data;
         
         if (status === "ok") {

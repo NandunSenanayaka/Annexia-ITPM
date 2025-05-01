@@ -69,7 +69,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           //-------------------------------------------------
-          <Route path="/cleanerDash" element={<CleanerDash />} />
+          <Route path="/cleaner-dashboard" element={<CleanerDash />} />
           <Route path="/addCleaner" element={<AddCleaner />} />
           <Route path="/cleanerlist" element={<CleanerList />} />
           <Route path="/cleaners/:id" element={<CleanerProfile />} />

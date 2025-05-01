@@ -26,11 +26,11 @@ function Register() {
     e.preventDefault();
     try {
       // Register the user
-      const response = await axios.post("http://localhost:5000/register", formData);
+      const response = await axios.post("http://localhost:3001/register", formData);
       
       if (response.data.status === "ok") {
         // Send welcome email
-        await axios.post("http://localhost:5000/send-welcome-email", {
+        await axios.post("http://localhost:3001/send-welcome-email", {
           name: formData.name,
           email: formData.email,
           username: formData.email, // Using email as username
