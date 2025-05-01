@@ -31,7 +31,7 @@ const EditCleaner = () => {
   useEffect(() => {
     const fetchCleaner = async () => {
       try {
-        const response = await axios.get(`http://localhost:3002/cleaner/${id}`);
+        const response = await axios.get(`http://localhost:3001/cleaner/${id}`);
         setFormData({
           name: response.data.name || "",
           email: response.data.email || "",
@@ -78,7 +78,7 @@ const EditCleaner = () => {
     e.preventDefault();
     setSubmitLoading(true);
     try {
-      await axios.put(`http://localhost:3002/cleaner/${id}`, formData);
+      await axios.put(`http://localhost:3001/cleaner/${id}`, formData);
       alert("Cleaner updated successfully");
       navigate("/cleanerlist");
     } catch (err) {

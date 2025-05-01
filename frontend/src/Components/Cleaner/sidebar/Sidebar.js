@@ -19,14 +19,11 @@ const Sidebar = () => {
   const location = useLocation();
   const [showCleanerSubmenu, setShowCleanerSubmenu] = useState(false);
 
-  // Check if current path is part of cleaner section
   const isCleanerSection =
-    location.pathname.includes("/cleanerList") ||
-    location.pathname === "/cleanerlist" ||
+    location.pathname.includes("/cleanerlist") ||
     location.pathname === "/bookings" ||
-    location.pathname === "/dashboard";
+    location.pathname === "/cleaner-dashboard";
 
-  // Set cleaner submenu open by default if we're in that section
   useEffect(() => {
     if (isCleanerSection) {
       setShowCleanerSubmenu(true);
@@ -72,11 +69,7 @@ const Sidebar = () => {
             </Link>
           </li>
 
-          <li
-            className={
-              isCleanerSection ? "active submenu-parent" : "submenu-parent"
-            }
-          >
+          <li className={`submenu-parent ${isCleanerSection ? "active" : ""}`}>
             <div className="menu-item" onClick={toggleCleanerSubmenu}>
               <div className="menu-icon-text">
                 <FaBroom />
@@ -85,36 +78,32 @@ const Sidebar = () => {
               {showCleanerSubmenu ? <FaChevronUp /> : <FaChevronDown />}
             </div>
 
-            {showCleanerSubmenu && (
-              <ul className="submenu">
-                <li
-                  className={location.pathname === "/dashboard" ? "active" : ""}
-                >
-                  <Link to="/dashboard">
-                    <FaTachometerAlt />
-                    <span className="menu-text">Dashboard</span>
-                  </Link>
-                </li>
-                <li
-                  className={
-                    location.pathname === "/cleanerlist" ? "active" : ""
-                  }
-                >
-                  <Link to="/cleanerlist">
-                    <FaUsers />
-                    <span className="menu-text">Cleaners</span>
-                  </Link>
-                </li>
-                <li
-                  className={location.pathname === "/bookings" ? "active" : ""}
-                >
-                  <Link to="/bookings">
-                    <FaCalendarAlt />
-                    <span className="menu-text">Bookings</span>
-                  </Link>
-                </li>
-              </ul>
-            )}
+            <ul className={`submenu ${showCleanerSubmenu ? "show" : ""}`}>
+              <li
+                className={
+                  location.pathname === "/cleaner-dashboard" ? "active" : ""
+                }
+              >
+                <Link to="/cleaner-dashboard">
+                  <FaTachometerAlt />
+                  <span className="menu-text">Dashboard</span>
+                </Link>
+              </li>
+              <li
+                className={location.pathname === "/cleanerlist" ? "active" : ""}
+              >
+                <Link to="/cleanerlist">
+                  <FaUsers />
+                  <span className="menu-text">Cleaners</span>
+                </Link>
+              </li>
+              <li className={location.pathname === "/bookings" ? "active" : ""}>
+                <Link to="/bookings">
+                  <FaCalendarAlt />
+                  <span className="menu-text">Bookings</span>
+                </Link>
+              </li>
+            </ul>
           </li>
 
           <li

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./CleanerList.css";
+import Sidebar from "../sidebar/Sidebar";
 import {
   FaBroom,
   FaHome,
@@ -11,12 +12,12 @@ import {
   FaSignOutAlt,
   FaUserCircle,
   FaFilePdf,
-  FaDownload
+  FaDownload,
 } from "react-icons/fa";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-const port = process.env.BEPORT||3001 ;
+const port = process.env.BEPORT || 3001;
 
 const CleanerList = () => {
   const [cleaners, setCleaners] = useState([]);
@@ -27,7 +28,7 @@ const CleanerList = () => {
   useEffect(() => {
     const fetchCleaners = async () => {
       try {
-        const response = await axios.get(   `http://localhost:${port}/cleaner`);
+        const response = await axios.get(`http://localhost:${port}/cleaner`);
         setCleaners(response.data);
         setLoading(false);
       } catch (err) {
@@ -70,16 +71,23 @@ const CleanerList = () => {
   // PDF Export function - Fixed version
   const downloadPDF = () => {
     const doc = new jsPDF();
-    
+
     // Add title
     doc.setFontSize(18);
     doc.text("Cleaners List", 14, 22);
     doc.setFontSize(12);
     doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
-    
+
     // Define table columns
-    const tableColumn = ["Name", "Email", "Phone", "Status", "Rating", "Created On"];
-    
+    const tableColumn = [
+      "Name",
+      "Email",
+      "Phone",
+      "Status",
+      "Rating",
+      "Created On",
+    ];
+
     // Define table rows
     const tableRows = filteredCleaners.map((cleaner) => [
       cleaner.name,
@@ -89,7 +97,7 @@ const CleanerList = () => {
       (cleaner.rating || 0).toFixed(1),
       formatDate(cleaner.createdAt),
     ]);
-    
+
     // Generate the PDF table using the imported autoTable function
     autoTable(doc, {
       head: [tableColumn],
@@ -98,21 +106,21 @@ const CleanerList = () => {
       styles: {
         fontSize: 10,
         cellPadding: 3,
-        overflow: 'linebreak',
-        halign: 'left',
+        overflow: "linebreak",
+        halign: "left",
       },
       headStyles: {
         fillColor: [66, 135, 245],
         textColor: 255,
-        fontStyle: 'bold',
+        fontStyle: "bold",
       },
       alternateRowStyles: {
         fillColor: [240, 240, 240],
       },
     });
-    
+
     // Save the PDF
-    doc.save(`cleaners-list-${new Date().toISOString().split('T')[0]}.pdf`);
+    doc.save(`cleaners-list-${new Date().toISOString().split("T")[0]}.pdf`);
   };
 
   // Rating display component
@@ -147,64 +155,28 @@ const CleanerList = () => {
     );
   };
 
-  if (loading) return <div className="loading">Loading cleaners...</div>;
-  if (error) return <div className="error">{error}</div>;
+  if (loading)
+    return (
+      <div className="dashboard-layout">
+        <Sidebar />
+        <div className="main-content">
+          <div className="loading">Loading cleaners...</div>
+        </div>
+      </div>
+    );
+  if (error)
+    return (
+      <div className="dashboard-layout">
+        <Sidebar />
+        <div className="main-content">
+          <div className="error">{error}</div>
+        </div>
+      </div>
+    );
 
   return (
     <div className="dashboard-layout">
-      {/* Sidebar */}
-      <aside className="sidebar">
-        <h2 className="logo">ANNEXIA</h2>
-        <nav>
-          <ul>
-            <Link
-              to="/securityoverview"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <li>
-                <FaHome /> Overview
-              </li>
-            </Link>
-            <Link
-              to="/addsecurity"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <li>
-                <FaPlus /> Add Notice
-              </li>
-            </Link>
-            <Link
-              to="/securitynotices"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <li>
-                <FaFileAlt /> Security Notices
-              </li>
-            </Link>
-            <Link
-              to=""
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <li className="active">
-                <FaBroom /> Cleaner Overview
-              </li>
-            </Link>
-            <Link
-              to="/SecurityContact"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <li>
-                <FaEnvelope /> Contact
-              </li>
-            </Link>
-          </ul>
-        </nav>
-        <button className="logout">
-          <FaSignOutAlt /> Logout
-        </button>
-      </aside>
-
-      {/* Main content */}
+      <Sidebar />
       <div className="main-content">
         <div className="cleaners-container">
           <div className="cleaners-header">

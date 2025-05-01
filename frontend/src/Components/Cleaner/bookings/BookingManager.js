@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./BookingManager.css";
+import Sidebar from "../sidebar/Sidebar";
 import {
   FaCalendarAlt,
   FaUserClock,
@@ -126,170 +127,195 @@ const BookingManager = () => {
 
   if (loading)
     return (
-      <div className="loading-state">Loading bookings and cleaners...</div>
+      <div className="dashboard-layout">
+        <Sidebar />
+        <div className="main-content">
+          <div className="loading-state">Loading bookings and cleaners...</div>
+        </div>
+      </div>
     );
-  if (error) return <div className="error-state">{error}</div>;
+  if (error)
+    return (
+      <div className="dashboard-layout">
+        <Sidebar />
+        <div className="main-content">
+          <div className="error-state">{error}</div>
+        </div>
+      </div>
+    );
 
   return (
-    <div className="booking-manager-container">
-      <h1 className="page-title">Booking Management</h1>
+    <div className="dashboard-layout">
+      <Sidebar />
+      <div className="main-content">
+        <div className="booking-manager-container">
+          <h1 className="page-title">Booking Management</h1>
 
-      {successMessage && (
-        <div className="success-alert">
-          <FaCheckCircle /> {successMessage}
-        </div>
-      )}
+          {successMessage && (
+            <div className="success-alert">
+              <FaCheckCircle /> {successMessage}
+            </div>
+          )}
 
-      {errorMessage && (
-        <div className="error-alert">
-          <FaExclamationTriangle /> {errorMessage}
-        </div>
-      )}
+          {errorMessage && (
+            <div className="error-alert">
+              <FaExclamationTriangle /> {errorMessage}
+            </div>
+          )}
 
-      <div className="filter-container">
-        <label htmlFor="filter-status">Filter by status:</label>
-        <select
-          id="filter-status"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-        >
-          <option value="all">All Bookings</option>
-          <option value="Pending">Pending</option>
-          <option value="Assigned">Assigned</option>
-          <option value="Completed">Completed</option>
-          <option value="Cancelled">Cancelled</option>
-        </select>
-      </div>
+          <div className="filter-container">
+            <label htmlFor="filter-status">Filter by status:</label>
+            <select
+              id="filter-status"
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+            >
+              <option value="all">All Bookings</option>
+              <option value="Pending">Pending</option>
+              <option value="Assigned">Assigned</option>
+              <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
 
-      {filteredBookings.length === 0 ? (
-        <div className="no-bookings">
-          No bookings found with the selected filter.
-        </div>
-      ) : (
-        <div className="bookings-grid">
-          {filteredBookings.map((booking) => (
-            <div className="booking-card" key={booking._id}>
-              <div className="booking-header">
-                <h2>
-                  Booking #{booking._id.substring(booking._id.length - 6)}
-                </h2>
-                <span
-                  className={`booking-status ${getStatusClass(booking.status)}`}
-                >
-                  {booking.status}
-                </span>
-              </div>
-
-              <div className="booking-details">
-                <div className="detail-item">
-                  <div className="detail-icon">
-                    <FaCalendarAlt />
-                  </div>
-                  <div className="detail-content">
-                    <span className="detail-label">Service Date</span>
-                    <span className="detail-value">
-                      {formatDate(booking.date)}
+          {filteredBookings.length === 0 ? (
+            <div className="no-bookings">
+              No bookings found with the selected filter.
+            </div>
+          ) : (
+            <div className="bookings-grid">
+              {filteredBookings.map((booking) => (
+                <div className="booking-card" key={booking._id}>
+                  <div className="booking-header">
+                    <h2>
+                      Booking #{booking._id.substring(booking._id.length - 6)}
+                    </h2>
+                    <span
+                      className={`booking-status ${getStatusClass(
+                        booking.status
+                      )}`}
+                    >
+                      {booking.status}
                     </span>
                   </div>
-                </div>
 
-                <div className="detail-item">
-                  <div className="detail-icon">
-                    <FaUserClock />
-                  </div>
-                  <div className="detail-content">
-                    <span className="detail-label">Service Type</span>
-                    <span className="detail-value service-type">
-                      {booking.service}
-                    </span>
-                  </div>
-                </div>
-              </div>
+                  <div className="booking-details">
+                    <div className="detail-item">
+                      <div className="detail-icon">
+                        <FaCalendarAlt />
+                      </div>
+                      <div className="detail-content">
+                        <span className="detail-label">Service Date</span>
+                        <span className="detail-value">
+                          {formatDate(booking.date)}
+                        </span>
+                      </div>
+                    </div>
 
-              {booking.specialInstructions && (
-                <div className="special-instructions">
-                  <h3>Special Instructions</h3>
-                  <p>{booking.specialInstructions}</p>
-                </div>
-              )}
-
-              <div className="cleaner-assignment">
-                {booking.cleaner ? (
-                  <div className="assigned-cleaner">
-                    <h3>Assigned Cleaner</h3>
-                    <div className="cleaner-info">
-                      <img
-                        src={
-                          booking.cleaner.profileImage || "/default-profile.png"
-                        }
-                        alt={`${booking.cleaner.name}'s avatar`}
-                        className="cleaner-avatar"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = "https://via.placeholder.com/50";
-                        }}
-                      />
-                      <div className="cleaner-details">
-                        <p className="cleaner-name">{booking.cleaner.name}</p>
-                        <p className="cleaner-contact">
-                          {booking.cleaner.phone}
-                        </p>
+                    <div className="detail-item">
+                      <div className="detail-icon">
+                        <FaUserClock />
+                      </div>
+                      <div className="detail-content">
+                        <span className="detail-label">Service Type</span>
+                        <span className="detail-value service-type">
+                          {booking.service}
+                        </span>
                       </div>
                     </div>
                   </div>
-                ) : (
-                  <div className="cleaner-assignment-form">
-                    {assigningId === booking._id ? (
-                      <>
-                        <select
-                          value={selectedCleaner}
-                          onChange={(e) => setSelectedCleaner(e.target.value)}
-                          className="cleaner-select"
-                        >
-                          <option value="">Select a cleaner</option>
-                          {cleaners
-                            .filter((cleaner) => cleaner.isAvailable)
-                            .map((cleaner) => (
-                              <option key={cleaner._id} value={cleaner._id}>
-                                {cleaner.name} - Rating:{" "}
-                                {cleaner.rating.toFixed(1)}
-                              </option>
-                            ))}
-                        </select>
-                        <div className="assignment-actions">
-                          <button
-                            onClick={() => handleAssignCleaner(booking._id)}
-                            className="assign-button"
-                          >
-                            Confirm Assignment
-                          </button>
-                          <button
-                            onClick={() => {
-                              setAssigningId(null);
-                              setSelectedCleaner("");
+
+                  {booking.specialInstructions && (
+                    <div className="special-instructions">
+                      <h3>Special Instructions</h3>
+                      <p>{booking.specialInstructions}</p>
+                    </div>
+                  )}
+
+                  <div className="cleaner-assignment">
+                    {booking.cleaner ? (
+                      <div className="assigned-cleaner">
+                        <h3>Assigned Cleaner</h3>
+                        <div className="cleaner-info">
+                          <img
+                            src={
+                              booking.cleaner.profileImage ||
+                              "/default-profile.png"
+                            }
+                            alt={`${booking.cleaner.name}'s avatar`}
+                            className="cleaner-avatar"
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = "https://via.placeholder.com/50";
                             }}
-                            className="cancel-button"
-                          >
-                            Cancel
-                          </button>
+                          />
+                          <div className="cleaner-details">
+                            <p className="cleaner-name">
+                              {booking.cleaner.name}
+                            </p>
+                            <p className="cleaner-contact">
+                              {booking.cleaner.phone}
+                            </p>
+                          </div>
                         </div>
-                      </>
+                      </div>
                     ) : (
-                      <button
-                        onClick={() => setAssigningId(booking._id)}
-                        className="assign-cleaner-button"
-                        disabled={booking.status !== "Pending"}
-                      >
-                        Assign Cleaner
-                      </button>
+                      <div className="cleaner-assignment-form">
+                        {assigningId === booking._id ? (
+                          <>
+                            <select
+                              value={selectedCleaner}
+                              onChange={(e) =>
+                                setSelectedCleaner(e.target.value)
+                              }
+                              className="cleaner-select"
+                            >
+                              <option value="">Select a cleaner</option>
+                              {cleaners
+                                .filter((cleaner) => cleaner.isAvailable)
+                                .map((cleaner) => (
+                                  <option key={cleaner._id} value={cleaner._id}>
+                                    {cleaner.name} - Rating:{" "}
+                                    {cleaner.rating.toFixed(1)}
+                                  </option>
+                                ))}
+                            </select>
+                            <div className="assignment-actions">
+                              <button
+                                onClick={() => handleAssignCleaner(booking._id)}
+                                className="assign-button"
+                              >
+                                Confirm Assignment
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setAssigningId(null);
+                                  setSelectedCleaner("");
+                                }}
+                                className="cancel-button"
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </>
+                        ) : (
+                          <button
+                            onClick={() => setAssigningId(booking._id)}
+                            className="assign-cleaner-button"
+                            disabled={booking.status !== "Pending"}
+                          >
+                            Assign Cleaner
+                          </button>
+                        )}
+                      </div>
                     )}
                   </div>
-                )}
-              </div>
+                </div>
+              ))}
             </div>
-          ))}
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };

@@ -12,7 +12,7 @@ const CleanerProfile = () => {
   useEffect(() => {
     const fetchCleanerDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3002/cleaner/${id}`);
+        const response = await axios.get(`http://localhost:3001/cleaner/${id}`);
         setCleaner(response.data);
         setLoading(false);
       } catch (err) {
