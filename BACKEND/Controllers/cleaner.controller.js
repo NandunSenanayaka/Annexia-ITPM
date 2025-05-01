@@ -7,6 +7,7 @@ const createCleaner = async (req, res) => {
     //console.log("body:::",req.body);
 
     // Create new cleaner
+    // Create new cleaner
     const cleaner = new Cleaner({
       name,
       email,
