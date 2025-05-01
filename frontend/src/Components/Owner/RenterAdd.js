@@ -98,116 +98,278 @@ const RenterAdd = () => {
     }
   };
 
-  return (
-    <div style={styles.formContainer}>
-      <div className="owner-container">
-        <OwnerDashboard />
-        <div className="owner-content">
-          <form onSubmit={handleSubmit}>
-            <h2 style={styles.heading}>Add Renter</h2>
+  // return (
+  //   <div style={styles.formContainer}>
+  //     <div className="owner-container">
+  //       <OwnerDashboard />
+  //       <div className="owner-content">
+  //         <form onSubmit={handleSubmit}>
+  //           <h2 style={styles.heading}>Add Renter</h2>
 
-            <label style={styles.label}>Renter Name:</label>
-            <input
-              type="text"
-              value={renterName}
-              onChange={(e) => {
-                setRenterName(e.target.value);
-                validateField("renterName", e.target.value);
-              }}
-              style={styles.input}
-            />
-            {errors.renterName && <span style={styles.error}>{errors.renterName}</span>}
+  //           <label style={styles.label}>Renter Name:</label>
+  //           <input
+  //             type="text"
+  //             value={renterName}
+  //             onChange={(e) => {
+  //               setRenterName(e.target.value);
+  //               validateField("renterName", e.target.value);
+  //             }}
+  //             style={styles.input}
+  //           />
+  //           {errors.renterName && <span style={styles.error}>{errors.renterName}</span>}
 
-            <label style={styles.label}>NIC Number:</label>
-            <input
-              type="text"
-              value={nicNumber}
-              onChange={(e) => {
-                setNicNumber(e.target.value);
-                validateField("nicNumber", e.target.value);
-              }}
-              style={styles.input}
-            />
-            {errors.nicNumber && <span style={styles.error}>{errors.nicNumber}</span>}
+  //           <label style={styles.label}>NIC Number:</label>
+  //           <input
+  //             type="text"
+  //             value={nicNumber}
+  //             onChange={(e) => {
+  //               setNicNumber(e.target.value);
+  //               validateField("nicNumber", e.target.value);
+  //             }}
+  //             style={styles.input}
+  //           />
+  //           {errors.nicNumber && <span style={styles.error}>{errors.nicNumber}</span>}
 
-            <label style={styles.label}>Age:</label>
-            <input
-              type="number"
-              value={age}
-              onChange={(e) => {
-                setAge(e.target.value);
-                validateField("age", e.target.value);
-              }}
-              style={styles.input}
-            />
-            {errors.age && <span style={styles.error}>{errors.age}</span>}
+  //           <label style={styles.label}>Age:</label>
+  //           <input
+  //             type="number"
+  //             value={age}
+  //             onChange={(e) => {
+  //               setAge(e.target.value);
+  //               validateField("age", e.target.value);
+  //             }}
+  //             style={styles.input}
+  //           />
+  //           {errors.age && <span style={styles.error}>{errors.age}</span>}
 
-            <label style={styles.label}>Date:</label>
-            <input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              style={styles.input}
-            />
+  //           <label style={styles.label}>Date:</label>
+  //           <input
+  //             type="date"
+  //             value={date}
+  //             onChange={(e) => setDate(e.target.value)}
+  //             style={styles.input}
+  //           />
 
-            <label style={styles.label}>Mail:</label>
-            <input
-              type="email"
-              value={mail}
-              onChange={(e) => {
-                setMail(e.target.value);
-                validateField("mail", e.target.value);
-              }}
-              style={styles.input}
-            />
-            {errors.mail && <span style={styles.error}>{errors.mail}</span>}
+  //           <label style={styles.label}>Mail:</label>
+  //           <input
+  //             type="email"
+  //             value={mail}
+  //             onChange={(e) => {
+  //               setMail(e.target.value);
+  //               validateField("mail", e.target.value);
+  //             }}
+  //             style={styles.input}
+  //           />
+  //           {errors.mail && <span style={styles.error}>{errors.mail}</span>}
 
-            <label style={styles.label}>Description:</label>
-            <textarea
-              value={description}
-              onChange={(e) => {
-                setDescription(e.target.value);
-                validateField("description", e.target.value);
-              }}
-              style={styles.textarea}
-            />
-            {errors.description && <span style={styles.error}>{errors.description}</span>}
+  //           <label style={styles.label}>Description:</label>
+  //           <textarea
+  //             value={description}
+  //             onChange={(e) => {
+  //               setDescription(e.target.value);
+  //               validateField("description", e.target.value);
+  //             }}
+  //             style={styles.textarea}
+  //           />
+  //           {errors.description && <span style={styles.error}>{errors.description}</span>}
 
-            <label style={styles.label}>Address:</label>
-            <textarea
-              value={address}
-              onChange={(e) => {
-                setAddress(e.target.value);
-                validateField("address", e.target.value);
-              }}
-              style={styles.textarea}
-            />
+  //           <label style={styles.label}>Address:</label>
+  //           <textarea
+  //             value={address}
+  //             onChange={(e) => {
+  //               setAddress(e.target.value);
+  //               validateField("address", e.target.value);
+  //             }}
+  //             style={styles.textarea}
+  //           />
             
-            {errors.address && <span style={styles.error}>{errors.address}</span>}
+  //           {errors.address && <span style={styles.error}>{errors.address}</span>}
 
-            <label style={styles.label}>Contact Number:</label>
-            <input
-              type="text"
-              value={contactNumber}
-              onChange={(e) => {
-                setContactNumber(e.target.value);
-                validateField("contactNumber", e.target.value);
-              }}
-              style={styles.input}
-            />
-            {errors.contactNumber && <span style={styles.error}>{errors.contactNumber}</span>}
+  //           <label style={styles.label}>Contact Number:</label>
+  //           <input
+  //             type="text"
+  //             value={contactNumber}
+  //             onChange={(e) => {
+  //               setContactNumber(e.target.value);
+  //               validateField("contactNumber", e.target.value);
+  //             }}
+  //             style={styles.input}
+  //           />
+  //           {errors.contactNumber && <span style={styles.error}>{errors.contactNumber}</span>}
 
-            <button type="submit" style={styles.button}>
-              Add Renter
-            </button>
-          </form>
-        </div>
+  //           <button type="submit" style={styles.button}>
+  //             Add Renter
+  //           </button>
+  //         </form>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
+
+  return (
+    <div style={styles.pageContainer}>
+      <OwnerDashboard />
+      <div style={styles.formWrapper}>
+        <form onSubmit={handleSubmit} style={styles.form}>
+          <h2 style={styles.heading}>Add Renter</h2>
+  
+          <label style={styles.label}>Renter Name:</label>
+          <input
+            type="text"
+            value={renterName}
+            onChange={(e) => {
+              setRenterName(e.target.value);
+              validateField("renterName", e.target.value);
+            }}
+            style={styles.input}
+          />
+          {errors.renterName && <span style={styles.error}>{errors.renterName}</span>}
+  
+          <label style={styles.label}>NIC Number:</label>
+          <input
+            type="text"
+            value={nicNumber}
+            onChange={(e) => {
+              setNicNumber(e.target.value);
+              validateField("nicNumber", e.target.value);
+            }}
+            style={styles.input}
+          />
+          {errors.nicNumber && <span style={styles.error}>{errors.nicNumber}</span>}
+  
+          <label style={styles.label}>Age:</label>
+          <input
+            type="number"
+            value={age}
+            onChange={(e) => {
+              setAge(e.target.value);
+              validateField("age", e.target.value);
+            }}
+            style={styles.input}
+          />
+          {errors.age && <span style={styles.error}>{errors.age}</span>}
+  
+          <label style={styles.label}>Date:</label>
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            style={styles.input}
+          />
+  
+          <label style={styles.label}>Mail:</label>
+          <input
+            type="email"
+            value={mail}
+            onChange={(e) => {
+              setMail(e.target.value);
+              validateField("mail", e.target.value);
+            }}
+            style={styles.input}
+          />
+          {errors.mail && <span style={styles.error}>{errors.mail}</span>}
+  
+          <label style={styles.label}>Description:</label>
+          <textarea
+            value={description}
+            onChange={(e) => {
+              setDescription(e.target.value);
+              validateField("description", e.target.value);
+            }}
+            style={styles.textarea}
+          />
+          {errors.description && <span style={styles.error}>{errors.description}</span>}
+  
+          <label style={styles.label}>Address:</label>
+          <textarea
+            value={address}
+            onChange={(e) => {
+              setAddress(e.target.value);
+              validateField("address", e.target.value);
+            }}
+            style={styles.textarea}
+          />
+          {errors.address && <span style={styles.error}>{errors.address}</span>}
+  
+          <label style={styles.label}>Contact Number:</label>
+          <input
+            type="text"
+            value={contactNumber}
+            onChange={(e) => {
+              setContactNumber(e.target.value);
+              validateField("contactNumber", e.target.value);
+            }}
+            style={styles.input}
+          />
+          {errors.contactNumber && <span style={styles.error}>{errors.contactNumber}</span>}
+  
+          <button type="submit" style={styles.button}>
+            Add Renter
+          </button>
+        </form>
       </div>
     </div>
   );
+  
 };
 
+// const styles = {
+//   heading: { textAlign: "center", marginBottom: "20px" },
+//   label: { marginBottom: "8px", fontWeight: "bold" },
+//   input: {
+//     padding: "10px",
+//     marginBottom: "15px",
+//     border: "1px solid #ccc",
+//     borderRadius: "5px",
+//     fontSize: "16px",
+//     width: "100%",
+//   },
+//   textarea: {
+//     padding: "10px",
+//     marginBottom: "15px",
+//     border: "1px solid #ccc",
+//     borderRadius: "5px",
+//     fontSize: "16px",
+//     width: "100%",
+//   },
+//   button: {
+//     padding: "10px",
+//     backgroundColor: "#007bff",
+//     color: "white",
+//     border: "none",
+//     borderRadius: "5px",
+//     fontSize: "16px",
+//     cursor: "pointer",
+//   },
+//   error: {
+//     color: "red",
+//     fontSize: "14px",
+//     display: "block",
+//     marginTop: "-10px",
+//     marginBottom: "10px",
+//   },
+  
+// };
 const styles = {
+  pageContainer: {
+    display: "flex",
+    minHeight: "100vh",
+  },
+  formWrapper: {
+    flex: 1,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "40px",
+  },
+  form: {
+    width: "100%",
+    maxWidth: "600px",
+    backgroundColor: "#fff",
+    padding: "30px",
+    borderRadius: "8px",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+  },
   heading: { textAlign: "center", marginBottom: "20px" },
   label: { marginBottom: "8px", fontWeight: "bold" },
   input: {
@@ -234,6 +396,7 @@ const styles = {
     borderRadius: "5px",
     fontSize: "16px",
     cursor: "pointer",
+    width: "100%",
   },
   error: {
     color: "red",
@@ -242,7 +405,7 @@ const styles = {
     marginTop: "-10px",
     marginBottom: "10px",
   },
-  
 };
+
 
 export default RenterAdd;
