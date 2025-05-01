@@ -327,4 +327,5 @@ const styles = {
     },
 };
 
+
 export default RenterManager;
