@@ -5,6 +5,11 @@ const nodemailer = require("nodemailer");
 const env = require("dotenv");
 env.config();
 
+const emailUser = process.env.EMAIL_USER;
+const pass = process.env.EMAIL_PASS;
+console.log(emailUser);
+
+
 
 // Create a new booking
 const createBooking = async (req, res) => {
@@ -254,8 +259,8 @@ const sendAssignmentEmail = async (cleaner, booking) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: emailUser,
+        pass: pass
       },
     });
 
@@ -265,9 +270,9 @@ const sendAssignmentEmail = async (cleaner, booking) => {
     
     // Prepare email content
     const mailOptions = {
-      from: process.env.EMAIL_FROM,
+      from: "dulassaspam@gmail.com",
       to: cleaner.email,
-      subject: 'New Cleaning Assignment',
+      subject: "New Cleaning Assignment",
       html: `
         <h2>New Cleaning Assignment</h2>
         <p>Hello ${cleaner.name},</p>
@@ -275,11 +280,14 @@ const sendAssignmentEmail = async (cleaner, booking) => {
         <ul>
           <li><strong>Booking ID:</strong> ${booking._id}</li>
           <li><strong>Date:</strong> ${bookingDate}</li>
+           <li><strong>Time:</strong> ${bookingTime}</li>
+          <li><strong>Service Type:</strong> ${booking.service}</li>
+          <li><strong>Renter:</strong> Renter 1</li>
+          <li><strong>Location:</strong> 123 Main St, Colombo, Sri Lanka</li>
          
-         
-         
-          <li><strong>Service Type:</strong> ${booking.serviceType}</li>
-          <li><strong>Special Instructions:</strong> ${booking.specialInstructions || 'None'}</li>
+          <li><strong>Special Instructions:</strong> ${
+            booking.specialInstructions || "None"
+          }</li>
         </ul>
         <p>Please log in to your account for more details.</p>
         <p>Thank you for your service!</p>
