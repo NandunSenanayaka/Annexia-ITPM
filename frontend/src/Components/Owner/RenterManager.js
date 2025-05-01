@@ -14,6 +14,7 @@ const RenterManager = () => {
     const [filteredRenters, setFilteredRenters] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [error, setError] = useState(null);
+    const [selectedRenter, setSelectedRenter] = useState(null);
 
     useEffect(() => {
         fetchRenters();
@@ -40,13 +41,22 @@ const RenterManager = () => {
         setFilteredRenters(filtered);
     };
 
-    const handleDelete = async (id) => {
+    const handleDelete = async (id, renterName) => {
+        // Show confirmation dialog with renter's name
+        const isConfirmed = window.confirm(`Are you sure you want to delete the renter "${renterName}"? This action cannot be undone.`);
+        
+        if (!isConfirmed) {
+            return; // If user clicks Cancel, do nothing
+        }
+
         try {
             await axios.delete(`${URL}/${id}`);
-            fetchRenters();
+            // Show success message
+            alert(`Renter "${renterName}" has been deleted successfully!`);
+            fetchRenters(); // Refresh the list
         } catch (error) {
             console.error('Error deleting renter:', error);
-            setError('Failed to delete renter. Please try again later.');
+            alert('Failed to delete renter. Please try again later.');
         }
     };
 
@@ -70,6 +80,10 @@ const RenterManager = () => {
         } catch (error) {
             alert("Failed to send payment email.");
         }
+    };
+
+    const handleOverview = (id) => {
+        navigate(`/RenterOverview/${id}`);
     };
 
     const generatePDF = () => {
@@ -97,6 +111,10 @@ const RenterManager = () => {
 
     const handleManageRooms = () => {
         navigate('/RoomAvilable', { state: { renters } });
+    };
+
+    const handleRowClick = (renter) => {
+        setSelectedRenter(renter === selectedRenter ? null : renter);
     };
 
     return (
@@ -146,7 +164,7 @@ const RenterManager = () => {
                                     <td style={styles.tableCell}>{renter.ContactNumber}</td>
                                     <td style={{ ...styles.tableCell, ...styles.buttonRow }}>
                                         <button onClick={() => handleUpdate(renter._id)} style={styles.editButton}>Edit</button>
-                                        <button onClick={() => handleDelete(renter._id)} style={styles.deleteButton}>Delete</button>
+                                        <button onClick={() => handleDelete(renter._id, renter.RenterName)} style={styles.deleteButton}>Delete</button>
                                         <button onClick={() => handleRegisterEmail(renter._id)} style={styles.registerButton}>Notify Register</button>
                                         <button onClick={() => handlePaymentEmail(renter._id)} style={styles.paymentButton}>Notify Payment</button>
                                     </td>
@@ -303,6 +321,9 @@ const styles = {
         textAlign: 'center',
         fontSize: '16px',
         fontWeight: 'bold',
+    },
+    tableRow: {
+        // Add any necessary styles for the table row
     },
 };
 
