@@ -1,52 +1,112 @@
-/* Sidebar styles */
+/* Sidebar Structure */
 .sidebar {
   background-color: #2c3e50;
   color: white;
   width: 250px;
-  padding: 20px 0;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  position: sticky;
-  top: 0;
+  transition: all 0.3s ease;
+  overflow-y: auto;
+  z-index: 1000;
 }
 
-.logo {
-  text-align: center;
-  padding: 10px 0;
-  margin-bottom: 20px;
-  font-size: 24px;
+.sidebar-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.sidebar nav ul {
+.logo {
+  font-size: 24px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* Navigation Menu */
+.sidebar-menu {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.sidebar nav li {
+.sidebar-menu li {
+  position: relative;
+}
+
+.sidebar-menu li a, 
+.sidebar-menu .menu-item {
   padding: 15px 20px;
   display: flex;
   align-items: center;
+  text-decoration: none;
+  color: white;
+  transition: all 0.3s;
   cursor: pointer;
-  transition: background-color 0.3s, border-left 0.3s;
 }
 
-.sidebar nav li:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.sidebar-menu li a:hover, 
+.sidebar-menu .menu-item:hover {
+  background-color: #34495e;
+  color: #3498db;
 }
 
-.sidebar nav li.active {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-left: 4px solid #3498db;
+.sidebar-menu li.active > a,
+.sidebar-menu li.active > .menu-item {
+  background-color: #3498db;
+  color: white;
+  border-left: 4px solid #2ecc71;
 }
 
-.sidebar nav li svg {
-  margin-right: 10px;
+.menu-icon-text {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.sidebar-menu li svg {
+  margin-right: 15px;
+  min-width: 20px;
   font-size: 18px;
 }
 
+/* Submenu Styles */
+.submenu-parent {
+  flex-direction: column;
+}
+
+.submenu-parent .menu-item {
+  justify-content: space-between;
+}
+
+.submenu {
+  list-style: none;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.submenu li a {
+  padding-left: 50px;
+}
+
+.submenu li.active > a {
+  background-color: #2980b9;
+  border-left: 4px solid #2ecc71;
+}
+
+.submenu li a:hover {
+  background-color: #34495e;
+  color: #3498db;
+}
+
+/* Logout Button */
 .logout {
   margin-top: auto;
   background: none;
@@ -59,22 +119,57 @@
   width: 100%;
   text-align: left;
   font-size: 16px;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
 }
 
 .logout:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #e74c3c;
+  color: white;
 }
 
 .logout svg {
-  margin-right: 10px;
+  margin-right: 15px;
+  font-size: 18px;
 }
 
-/* Responsive design for sidebar */
-@media (max-width: 992px) {
+/* Adjusted main content */
+.main-content {
+  margin-left: 250px;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+  width: calc(100% - 250px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
   .sidebar {
+    width: 0;
+    position: fixed;
+    z-index: 999;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .sidebar.expanded {
+    width: 250px;
+  }
+  
+  .main-content {
+    margin-left: 0;
     width: 100%;
-    height: auto;
-    position: relative;
+  }
+  
+  /* Add a mobile menu button */
+  .mobile-menu-toggle {
+    display: block;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1000;
+    background: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    cursor: pointer;
   }
 }

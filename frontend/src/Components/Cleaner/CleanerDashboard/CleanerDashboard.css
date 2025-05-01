@@ -284,3 +284,16 @@
     grid-template-columns: 1fr;
   }
 }
+.stat-card.clickable {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.stat-card.clickable:hover {
+  transform: scale(1.02);
+}
+
+.stat-card-link {
+  text-decoration: none;
+  color: inherit;
+}

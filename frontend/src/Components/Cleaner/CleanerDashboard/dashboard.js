@@ -7,7 +7,6 @@ import {
   FaCalendarCheck,
   FaStar,
   FaChartLine,
-  FaUser,
   FaBroom,
 } from "react-icons/fa";
 import {
@@ -43,7 +42,6 @@ const CleanerDashboard = () => {
           axios.get(`http://localhost:${port}/cleaner`),
           axios.get(`http://localhost:${port}/booking`),
         ]);
-
         setCleaners(cleanersResponse.data || []);
         setBookings(bookingsResponse.data.data || []);
         setLoading(false);
@@ -56,114 +54,94 @@ const CleanerDashboard = () => {
     fetchData();
   }, []);
 
-  // Calculate statistics
   const totalCleaners = cleaners.length;
   const totalBookings = bookings.length;
-  const pendingBookings = bookings.filter(
-    (booking) => booking.status === "Pending"
-  ).length;
+  const pendingBookings = bookings.filter((b) => b.status === "Pending").length;
   const assignedBookings = bookings.filter(
-    (booking) => booking.status === "Assigned"
+    (b) => b.status === "Assigned"
   ).length;
   const completedBookings = bookings.filter(
-    (booking) => booking.status === "Completed"
+    (b) => b.status === "Completed"
   ).length;
-  const availableCleaners = cleaners.filter(
-    (cleaner) => cleaner.isAvailable
-  ).length;
+  const availableCleaners = cleaners.filter((c) => c.isAvailable).length;
 
-  // Top rated cleaner
   const topRatedCleaner =
     cleaners.length > 0
       ? [...cleaners].sort((a, b) => b.rating - a.rating)[0]
       : null;
 
-  // Most recent bookings
   const recentBookings = [...bookings]
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     .slice(0, 5);
 
-  // Service type distribution for pie chart
   const getServiceDistribution = () => {
     const distribution = {};
     bookings.forEach((booking) => {
       distribution[booking.service] = (distribution[booking.service] || 0) + 1;
     });
-
     return Object.keys(distribution).map((key) => ({
       name: key.charAt(0).toUpperCase() + key.slice(1),
       value: distribution[key],
     }));
   };
 
-  // Status distribution for bar chart
-  const getStatusDistribution = () => {
-    return [
-      { name: "Pending", value: pendingBookings },
-      { name: "Assigned", value: assignedBookings },
-      { name: "Completed", value: completedBookings },
-      {
-        name: "Cancelled",
-        value: bookings.filter((b) => b.status === "Cancelled").length,
-      },
-    ];
-  };
+  const getStatusDistribution = () => [
+    { name: "Pending", value: pendingBookings },
+    { name: "Assigned", value: assignedBookings },
+    { name: "Completed", value: completedBookings },
+    {
+      name: "Cancelled",
+      value: bookings.filter((b) => b.status === "Cancelled").length,
+    },
+  ];
 
-  // Simulate monthly booking trends for line chart (since we don't have that data)
   const getMonthlyBookings = () => {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
-    // This is simulated data - in a real scenario, you would group bookings by month
-    return months.map((month, index) => {
-      // Use the actual bookings length to create a somewhat realistic chart
-      const baseValue = Math.max(5, bookings.length / 3);
-      return {
-        name: month,
-        bookings: Math.floor(baseValue + Math.random() * baseValue * 0.5),
-      };
-    });
+    const baseValue = Math.max(5, bookings.length / 3);
+    return months.map((month) => ({
+      name: month,
+      bookings: Math.floor(baseValue + Math.random() * baseValue * 0.5),
+    }));
   };
 
-  // Colors for the pie chart
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
-  if (loading)
+  if (loading || error) {
     return (
       <div className="dashboard-layout">
         <Sidebar />
-        <div className="cleaner-dashboard-container">
-          <div className="loading-state">Loading dashboard data...</div>
+        <div className="main-content">
+          {loading ? (
+            <div className="loading-state">Loading dashboard data...</div>
+          ) : (
+            <div className="error-state">{error}</div>
+          )}
         </div>
       </div>
     );
-
-  if (error)
-    return (
-      <div className="dashboard-layout">
-        <Sidebar />
-        <div className="cleaner-dashboard-container">
-          <div className="error-state">{error}</div>
-        </div>
-      </div>
-    );
+  }
 
   return (
     <div className="dashboard-layout">
-     
-      <div className="cleaner-dashboard-container">
+      <Sidebar />
+
+      <div className="main-content">
         <h1 className="dashboard-title">Cleaner Management Dashboard</h1>
 
         {/* Stats Cards */}
         <div className="stats-grid">
-          <div className="stat-card">
-            <div className="stat-icon cleaner-icon">
-              <FaUsersCog />
+          <Link to="/cleanerlist" className="stat-card-link">
+            <div className="stat-card clickable">
+              <div className="stat-icon cleaner-icon">
+                <FaUsersCog />
+              </div>
+              <div className="stat-details">
+                <h3>Total Cleaners</h3>
+                <p className="stat-value">{totalCleaners}</p>
+                <p className="stat-info">{availableCleaners} available</p>
+              </div>
             </div>
-            <div className="stat-details">
-              <h3>Total Cleaners</h3>
-              <p className="stat-value">{totalCleaners}</p>
-              <p className="stat-info">{availableCleaners} available</p>
-            </div>
-          </div>
+          </Link>
 
           <div className="stat-card">
             <div className="stat-icon booking-icon">
@@ -233,7 +211,6 @@ const CleanerDashboard = () => {
                   data={getServiceDistribution()}
                   cx="50%"
                   cy="50%"
-                  labelLine={true}
                   outerRadius={80}
                   fill="#8884d8"
                   dataKey="value"
@@ -289,9 +266,7 @@ const CleanerDashboard = () => {
                     <FaBroom />
                   </div>
                   <div className="booking-item-details">
-                    <h3>
-                      Booking #{booking._id.substring(booking._id.length - 6)}
-                    </h3>
+                    <h3>Booking #{booking._id.slice(-6)}</h3>
                     <p>
                       <strong>Service:</strong>{" "}
                       {booking.service.charAt(0).toUpperCase() +
