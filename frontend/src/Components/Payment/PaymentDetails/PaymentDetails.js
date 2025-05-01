@@ -1,142 +1,3 @@
-
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import './PaymentDetails.css';  
-// import { Link } from 'react-router-dom';
-// import { useNavigate } from 'react-router-dom'; 
-// import jsPDF from 'jspdf';
-// import autoTable from 'jspdf-autotable';
-// import PaymentDashboard from "../PaymentDashboard/PaymentDashboard";
-
-// const URL = "http://localhost:5000/payments";
-
-// const fetchHandler = async () => {
-//   return await axios.get(URL).then((res) => res.data);
-// };
-
-// const PaymentDetails = () => {
-//   const [payments, setPayments] = useState([]);
-//   const history = useNavigate();
-
-//   useEffect(() => {
-//     fetchHandler().then((data) => setPayments(data.payments));
-//   }, []);
-
-//   const deleteHandler = async (id) => {
-//     await axios.delete(`http://localhost:5000/payments/${id}`)
-//       .then(() => {
-//         setPayments(payments.filter(payment => payment._id !== id)); // Update state to remove deleted item
-//       });
-//   };
-
-//   // ✅ Generate PDF
-//   const generatePDF = () => {
-//     const doc = new jsPDF();
-
-//     // Add title
-//     doc.setFontSize(18);
-//     doc.text('Payment Details Report', 10, 10);
-
-//     // Define table columns
-//     const columns = [
-//       { header: 'Renter Name', dataKey: 'RenterName' },
-//       { header: 'Card Name', dataKey: 'CardName' },
-//       { header: 'Card No', dataKey: 'CardNo' },
-//       { header: 'Expiry Date', dataKey: 'ExpiryDate' },
-//       { header: 'CVV', dataKey: 'CVV' },
-//       { header: 'Amount', dataKey: 'Amount' },
-//       { header: 'Remark', dataKey: 'Remark' },
-//     ];
-
-//     // Map payments to table rows
-//     const rows = payments.map(payment => [
-//       payment.RenterName,
-//       payment.CardName,
-//       payment.CardNo,
-//       payment.ExpiryDate,
-//       payment.CVV,
-//       payment.Amount,
-//       payment.Remark,
-//     ]);
-
-//     // Add table to PDF
-//     autoTable(doc, {
-//       head: [columns.map(col => col.header)],
-//       body: rows,
-//       startY: 20,
-//     });
-
-//     // Save PDF
-//     doc.save('Payment_Details.pdf');
-//   };
-
-//   const [searchQuery, setSearchQuery] = useState('');
-//   const [noResults,setNoResults] = useState(false);
-
-//   const handleSearch =()=>{
-//     fetchHandler().then((data) => {
-//       const filteredPayments = data.payments.filter(payment => 
-//         Object.values(payment).some((field) =>
-//           field.toString().toLowerCase().includes(searchQuery.toLowerCase())
-//         ))
-//         setPayments(filteredPayments);
-//         setNoResults(filteredPayments.length === 0);
-      
-//     });
-//   }
-
-
-
-//   return (
-//     <div className="payment-dashboard-container">
-//     <PaymentDashboard/>
-//       <div className="payment-dashboard-content">
-//         <h1>Payment Details</h1>
-
-//         <div className="search-container">
-//           <input onChange={(e) => setSearchQuery(e.target.value)} type="text" placeholder="Search..." />
-//           <button onClick={handleSearch}>Search</button>
-//         </div>
-
-//         {noResults ? (
-//           <div>
-//             <p>No results found</p>
-//           </div>
-//         ) : (
-
-//         <div className="payment-list">
-//           {payments.length > 0 ? (
-//             payments.map((payment, i) => (
-//               <div key={i} className="payment-card">
-//                 <h2>ID: {payment._id}</h2>
-//                 <p><strong>Renter Name:</strong> {payment.RenterName}</p>
-//                 <p><strong>Card Name:</strong> {payment.CardName}</p>
-//                 <p><strong>Card No:</strong> {payment.CardNo}</p>
-//                 <p><strong>Expiry Date:</strong> {payment.ExpiryDate}</p>
-//                 <p><strong>CVV:</strong> {payment.CVV}</p>
-//                 <p><strong>Amount:</strong> ${payment.Amount}</p>
-//                 <p><strong>Remark:</strong> {payment.Remark}</p>
-//                 <div className="payment-actions">
-//                   <Link to={`/updatepayment/${payment._id}`} className="update-btn">Update</Link>
-//                   <button className="delete-btn" onClick={() => deleteHandler(payment._id)}>Delete</button>
-//                 </div>
-//               </div>
-//             ))
-//           ) : (
-//             <p>No Payments Available</p>
-//           )}
-//         </div>
-//       )}
-//         {/* ✅ PDF Download Button */}
-//         <button className="download-btn" onClick={generatePDF}>Download PDF</button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default PaymentDetails;
-
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -158,37 +19,112 @@ const PaymentDetails = () => {
   const [noResults, setNoResults] = useState(false);
   const history = useNavigate();
 
+  // Function to mask card number (shows only last 4 digits)
+  const maskCardNumber = (cardNumber) => {
+    if (!cardNumber) return '';
+    // Convert to string if it's not already
+    const cardStr = String(cardNumber).trim();
+    if (cardStr.length < 4) return cardStr;
+    return '**** **** **** ' + cardStr.slice(-4);
+  };
+
+  // Function to mask expiry date (shows only month and year)
+  const maskExpiryDate = (expiryDate) => {
+    if (!expiryDate) return '';
+    // Convert to string if it's not already
+    const dateStr = String(expiryDate).trim();
+    if (dateStr.length < 2) return dateStr;
+    return '**/**' + dateStr.slice(-2);
+  };
+
+  // Function to mask CVV
+  const maskCVV = () => {
+    return '***';
+  };
+
   useEffect(() => {
     fetchHandler().then((data) => setPayments(data.payments));
   }, []);
 
   const deleteHandler = async (id) => {
-    await axios.delete(`http://localhost:5000/payments/${id}`)
-      .then(() => {
-        setPayments(payments.filter(payment => payment._id !== id));
-      });
+    // Show confirmation dialog
+    const confirmDelete = window.confirm('Are you sure you want to delete this payment record? This action cannot be undone.');
+    
+    if (confirmDelete) {
+      try {
+        await axios.delete(`http://localhost:5000/payments/${id}`)
+          .then(() => {
+            setPayments(payments.filter(payment => payment._id !== id));
+            // Show success message
+            alert('Payment record deleted successfully!');
+          });
+      } catch (error) {
+        // Show error message if deletion fails
+        alert('Failed to delete payment record. Please try again.');
+        console.error('Error deleting payment:', error);
+      }
+    }
   };
 
   const generatePDF = () => {
     const doc = new jsPDF();
-    doc.setFontSize(18);
-    doc.text('Payment Details Report', 10, 10);
-
+    
+    // Add company logo and header
+    doc.setFontSize(24);
+    doc.setTextColor(40, 40, 40);
+    doc.text('Payment Receipt', 105, 20, { align: 'center' });
+    
+    // Add company details
+    doc.setFontSize(12);
+    doc.setTextColor(100, 100, 100);
+    doc.text('Clean & Care Services', 105, 30, { align: 'center' });
+    doc.text('123 Business Street, City', 105, 35, { align: 'center' });
+    doc.text('Phone: +1 234 567 8900', 105, 40, { align: 'center' });
+    
+    // Add date
+    const today = new Date();
+    const dateStr = today.toLocaleDateString();
+    doc.text(`Date: ${dateStr}`, 20, 50);
+    
+    // Add payment details table
     autoTable(doc, {
-      head: [['Renter Name', 'Card Name', 'Card No', 'Expiry Date', 'CVV', 'Amount', 'Remark']],
+      startY: 60,
+      head: [['Payment Details']],
       body: payments.map(payment => [
-        payment.RenterName,
-        payment.CardName,
-        payment.CardNo,
-        payment.ExpiryDate,
-        payment.CVV,
-        `$${payment.Amount}`,
-        payment.Remark
+        [
+          `Renter Name: ${payment.RenterName}`,
+          `Card Name: ${payment.CardName}`,
+          `Card Number: ${maskCardNumber(payment.CardNo)}`,
+          `Amount: $${payment.Amount}`,
+          `Remark: ${payment.Remark || 'N/A'}`
+        ].join('\n')
       ]),
-      startY: 20,
+      theme: 'grid',
+      headStyles: {
+        fillColor: [41, 128, 185],
+        textColor: 255,
+        fontSize: 14,
+        fontStyle: 'bold'
+      },
+      styles: {
+        fontSize: 12,
+        cellPadding: 5
+      }
     });
 
-    doc.save('Payment_Details.pdf');
+    // Add thank you message
+    doc.setFontSize(14);
+    doc.setTextColor(40, 40, 40);
+    doc.text('Thank you for your payment!', 105, doc.lastAutoTable.finalY + 20, { align: 'center' });
+    
+    // Add footer
+    doc.setFontSize(10);
+    doc.setTextColor(100, 100, 100);
+    doc.text('This is a computer-generated receipt. No signature required.', 105, doc.lastAutoTable.finalY + 30, { align: 'center' });
+    doc.text('For any queries, please contact our customer support.', 105, doc.lastAutoTable.finalY + 35, { align: 'center' });
+    
+    // Save PDF
+    doc.save('Payment_Receipt.pdf');
   };
 
   const handleSearch = () => {
@@ -236,9 +172,9 @@ const PaymentDetails = () => {
                   <tr key={i}>
                     <td>{payment.RenterName}</td>
                     <td>{payment.CardName}</td>
-                    <td>{payment.CardNo}</td>
-                    <td>{payment.ExpiryDate}</td>
-                    <td>{payment.CVV}</td>
+                    <td>{maskCardNumber(payment.CardNo)}</td>
+                    <td>{maskExpiryDate(payment.ExpiryDate)}</td>
+                    <td>{maskCVV()}</td>
                     <td>${payment.Amount}</td>
                     <td>{payment.Remark}</td>
                     <td>
