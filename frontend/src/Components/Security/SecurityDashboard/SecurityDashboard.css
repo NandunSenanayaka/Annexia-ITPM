@@ -80,3 +80,10 @@ body {
     flex: 1;
     padding: 20px;
   }
+
+
+  .payment-logout a {
+    text-decoration: none;
+    color: inherit; /* Optional: make the link inherit the button's text color */
+  }
+  

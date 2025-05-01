@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import "./SecurityDashboard.css";
 import { Link } from "react-router-dom";
+import LoginPage from './../../Login/Login'
 
 
 function SecurityOverview() {
@@ -66,8 +67,12 @@ function SecurityOverview() {
           </ul>
         </nav>
 
-        <button className="logout2">
-          <FaSignOutAlt /> Logout
+        {/* <button className="logout2">
+          <FaSignOutAlt />  Logout
+        </button> */}
+
+        <button type="button"  className="payment-logout">
+        <a href="/login"> <FaSignOutAlt /> Logout</a>
         </button>
       </aside>
     </div>

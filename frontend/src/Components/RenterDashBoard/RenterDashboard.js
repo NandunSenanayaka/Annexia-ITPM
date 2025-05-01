@@ -18,7 +18,7 @@ const RenterDashboard = () => {
         <nav>
           <ul>
             <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-              <li><FaHome /> Overview</li>
+              <li><FaHome /> Home</li>
             </Link>
 
             <Link to="/AddPayment" style={{ textDecoration: "none", color: "inherit" }}>
@@ -39,9 +39,11 @@ const RenterDashboard = () => {
           </ul>
         </nav>
 
-        <button type="button"  className="payment-logout">
-          <FaSignOutAlt /> Logout
-        </button>
+        
+                <button type="button"  className="payment-logout">
+                <a href="/login"> <FaSignOutAlt /> Logout</a>
+                </button>
+                
       </aside>
     </div>
   );
