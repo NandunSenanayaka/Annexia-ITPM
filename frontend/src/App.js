@@ -32,7 +32,8 @@ import CleanerDash from "./Components/Cleaner/CleanerDashboard/dashboard";
 import CleanerList from "./Components/Cleaner/cleanerList/CleanerList";
 import CleanerProfile from "./Components/Cleaner/profile/CleanerProfile";
 import EditCleaner from './Components/Cleaner/EditCleaner/EtidCleaner';
-
+import CreateBooking from './Components/Cleaner/addBooking/CreateBooking';
+import BookingManager from './Components/Cleaner/bookings/BookingManager';
 
 import ContactPage from './Components/Pages/ContactPage/ContactPage';
 import AboutUs from './Components/Pages/AboutUs/AboutUs';
@@ -74,6 +75,8 @@ function App() {
           <Route path="/cleanerlist" element={<CleanerList />} />
           <Route path="/cleaners/:id" element={<CleanerProfile />} />
           <Route path="/cleaners/edit/:id" element={<EditCleaner />} />
+          <Route path="/create-booking" element={<CreateBooking />} />
+          <Route path="/bookings" element={<BookingManager />} />
 
           <Route path="/RenterManager" element={<RenterManager />} />
           <Route path="/RenterUpdate/:id" element={<RenterUpdate />} />

@@ -15,10 +15,8 @@ import {
 } from "react-icons/fa";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import dotenv from "dotenv";
 
-dotenv.config();
-const port = process.env.BEPORT || 3002;
+const port = process.env.BEPORT||3001 ;
 
 const CleanerList = () => {
   const [cleaners, setCleaners] = useState([]);
@@ -29,7 +27,7 @@ const CleanerList = () => {
   useEffect(() => {
     const fetchCleaners = async () => {
       try {
-        const response = await axios.get(   `http://localhost:${BEPORT}/cleaner`);
+        const response = await axios.get(   `http://localhost:${port}/cleaner`);
         setCleaners(response.data);
         setLoading(false);
       } catch (err) {

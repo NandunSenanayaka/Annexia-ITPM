@@ -133,7 +133,7 @@ const assignCleaner = async (req, res) => {
 
     booking.cleaner = cleanerId;
     booking.status = "Assigned";
-    cleaner.isAvailable = false;
+    //cleaner.isAvailable = false;
 
     await booking.save();
     await cleaner.save();
