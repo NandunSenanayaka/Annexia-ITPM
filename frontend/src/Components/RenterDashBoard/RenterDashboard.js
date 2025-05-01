@@ -25,7 +25,7 @@ const RenterDashboard = () => {
               <li><FaMoneyCheckAlt /> Add Payment</li>
             </Link>
 
-            <Link to="/invoices" style={{ textDecoration: "none", color: "inherit" }}>
+            <Link to="/securitynotices" style={{ textDecoration: "none", color: "inherit" }}>
               <li><FaFileInvoiceDollar /> Security Notices</li>
             </Link>
 

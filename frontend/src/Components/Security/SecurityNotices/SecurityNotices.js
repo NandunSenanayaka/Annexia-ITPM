@@ -23,6 +23,7 @@ import axios from 'axios';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import SecurityDetails from '../SecurityDetails/SecurityDetails';
+import RenterDashboard from './../../RenterDashBoard/RenterDashboard';
 
 function SecurityNotices() {
   const [security, setSecurity] = useState([]);
@@ -107,7 +108,7 @@ function SecurityNotices() {
 
   return (
     <div className="security-notices-container">
-      <SecurityDashboard />
+      <RenterDashboard />
 
       <div className="securityoverview-content">
         <h1>Security Overview</h1>
