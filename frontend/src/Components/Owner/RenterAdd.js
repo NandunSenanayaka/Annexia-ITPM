@@ -182,6 +182,7 @@ const RenterAdd = () => {
               }}
               style={styles.textarea}
             />
+            
             {errors.address && <span style={styles.error}>{errors.address}</span>}
 
             <label style={styles.label}>Contact Number:</label>
