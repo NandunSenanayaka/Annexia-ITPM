@@ -138,7 +138,15 @@ const assignCleaner = async (req, res) => {
     await booking.save();
     await cleaner.save();
     // *notification sending
-    await sendAssignmentEmail(cleaner, bookingDetails);
+    try {
+      await sendAssignmentEmail(cleaner, booking);
+    } catch (notificationErr) {
+      console.error(
+        "Failed to send assignment email:",
+        notificationErr.message
+      );
+     
+    }
 
     res.status(200).json({
       success: true,
@@ -244,12 +252,10 @@ const sendAssignmentEmail = async (cleaner, booking) => {
   try {
     // Create a transporter object using SMTP transport
     const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT,
-      secure: process.env.EMAIL_SECURE === 'true', // true for 465, false for other ports
+      service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
