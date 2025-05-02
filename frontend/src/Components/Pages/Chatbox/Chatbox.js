@@ -24,39 +24,6 @@ const Chatbox = () => {
     }
   };
 
-//   const generateReply = (question) => {
-//     let replyText = 'Sorry, I did not understand that. Please ask about treatments.';
-
-//     const lowerCaseQuestion = question.toLowerCase();
-
-//     if (lowerCaseQuestion.includes('hi') || lowerCaseQuestion.includes('hey') || lowerCaseQuestion.includes('hello')) {
-//         replyText = 'Hello! How can I help you?';
-//     } else if (lowerCaseQuestion.includes('thank you') || lowerCaseQuestion.includes('thanks') || lowerCaseQuestion.includes('thankyou')) {
-//         replyText = 'You’re welcome!';
-//     } else if (lowerCaseQuestion.includes('ok') || lowerCaseQuestion.includes('okey') || lowerCaseQuestion.includes('okay') || lowerCaseQuestion.includes('k') || lowerCaseQuestion.includes('kk')) {
-//         replyText = 'Okay. Have a nice day!';
-//     } else if (lowerCaseQuestion.includes('bye')) {
-//         replyText = 'Bye and have a nice day!';
-//     } else if (lowerCaseQuestion.includes('treatment')) {
-//         replyText = 'We offer a variety of Ayurvedic treatments. Please visit our Treatments page for more information.';
-//     } else if (lowerCaseQuestion.includes('appointment')) {
-//         replyText = 'You can request an appointment directly from our website. Just click the "Request an Appointment" button.';
-//     } else if (lowerCaseQuestion.includes('contact')) {
-//         replyText = 'You can contact us at 0777471333 or email us at support@wellnessayurvedahospital.com.';
-//     } else if (lowerCaseQuestion.includes('hours')) {
-//         replyText = 'Our hospital is open from 8 AM to 8 PM, Monday to Saturday.';
-//     } else if (lowerCaseQuestion.includes('location')) {
-//         replyText = 'We are located at 123 Ayurvedic Lane, Wellness City.';
-//     } else if (lowerCaseQuestion.includes('doctors')) {
-//         replyText = 'We have a team of experienced Ayurvedic doctors. You can choose your preferred doctor when booking an appointment.';
-//     } else if (lowerCaseQuestion.includes('insurance')) {
-//         replyText = 'Please check with your insurance provider to see if they cover our treatments.';
-//     } else if (lowerCaseQuestion.includes('cost')) {
-//         replyText = 'The cost of treatment varies. Please visit our Pricing page or contact us for more details.';
-//     }
-
-//     return { sender: 'bot', text: replyText };
-// };
 const generateReply = (question) => {
   let replyText = 'Sorry, I did not understand that. Please ask about annex rentals, pricing, or availability.';
 

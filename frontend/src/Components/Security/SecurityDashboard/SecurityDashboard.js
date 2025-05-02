@@ -47,14 +47,14 @@ function SecurityOverview() {
               </li>
             </Link>
 
-            <Link
+            {/* <Link
               to="/cleanerlist"
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <li>
                 <FaBroom /> Cleaner Overview
               </li>
-            </Link>
+            </Link> */}
 
             <Link
               to="/SecurityContact"
