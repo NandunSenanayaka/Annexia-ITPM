@@ -25,11 +25,11 @@ const PaymentDashboard = () => {
               <li><FaMoneyCheckAlt /> Add Payment</li>
             </Link>
 
-            <Link to="/invoices" style={{ textDecoration: "none", color: "inherit" }}>
+            <Link to="/PaymentDetails" style={{ textDecoration: "none", color: "inherit" }}>
               <li><FaFileInvoiceDollar /> Invoices</li>
             </Link>
 
-            <Link to="/wallet" style={{ textDecoration: "none", color: "inherit" }}>
+            <Link to="/PaymentDetails" style={{ textDecoration: "none", color: "inherit" }}>
               <li><FaWallet /> Wallet</li>
             </Link>
 
