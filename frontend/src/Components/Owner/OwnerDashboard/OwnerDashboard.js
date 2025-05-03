@@ -17,7 +17,7 @@ import { Link } from "react-router-dom";
 function SecurityOverview() {
   return (
     <div className="container">
-      <aside className="sidebar">
+      <aside className="sidebar3">
         <h2 className="logo">ANNEXIA</h2>
         <nav>
           <ul>
@@ -63,7 +63,7 @@ function SecurityOverview() {
           </ul>
         </nav>
 
-        <button className="logout">
+        <button className="logout3">
           <FaSignOutAlt /> Logout
         </button>
       </aside>
