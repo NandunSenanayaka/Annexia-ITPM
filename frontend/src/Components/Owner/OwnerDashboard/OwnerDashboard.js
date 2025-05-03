@@ -73,9 +73,9 @@ function SecurityOverview() {
           </ul>
         </nav>
 
-        <button className="logout3">
-          <FaSignOutAlt /> Logout
-        </button>
+        <button type="button"  className="payment-logout">
+                <a href="/login"> <FaSignOutAlt /> Logout</a>
+                </button>
       </aside>
 
       

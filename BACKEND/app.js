@@ -111,7 +111,7 @@ app.post("/login", async (req, res) => {
         }
 
         if (user.password === password) {
-            return res.json({ status: "ok", role: user.role });  // Include role here
+            return res.json({ status: "ok", role: user.role });  // Include role
         } else {
             return res.json({ err: "Incorrect Password" });
         }
@@ -121,7 +121,7 @@ app.post("/login", async (req, res) => {
     }
 });
 
-// Welcome email endpoint
+// Welcome email 
 app.post("/send-welcome-email", async (req, res) => {
   const { name, email, username, password } = req.body;
 
