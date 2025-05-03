@@ -252,7 +252,7 @@ The ANNEXIA Team`
       This is a gentle reminder regarding your monthly rent payment.
 
 Rent Amount: LKR 40,000  
-Due Date: [Please insert due date if applicable]
+
 
 We kindly request you to make the payment at your earliest convenience.  
 If you have already made the payment, please disregard this message.
