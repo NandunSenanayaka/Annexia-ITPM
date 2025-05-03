@@ -34,7 +34,7 @@ function SecurityOverview() {
               </li>
             </Link>
             <Link
-              to="/RenterAdd"
+              to="/RoomAdd"
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <li>
