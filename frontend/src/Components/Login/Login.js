@@ -30,6 +30,7 @@ const handleSubmit = async (e) => {
             else if (role === "owner") navigate('/RenterManager');
             else if (role === "security") navigate('/securityoverview');
             else if (role === "cleaner manager") navigate('/cleaner-dashboard');
+            else if (role === "Payment Manager") navigate('/paymentdetails');
             else alert("Unknown role, please contact admin");
         } else {
             alert(err || "Invalid login credentials");
