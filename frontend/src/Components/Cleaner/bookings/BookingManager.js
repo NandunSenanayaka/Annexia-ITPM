@@ -7,7 +7,7 @@ import {
   FaInfoCircle,
   FaExclamationTriangle,
 } from "react-icons/fa";
-import "./CreateBooking.css";
+import "./BookingManager.css";
 
 const CreateBooking = () => {
   const navigate = useNavigate();
