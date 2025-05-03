@@ -78,8 +78,8 @@ const PaymentDetails = () => {
     // Add company details
     doc.setFontSize(12);
     doc.setTextColor(100, 100, 100);
-    doc.text('Clean & Care Services', 105, 30, { align: 'center' });
-    doc.text('123 Business Street, City', 105, 35, { align: 'center' });
+    doc.text('ANNEXIA & Services', 105, 30, { align: 'center' });
+    doc.text('123 Business Street, colombo 07', 105, 35, { align: 'center' });
     doc.text('Phone: +1 234 567 8900', 105, 40, { align: 'center' });
     
     // Add date
