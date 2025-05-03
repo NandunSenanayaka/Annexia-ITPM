@@ -1,364 +1,322 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./BookingManager.css";
-import Sidebar from "../sidebar/Sidebar";
 import {
   FaCalendarAlt,
-  FaUserClock,
-  FaCheckCircle,
+  FaClipboardList,
+  FaInfoCircle,
   FaExclamationTriangle,
-  FaUser,
 } from "react-icons/fa";
+import "./CreateBooking.css";
 
-const BookingManager = () => {
-  const [bookings, setBookings] = useState([]);
-  const [cleaners, setCleaners] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [assigningId, setAssigningId] = useState(null);
-  const [selectedCleaner, setSelectedCleaner] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [filter, setFilter] = useState("all");
-  const [imageErrors, setImageErrors] = useState({});
+const CreateBooking = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    service: "cleaning",
+    date: "",
+    specialInstructions: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+  // Add validation state
+  const [validationErrors, setValidationErrors] = useState({
+    date: "",
+    specialInstructions: "",
+  });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [bookingsResponse, cleanersResponse] = await Promise.all([
-          axios.get("http://localhost:3001/booking"),
-          axios.get("http://localhost:3001/cleaner"),
-        ]);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
 
-        setBookings(bookingsResponse.data.data || []);
-        setCleaners(cleanersResponse.data || []);
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching data:", err);
-        setError("Failed to load data. Please try again later.");
-        setLoading(false);
+    // Clear validation errors when field changes
+    setValidationErrors({
+      ...validationErrors,
+      [name]: "",
+    });
+
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+
+    // Validate fields as user types
+    validateField(name, value);
+  };
+
+  // Validate individual fields
+  const validateField = (name, value) => {
+    switch (name) {
+      case "date":
+        if (!value) {
+          setValidationErrors((prev) => ({
+            ...prev,
+            date: "Date and time are required",
+          }));
+          return false;
+        }
+
+        const selectedDate = new Date(value);
+        const now = new Date();
+
+        // Check if date is in the past
+        if (selectedDate < now) {
+          setValidationErrors((prev) => ({
+            ...prev,
+            date: "Booking date cannot be in the past",
+          }));
+          return false;
+        }
+
+        // Check weekday (0 = Sunday, 6 = Saturday)
+        const dayOfWeek = selectedDate.getDay();
+        if (dayOfWeek === 0 || dayOfWeek === 6) {
+          setValidationErrors((prev) => ({
+            ...prev,
+            date: "Bookings are only available on weekdays (Monday to Friday)",
+          }));
+          return false;
+        }
+
+        // Check business hours (8 AM - 6 PM)
+        const hours = selectedDate.getHours();
+        if (hours < 8 || hours > 18) {
+          setValidationErrors((prev) => ({
+            ...prev,
+            date: "Bookings are only available between 8 AM and 6 PM",
+          }));
+          return false;
+        }
+        break;
+
+      case "specialInstructions":
+        if (value.length > 500) {
+          setValidationErrors((prev) => ({
+            ...prev,
+            specialInstructions:
+              "Special instructions cannot exceed 500 characters",
+          }));
+          return false;
+        }
+        break;
+
+      default:
+        break;
+    }
+
+    return true;
+  };
+
+  // Validate entire form
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = { date: "", specialInstructions: "" };
+
+    // Validate date
+    if (!formData.date) {
+      newErrors.date = "Date and time are required";
+      isValid = false;
+    } else {
+      const isDateValid = validateField("date", formData.date);
+      if (!isDateValid) {
+        isValid = false;
       }
-    };
+    }
 
-    fetchData();
-  }, []);
+    // Validate special instructions
+    if (formData.specialInstructions.length > 500) {
+      newErrors.specialInstructions =
+        "Special instructions cannot exceed 500 characters";
+      isValid = false;
+    }
 
-  const handleAssignCleaner = async (bookingId) => {
-    if (!selectedCleaner) {
-      setErrorMessage("Please select a cleaner first.");
+    setValidationErrors(newErrors);
+    return isValid;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validate form before submitting
+    if (!validateForm()) {
       return;
     }
 
+    setLoading(true);
+    setError("");
+
     try {
-      await axios.put(`http://localhost:3001/booking/${bookingId}/assign`, {
-        cleanerId: selectedCleaner,
+      const response = await axios.post(
+        "http://localhost:3001/booking",
+        formData
+      );
+      setSuccess(true);
+      setLoading(false);
+
+      // Reset form
+      setFormData({
+        service: "cleaning",
+        date: "",
+        specialInstructions: "",
       });
 
-      // Find the selected cleaner's full data
-      const selectedCleanerData = cleaners.find(
-        (c) => c._id === selectedCleaner
-      );
-
-      // Update local state
-      setBookings(
-        bookings.map((booking) =>
-          booking._id === bookingId
-            ? {
-                ...booking,
-                cleaner: selectedCleanerData,
-                status: "Assigned",
-              }
-            : booking
-        )
-      );
-
-      // Mark cleaner as unavailable in local state
-      setCleaners(
-        cleaners.map((cleaner) =>
-          cleaner._id === selectedCleaner
-            ? { ...cleaner, isAvailable: false }
-            : cleaner
-        )
-      );
-
-      setSuccessMessage("Cleaner successfully assigned!");
-      setAssigningId(null);
-      setSelectedCleaner("");
-
-      // Clear success message after 3 seconds
+      // Redirect after 2 seconds
       setTimeout(() => {
-        setSuccessMessage("");
-      }, 3000);
+        navigate("/login");
+      }, 2000);
     } catch (err) {
-      console.error("Error assigning cleaner:", err);
-      setErrorMessage(
-        err.response?.data?.error ||
-          "Failed to assign cleaner. Please try again."
-      );
+      // Handle API validation errors
+      if (err.response?.data?.details) {
+        // Format validation errors from backend
+        const backendErrors = err.response.data.details;
+        const formattedErrors = {};
 
-      // Clear error message after 3 seconds
-      setTimeout(() => {
-        setErrorMessage("");
-      }, 3000);
+        backendErrors.forEach((error) => {
+          formattedErrors[error.param] = error.msg;
+        });
+
+        setValidationErrors({
+          ...validationErrors,
+          ...formattedErrors,
+        });
+      } else {
+        setError(err.response?.data?.error || "Failed to create booking");
+      }
+      setLoading(false);
     }
   };
 
-  const handleImageError = (cleanerId) => {
-    setImageErrors((prev) => ({
-      ...prev,
-      [cleanerId]: true,
-    }));
-  };
-
-  const getCleanerImage = (cleaner) => {
-    if (!cleaner) return null;
-
-    // If we've already noted this image has an error, show placeholder
-    if (imageErrors[cleaner._id]) {
-      return "https://via.placeholder.com/50";
-    }
-
-    // Try to use the profile image if it exists and is not an empty string
-    if (cleaner.profileImage && cleaner.profileImage.trim() !== "") {
-      return cleaner.profileImage;
-    }
-
-    // Use a default placeholder
-    return "https://via.placeholder.com/50";
-  };
-
-  const formatDate = (dateString) => {
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-  };
-
-  const getStatusClass = (status) => {
-    switch (status) {
-      case "Assigned":
-        return "status-assigned";
-      case "Completed":
-        return "status-completed";
-      case "Cancelled":
-        return "status-cancelled";
-      default:
-        return "status-pending";
-    }
-  };
-
-  const filteredBookings =
-    filter === "all"
-      ? bookings
-      : bookings.filter((booking) => booking.status === filter);
-
-  if (loading)
-    return (
-      <div className="dashboard-layout">
-        <Sidebar />
-        <div className="main-content">
-          <div className="loading-state">Loading bookings and cleaners...</div>
-        </div>
-      </div>
-    );
-  if (error)
-    return (
-      <div className="dashboard-layout">
-        <Sidebar />
-        <div className="main-content">
-          <div className="error-state">{error}</div>
-        </div>
-      </div>
-    );
+  // Get minimum date (today) for the datetime-local input
+  const today = new Date().toISOString().split("T")[0];
+  // Get current time formatted for the datetime-local input
+  const now = new Date();
+  const currentHour = String(now.getHours()).padStart(2, "0");
+  const currentMinute = String(now.getMinutes()).padStart(2, "0");
+  const minDateTime = `${today}T${currentHour}:${currentMinute}`;
 
   return (
-    <div className="dashboard-layout">
-      <Sidebar />
-      <div className="main-content">
-        <div className="booking-manager-container">
-          <h1 className="page-title">Booking Management</h1>
+    <div className="booking-container">
+      <div className="booking-form-container">
+        <h1 className="form-title">Request Cleaning Service</h1>
 
-          {successMessage && (
-            <div className="success-alert">
-              <FaCheckCircle /> {successMessage}
-            </div>
-          )}
+        {success && (
+          <div className="success-message">
+            <FaInfoCircle /> Your booking has been successfully created. You
+            will be redirected shortly.
+          </div>
+        )}
 
-          {errorMessage && (
-            <div className="error-alert">
-              <FaExclamationTriangle /> {errorMessage}
-            </div>
-          )}
+        {error && (
+          <div className="error-message">
+            <FaExclamationTriangle /> {error}
+          </div>
+        )}
 
-          <div className="filter-container">
-            <label htmlFor="filter-status">Filter by status:</label>
+        <form onSubmit={handleSubmit} className="booking-form">
+          <div className="form-group">
+            <label htmlFor="service">
+              <FaClipboardList /> Service Type
+            </label>
             <select
-              id="filter-status"
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
+              id="service"
+              name="service"
+              value={formData.service}
+              onChange={handleChange}
+              required
             >
-              <option value="all">All Bookings</option>
-              <option value="Pending">Pending</option>
-              <option value="Assigned">Assigned</option>
-              <option value="Completed">Completed</option>
-              <option value="Cancelled">Cancelled</option>
+              <option value="cleaning">Cleaning</option>
+              <option value="laundry">Laundry</option>
+              <option value="room service">Room Service</option>
+              <option value="other">Other</option>
             </select>
           </div>
 
-          {filteredBookings.length === 0 ? (
-            <div className="no-bookings">
-              No bookings found with the selected filter.
-            </div>
-          ) : (
-            <div className="bookings-grid">
-              {filteredBookings.map((booking) => (
-                <div className="booking-card" key={booking._id}>
-                  <div className="booking-header">
-                    <h2>
-                      Booking #{booking._id.substring(booking._id.length - 6)}
-                    </h2>
-                    <span
-                      className={`booking-status ${getStatusClass(
-                        booking.status
-                      )}`}
-                    >
-                      {booking.status}
-                    </span>
-                  </div>
+          <div className="form-group">
+            <label htmlFor="date">
+              <FaCalendarAlt /> Date & Time
+            </label>
+            <input
+              type="datetime-local"
+              id="date"
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
+              min={minDateTime}
+              required
+              className={validationErrors.date ? "input-error" : ""}
+            />
+            {validationErrors.date && (
+              <div className="validation-error">
+                <FaExclamationTriangle /> {validationErrors.date}
+              </div>
+            )}
+            <small className="form-text">
+              Bookings available Monday-Friday, 8 AM - 6 PM
+            </small>
+          </div>
 
-                  <div className="booking-details">
-                    <div className="detail-item">
-                      <div className="detail-icon">
-                        <FaCalendarAlt />
-                      </div>
-                      <div className="detail-content">
-                        <span className="detail-label">Service Date</span>
-                        <span className="detail-value">
-                          {formatDate(booking.date)}
-                        </span>
-                      </div>
-                    </div>
+          <div className="form-group">
+            <label htmlFor="specialInstructions">
+              <FaInfoCircle /> Special Instructions (Optional)
+            </label>
+            <textarea
+              id="specialInstructions"
+              name="specialInstructions"
+              value={formData.specialInstructions}
+              onChange={handleChange}
+              placeholder="Any special requirements or instructions for the cleaner"
+              rows="4"
+              className={
+                validationErrors.specialInstructions ? "input-error" : ""
+              }
+            />
+            {validationErrors.specialInstructions && (
+              <div className="validation-error">
+                <FaExclamationTriangle /> {validationErrors.specialInstructions}
+              </div>
+            )}
+            <small className="form-text">
+              {formData.specialInstructions.length}/500 characters
+            </small>
+          </div>
 
-                    <div className="detail-item">
-                      <div className="detail-icon">
-                        <FaUserClock />
-                      </div>
-                      <div className="detail-content">
-                        <span className="detail-label">Service Type</span>
-                        <span className="detail-value service-type">
-                          {booking.service}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+          <button type="submit" className="submit-button" disabled={loading}>
+            {loading ? "Submitting..." : "Request Service"}
+          </button>
+        </form>
+      </div>
 
-                  {booking.specialInstructions && (
-                    <div className="special-instructions">
-                      <h3>Special Instructions</h3>
-                      <p>{booking.specialInstructions}</p>
-                    </div>
-                  )}
-
-                  <div className="cleaner-assignment">
-                    {booking.cleaner ? (
-                      <div className="assigned-cleaner">
-                        <h3>Assigned Cleaner</h3>
-                        <div className="cleaner-info">
-                          {booking.cleaner ? (
-                            <div className="cleaner-avatar-container">
-                              {imageErrors[booking.cleaner._id] ? (
-                                <div className="cleaner-avatar cleaner-avatar-placeholder">
-                                  <FaUser />
-                                </div>
-                              ) : (
-                                <img
-                                  src={getCleanerImage(booking.cleaner)}
-                                  alt={`${booking.cleaner.name}'s avatar`}
-                                  className="cleaner-avatar"
-                                  onError={() =>
-                                    handleImageError(booking.cleaner._id)
-                                  }
-                                />
-                              )}
-                            </div>
-                          ) : (
-                            <div className="cleaner-avatar cleaner-avatar-placeholder">
-                              <FaUser />
-                            </div>
-                          )}
-                          <div className="cleaner-details">
-                            <p className="cleaner-name">
-                              {booking.cleaner.name}
-                            </p>
-                            <p className="cleaner-contact">
-                              {booking.cleaner.phone}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="cleaner-assignment-form">
-                        {assigningId === booking._id ? (
-                          <>
-                            <select
-                              value={selectedCleaner}
-                              onChange={(e) =>
-                                setSelectedCleaner(e.target.value)
-                              }
-                              className="cleaner-select"
-                            >
-                              <option value="">Select a cleaner</option>
-                              {cleaners
-                                .filter((cleaner) => cleaner.isAvailable)
-                                .map((cleaner) => (
-                                  <option key={cleaner._id} value={cleaner._id}>
-                                    {cleaner.name} - Rating:{" "}
-                                    {cleaner.rating.toFixed(1)}
-                                  </option>
-                                ))}
-                            </select>
-                            <div className="assignment-actions">
-                              <button
-                                onClick={() => handleAssignCleaner(booking._id)}
-                                className="assign-button"
-                              >
-                                Confirm Assignment
-                              </button>
-                              <button
-                                onClick={() => {
-                                  setAssigningId(null);
-                                  setSelectedCleaner("");
-                                }}
-                                className="cancel-button"
-                              >
-                                Cancel
-                              </button>
-                            </div>
-                          </>
-                        ) : (
-                          <button
-                            onClick={() => setAssigningId(booking._id)}
-                            className="assign-cleaner-button"
-                            disabled={booking.status !== "Pending"}
-                          >
-                            Assign Cleaner
-                          </button>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+      <div className="booking-info">
+        <h2>Service Information</h2>
+        <div className="info-item">
+          <h3>Cleaning Service</h3>
+          <p>
+            Our standard cleaning includes dusting, vacuuming, mopping, and
+            sanitizing all areas.
+          </p>
+        </div>
+        <div className="info-item">
+          <h3>Laundry Service</h3>
+          <p>
+            Our laundry service includes washing, drying, and folding of clothes
+            and linens.
+          </p>
+        </div>
+        <div className="info-item">
+          <h3>Room Service</h3>
+          <p>
+            Complete room service includes bed making, bathroom cleaning, and
+            general tidying.
+          </p>
+        </div>
+        <div className="info-note">
+          <p>
+            <strong>Note:</strong> All services are subject to availability.
+            We'll confirm your booking within 2 hours.
+          </p>
         </div>
       </div>
     </div>
   );
 };
 
-export default BookingManager;
+export default CreateBooking;

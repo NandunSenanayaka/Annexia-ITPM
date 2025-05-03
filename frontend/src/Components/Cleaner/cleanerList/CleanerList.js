@@ -53,7 +53,7 @@ const CleanerList = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this cleaner?")) {
       try {
-        await axios.delete(`http://localhost:3002/cleaner/${id}`);
+        await axios.delete(`http://localhost:3001/cleaner/${id}`);
         setCleaners(cleaners.filter((cleaner) => cleaner._id !== id));
         alert("Cleaner deleted successfully");
       } catch (err) {

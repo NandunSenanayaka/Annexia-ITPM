@@ -194,63 +194,7 @@ const getBookingById = async (req, res) => {
 };
 // ?---------------------------------------------------------Update booking status 
 //!gotta modify when auth session is done
-/*
-const updateBookingStatus = async (req, res) => {
-  try {
-    const { status } = req.body;
 
-    if (!["Pending", "Assigned", "Completed", "Cancelled"].includes(status)) {
-      return res.status(400).json({
-        success: false,
-        error: "Invalid status",
-      });
-    }
-
-    const booking = await Booking.findById(req.params.id);
-    if (!booking) {
-      return res.status(404).json({
-        success: false,
-        error: "Booking not found",
-      });
-    }
-
-    // Check authorization
-    const isAdmin = req.user.role === "admin";
-    const isCleaner =
-      booking.cleaner && req.user.id === booking.cleaner.toString();
-    const isRenter = req.user.id === booking.renter.toString();
-
-    // Only admin can change to any status
-    // Cleaner can mark as completed
-    // Renter can cancel if still pending
-    if (
-      !isAdmin &&
-      !(isCleaner && status === "Completed") &&
-      !(isRenter && status === "Cancelled" && booking.status === "Pending")
-    ) {
-      return res.status(403).json({
-        success: false,
-        error: "Not authorized to update this booking",
-      });
-    }
-
-    booking.status = status;
-    await booking.save();
-
-    res.status(200).json({
-      success: true,
-      data: booking,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      error: "Server Error",
-    });
-  }
-};
-*/
-// Delete booking
 // Function to send email to the cleaner
 const sendAssignmentEmail = async (cleaner, booking) => {
   try {
@@ -269,7 +213,7 @@ const sendAssignmentEmail = async (cleaner, booking) => {
     
     // Prepare email content
     const mailOptions = {
-      from: "dulassaspam@gmail.com",
+      from: "saraup1604@gmail.com",
       to: cleaner.email,
       subject: "New Cleaning Assignment",
       html: `
