@@ -26,7 +26,7 @@ const handleSubmit = async (e) => {
         
         if (status === "ok") {
             alert("LOGIN Success");
-            if (role === "renter") navigate('/addpayment');
+            if (role === "renter") navigate('/renterdashboard');
             else if (role === "owner") navigate('/RenterManager');
             else if (role === "security") navigate('/securityoverview');
             else if (role === "cleaner manager") navigate('/cleaner-dashboard');
