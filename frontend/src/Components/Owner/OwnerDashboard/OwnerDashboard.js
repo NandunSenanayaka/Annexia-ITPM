@@ -33,6 +33,14 @@ function SecurityOverview() {
                 <FaPlus /> Add Renter
               </li>
             </Link>
+            <Link
+              to="/RenterAdd"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <li>
+                <FaPlus /> Assign Annexes 
+              </li>
+            </Link>
 
             <Link
               to="/securitynotices"
