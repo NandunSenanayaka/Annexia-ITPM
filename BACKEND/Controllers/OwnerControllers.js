@@ -215,17 +215,22 @@ const transporter = nodemailer.createTransport({
       text: `Hello ${renter.RenterName},
       We are delighted to welcome you to the Room Management System.
 
-Your account has been successfully created. You can now log in using the following credentials:
+Welcome to **ANNEXIA** – your all-in-one solution for smart renter and facility management.
 
-Username: user  
-Password: root
+We are pleased to inform you that your registration was successful, and your ANNEXIA account is now active.
 
-We kindly encourage you to change your password upon first login to ensure your account's security.
+ANNEXIA empowers you to:
+• Stay updated with notices and announcements  
+• Track payment and rental details in real-time  
+• Communicate easily with the management team  
+• Receive timely reminders and important updates
 
-If you have any questions or need assistance, feel free to contact our support team.
+If you have any questions or require support, our team is here to assist you.
 
-Warm regards,  
-Room Management Team`
+Thank you for joining us – we're excited to have you onboard.
+
+Best regards,  
+The ANNEXIA Team`
     };
   
     transporter.sendMail(mailOptions, (err, info) => {
