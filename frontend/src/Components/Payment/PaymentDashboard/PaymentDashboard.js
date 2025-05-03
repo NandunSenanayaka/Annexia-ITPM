@@ -39,9 +39,12 @@ const PaymentDashboard = () => {
           </ul>
         </nav>
 
-        <button type="button"  className="payment-logout">
+        {/* <button type="button"  className="payment-logout">
           <FaSignOutAlt /> Logout
-        </button>
+        </button> */}
+        <button type="button"  className="payment-logout">
+                <a href="/login"> <FaSignOutAlt /> Logout</a>
+                </button>
       </aside>
     </div>
   );

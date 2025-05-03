@@ -70,7 +70,7 @@ const RegisterSchema = new Schema({
   role: {
     type: String,
     required: true, // Ensure that role is a required field
-    enum: ["renter", "owner", "security", "cleaner manager"], // Ensure role can only be one of these values
+    enum: ["renter", "owner", "security", "cleaner manager","Payment Manager"], // Ensure role can only be one of these values
   },
 });
 

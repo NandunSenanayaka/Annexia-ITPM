@@ -235,6 +235,7 @@ function Register() {
               <option value="owner">Owner</option>
               <option value="security">Security</option>
               <option value="cleaner manager">Cleaner Manager</option>
+              <option value="Payment Manager">Payment Manager</option>
             </select>
           </div>
 
