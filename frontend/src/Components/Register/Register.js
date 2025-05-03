@@ -34,7 +34,7 @@ function Register() {
           name: formData.name,
           email: formData.email,
           username: formData.email, // Using email as username
-          password: "user123" // Default password
+          password: formData.password, // Default password
         });
         
         alert("Registration successful! Please check your email for login credentials.");
