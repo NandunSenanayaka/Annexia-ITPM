@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 
 const env = require("dotenv");
 env.config();
-const port = process.env.PORT ||3001 ;
+const port = process.env.PORT || 3001;
 
 // const securityRouter = require("./Routes/SecurityRoutes");
 // const paymentRouter = require("./Routes/PaymentRoutes");
@@ -19,8 +19,7 @@ const paymentRouter = require("./Routes/PaymentRoutes");
 const RentermangeRouter = require("./Routes/RentermanageRoutes");
 const RoomRouter = require("./Routes/RoomRoutes");
 
-
-const app = express(); 
+const app = express();
 const cors = require("cors");
 
 // Nodemailer configuration
@@ -41,43 +40,38 @@ app.use("/payments", paymentRouter);
 app.use("/cleaner", cleanerRouter);
 app.use("/booking", bookingRouter);
 
-
-
 app.use("/renter", RentermangeRouter);
 app.use("/room", RoomRouter);
 
-  
-mongoose.connect("mongodb+srv://admin:dUNFYHZskXiXqAPf@cluster0.jgrs0.mongodb.net/")
-.then(()=> console.log("Connected to mongoDB"))
-.then(()=> {
+mongoose
+  .connect("mongodb+srv://admin:dUNFYHZskXiXqAPf@cluster0.jgrs0.mongodb.net/")
+  .then(() => console.log("Connected to mongoDB"))
+  .then(() => {
     app.listen(port, () => {
-        console.log(`Server is running on port ${port}`);
-    }
-    );
-})
-.catch((err)=> console.log((err)));
+      console.log(`Server is running on port ${port}`);
+    });
+  })
+  .catch((err) => console.log(err));
 
 //register
 require("./Model/Register");
 const formData = mongoose.model("Register");
-app.post("/register",async(req,res) => {
-    const {name,email,nic,dateTime,password,description,role} =req.body;
-    try{
-        await formData.create({
-            name,
-            email,
-            nic,
-            dateTime,
-            password,
-            description,
-            role // Ensure role is saved in the database
-
-
-        })
-        res.send({status:"ok"});
-    }catch(err){
-        res.send({status:"err"});
-    }    
+app.post("/register", async (req, res) => {
+  const { name, email, nic, dateTime, password, description, role } = req.body;
+  try {
+    await formData.create({
+      name,
+      email,
+      nic,
+      dateTime,
+      password,
+      description,
+      role, // Ensure role is saved in the database
+    });
+    res.send({ status: "ok" });
+  } catch (err) {
+    res.send({ status: "err" });
+  }
 });
 
 //login
@@ -85,7 +79,7 @@ app.post("/register",async(req,res) => {
 //     const { email, password } = req.body;
 //     try {
 //         const user = await formData.findOne({ email });
-        
+
 //         if (!user) {
 //             return res.json({ err: "User Not Found" });
 //         }
@@ -102,23 +96,23 @@ app.post("/register",async(req,res) => {
 // });
 
 app.post("/login", async (req, res) => {
-    const { email, password } = req.body;
-    try {
-        const user = await formData.findOne({ email });
-        
-        if (!user) {
-            return res.json({ err: "User Not Found" });
-        }
+  const { email, password } = req.body;
+  try {
+    const user = await formData.findOne({ email });
 
-        if (user.password === password) {
-            return res.json({ status: "ok", role: user.role });  // Include role here
-        } else {
-            return res.json({ err: "Incorrect Password" });
-        }
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ err: "Server Error" });
+    if (!user) {
+      return res.json({ err: "User Not Found" });
     }
+
+    if (user.password === password) {
+      return res.json({ status: "ok", role: user.role }); // Include role here
+    } else {
+      return res.json({ err: "Incorrect Password" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ err: "Server Error" });
+  }
 });
 
 // Welcome email endpoint
@@ -153,8 +147,3 @@ The ANNEXIA Team`,
     res.status(500).json({ message: "Failed to send welcome email" });
   }
 });
-
-
- 
-
-

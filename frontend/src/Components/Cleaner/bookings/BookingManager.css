@@ -241,11 +241,28 @@
   gap: 15px;
 }
 
+.cleaner-avatar-container {
+  flex-shrink: 0;
+}
+
 .cleaner-avatar {
   width: 50px;
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
+  border: 2px solid #3498db;
+}
+
+.cleaner-avatar-placeholder {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #ecf0f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #95a5a6;
+  font-size: 1.5rem;
   border: 2px solid #3498db;
 }
 

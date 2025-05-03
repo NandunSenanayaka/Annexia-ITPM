@@ -23,6 +23,7 @@ import PaymentDashboard from './Components/Payment/PaymentDashboard/PaymentDashb
 import HomePage from './Components/Pages/HomePage/HomePage';
 import UpdatePayment from './Components/Payment/UpdatePayment/UpdatePayment';
 
+import Logged from './Components/Cleaner/homeAfterLogin/HomePage'; //home page after loggin
 import Register from './Components/Register/Register';
 import Login from './Components/Login/Login'
 
@@ -47,13 +48,12 @@ function App() {
       <React.Fragment>
         <Routes>
           {/*<Route path="/" element={<HomePage />} >*/}
-          <Route path="/" element={<CleanerList />} />
+          <Route path="/cleanerlist" element={<CleanerList />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/logged" element={<Logged />} />
           {/* <Route path="/" element={<PaymentDashboard />} /> */}
-
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/about" element={<AboutUs />} />
-
-
           <Route path="/addsecurity" element={<AddSecurity />} />
           <Route path="/securityoverview" element={<SecurityOverview />} />
           <Route path="/securityoverview/:id" element={<UpdateSecurity />} />
@@ -62,7 +62,6 @@ function App() {
           <Route path="/updatesecurity" element={<UpdateSecurity />} />
           <Route path="/renteradd" element={<RenterAdd />} />
           <Route path="/ownerdashboard" element={<OwnerDashboard />} />
-
           <Route path="/paymentdetails" element={<PaymentDetails />} />
           <Route path="/addpayment" element={<AddPayment />} />
           <Route path="/updatepayment/:id" element={<UpdatePayment />} />
@@ -77,26 +76,17 @@ function App() {
           <Route path="/cleaners/edit/:id" element={<EditCleaner />} />
           <Route path="/create-booking" element={<CreateBooking />} />
           <Route path="/bookings" element={<BookingManager />} />
-
           <Route path="/RenterManager" element={<RenterManager />} />
           <Route path="/RenterUpdate/:id" element={<RenterUpdate />} />
           <Route path="/RoomAvilable" element={<RoomAvailable />} />
           <Route path="/RoomAdd" element={<RoomAdd />} />
-
-          <Route path="/paymentdetails" element={<PaymentDetails/>} />
+          <Route path="/paymentdetails" element={<PaymentDetails />} />
           <Route path="/addpayment" element={<AddPayment />} />
           <Route path="/updatepayment/:id" element={<UpdatePayment />} />
           {/* <Route path="/paymentdashboard" element={<PaymentDashboard />} /> */}
-
-          <Route path="/register" element={<Register/>} />
-          <Route path="/login" element={<Login/>} />
-
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/renterdashboard" element={<RenterDashboard />} />
-
-
-  
-
-
         </Routes>
       </React.Fragment>
     </div>

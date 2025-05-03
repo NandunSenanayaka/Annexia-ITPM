@@ -45,7 +45,7 @@ const CreateBooking = () => {
 
       // Redirect after 2 seconds
       setTimeout(() => {
-        navigate("/renterdashboard");
+        navigate("/login");
       }, 2000);
     } catch (err) {
       setError(err.response?.data?.error || "Failed to create booking");

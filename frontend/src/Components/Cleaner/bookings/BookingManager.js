@@ -7,6 +7,7 @@ import {
   FaUserClock,
   FaCheckCircle,
   FaExclamationTriangle,
+  FaUser,
 } from "react-icons/fa";
 
 const BookingManager = () => {
@@ -19,6 +20,7 @@ const BookingManager = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [filter, setFilter] = useState("all");
+  const [imageErrors, setImageErrors] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,13 +54,18 @@ const BookingManager = () => {
         cleanerId: selectedCleaner,
       });
 
+      // Find the selected cleaner's full data
+      const selectedCleanerData = cleaners.find(
+        (c) => c._id === selectedCleaner
+      );
+
       // Update local state
       setBookings(
         bookings.map((booking) =>
           booking._id === bookingId
             ? {
                 ...booking,
-                cleaner: cleaners.find((c) => c._id === selectedCleaner),
+                cleaner: selectedCleanerData,
                 status: "Assigned",
               }
             : booking
@@ -94,6 +101,30 @@ const BookingManager = () => {
         setErrorMessage("");
       }, 3000);
     }
+  };
+
+  const handleImageError = (cleanerId) => {
+    setImageErrors((prev) => ({
+      ...prev,
+      [cleanerId]: true,
+    }));
+  };
+
+  const getCleanerImage = (cleaner) => {
+    if (!cleaner) return null;
+
+    // If we've already noted this image has an error, show placeholder
+    if (imageErrors[cleaner._id]) {
+      return "https://via.placeholder.com/50";
+    }
+
+    // Try to use the profile image if it exists and is not an empty string
+    if (cleaner.profileImage && cleaner.profileImage.trim() !== "") {
+      return cleaner.profileImage;
+    }
+
+    // Use a default placeholder
+    return "https://via.placeholder.com/50";
   };
 
   const formatDate = (dateString) => {
@@ -237,18 +268,28 @@ const BookingManager = () => {
                       <div className="assigned-cleaner">
                         <h3>Assigned Cleaner</h3>
                         <div className="cleaner-info">
-                          <img
-                            src={
-                              booking.cleaner.profileImage ||
-                              "/default-profile.png"
-                            }
-                            alt={`${booking.cleaner.name}'s avatar`}
-                            className="cleaner-avatar"
-                            onError={(e) => {
-                              e.target.onerror = null;
-                              e.target.src = "https://via.placeholder.com/50";
-                            }}
-                          />
+                          {booking.cleaner ? (
+                            <div className="cleaner-avatar-container">
+                              {imageErrors[booking.cleaner._id] ? (
+                                <div className="cleaner-avatar cleaner-avatar-placeholder">
+                                  <FaUser />
+                                </div>
+                              ) : (
+                                <img
+                                  src={getCleanerImage(booking.cleaner)}
+                                  alt={`${booking.cleaner.name}'s avatar`}
+                                  className="cleaner-avatar"
+                                  onError={() =>
+                                    handleImageError(booking.cleaner._id)
+                                  }
+                                />
+                              )}
+                            </div>
+                          ) : (
+                            <div className="cleaner-avatar cleaner-avatar-placeholder">
+                              <FaUser />
+                            </div>
+                          )}
                           <div className="cleaner-details">
                             <p className="cleaner-name">
                               {booking.cleaner.name}
