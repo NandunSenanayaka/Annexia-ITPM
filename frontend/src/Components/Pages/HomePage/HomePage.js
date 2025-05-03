@@ -36,8 +36,8 @@ const HomePage = () => {
         animate={servicesInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 1 }}
       >
-        <h2>OUR SERVICES</h2>
-        <div className="services-list">
+        <h2>OUR ANNEX</h2>
+        {/* <div className="services-list">
           {[peradeniyaImage, dangedaraimage, mataraImage, ellaImage].map((image, index) => (
             <motion.div 
               key={index} 
@@ -48,10 +48,56 @@ const HomePage = () => {
             >
               <img src={image} alt="Service" />
               <h3>Services</h3>
-              <p>Southern Provinces</p>
+              <p>Visit Here</p>
             </motion.div>
           ))}
-        </div>
+        </div> */}
+        <div className="services-list">
+  <motion.div 
+    className="service-item"
+    initial={{ opacity: 0, y: 50 }}
+    animate={servicesInView ? { opacity: 1, y: 0 } : {}}
+    transition={{ duration: 0.5, delay: 0 * 0.2 }}
+  >
+    <img src={peradeniyaImage} alt="Peradeniya" />
+    <h3>Peradeniya</h3>
+    <p>Visit Here</p>
+  </motion.div>
+
+  <motion.div 
+    className="service-item"
+    initial={{ opacity: 0, y: 50 }}
+    animate={servicesInView ? { opacity: 1, y: 0 } : {}}
+    transition={{ duration: 0.5, delay: 1 * 0.2 }}
+  >
+    <img src={dangedaraimage} alt="Dangedara" />
+    <h3>Dangedara</h3>
+    <p>Visit Here</p>
+  </motion.div>
+
+  <motion.div 
+    className="service-item"
+    initial={{ opacity: 0, y: 50 }}
+    animate={servicesInView ? { opacity: 1, y: 0 } : {}}
+    transition={{ duration: 0.5, delay: 2 * 0.2 }}
+  >
+    <img src={mataraImage} alt="Matara" />
+    <h3>Matara</h3>
+    <p>Visit Here</p>
+  </motion.div>
+
+  <motion.div 
+    className="service-item"
+    initial={{ opacity: 0, y: 50 }}
+    animate={servicesInView ? { opacity: 1, y: 0 } : {}}
+    transition={{ duration: 0.5, delay: 3 * 0.2 }}
+  >
+    <img src={ellaImage} alt="Ella" />
+    <h3>Ella</h3>
+    <p>Visit Here</p>
+  </motion.div>
+</div>
+
       
       </motion.section>
 
