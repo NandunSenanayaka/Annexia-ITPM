@@ -63,55 +63,6 @@ const getAllBookings = async (req, res) => {
   }
 };
 
-// ?-------------------------------------------------------- Get bookings for current user
-/*
-exports.getUserBookings = async (req, res) => {
-  try {
-    const bookings = await Booking.find({ renter: req.user.id }).populate(
-      "cleaner",
-      "name email"
-    );
-
-    res.status(200).json({
-      success: true,
-      count: bookings.length,
-      data: bookings,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      error: "Server Error",
-    });
-  }
-};
-*/
-
-// Get bookings assigned to cleaner
-/*
-const getCleanerBookings = async (req, res) => {
-  try {
-    const bookings = await Booking.find({ cleaner: req.params.id }).populate(
-      "renter",
-      "name email phone"
-    );
-
-    res.status(200).json({
-      success: true,
-      count: bookings.length,
-      data: bookings,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      error: "Server Error",
-    });
-  }
-};
-*/
-
-
 
 // Assign cleaner to booking
 const assignCleaner = async (req, res) => {
